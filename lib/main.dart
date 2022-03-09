@@ -1,3 +1,4 @@
+import 'package:clinic/view/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,15 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Clinic Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Demo'),
+        title: 'Clinic Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      ),
-    );
+        home:  LoginScreen());
   }
 }
