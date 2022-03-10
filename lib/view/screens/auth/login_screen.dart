@@ -1,4 +1,5 @@
 import 'package:clinic/view/screens/auth/signup_screen.dart';
+import 'package:clinic/view/screens/home_screen.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/auth/text_form_field.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
@@ -103,7 +104,10 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: AuthButton(
                   text: 'Sign in',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => HomeScreen()));
+                  },
                   color: Colors.transparent,
                 ),
               ),
