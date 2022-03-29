@@ -4,6 +4,7 @@ import 'package:clinic/view/widgets/grid_custom.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   const CategoryItemsScreen({Key? key}) : super(key: key);
@@ -39,10 +40,13 @@ class CategoryItemsScreen extends StatelessWidget {
                     name: 'Name')),
           ),
           Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.15,
-            color: Colors.green,
-          )
+            height: 50,
+            child: SvgPicture.asset(
+              'assets/images/footer.svg',
+              color: Colors.green,
+              fit: BoxFit.fill,
+            ),
+          ),
         ],
       ),
     );

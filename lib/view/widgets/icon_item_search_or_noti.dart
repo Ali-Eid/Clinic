@@ -1,3 +1,4 @@
+import 'package:clinic/applocal.dart';
 import 'package:flutter/material.dart';
 
 class IconItemWidget extends StatelessWidget {
@@ -8,18 +9,24 @@ class IconItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 45,
-      height: 40,
+      height: 20,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+          borderRadius: AppLocale.of(context).locale!.languageCode == "ar"
+              ? BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10))
+              : BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
           gradient: LinearGradient(colors: [
-            Colors.green,
             Colors.blue.shade900,
-          ])),
+            Colors.green.shade400,
+          ], begin: Alignment.bottomCenter)),
       child: Icon(
         iconData,
         color: Colors.white,
-        size: 30,
+        size: 20,
       ),
     );
   }

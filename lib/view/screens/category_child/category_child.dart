@@ -1,86 +1,114 @@
+import 'package:clinic/applocal.dart';
+import 'package:clinic/logic/home/cubit/home_cubit.dart';
+import 'package:clinic/model/medical_supplies.dart';
 import 'package:clinic/view/screens/category_child/categoy_items/category_items.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/category_and_title.dart';
+import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/grid_custom.dart';
+import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
+import 'package:clinic/view/widgets/title_primary_title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryChildScreen extends StatelessWidget {
-  const CategoryChildScreen({Key? key}) : super(key: key);
+  CategoryChildScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          NotificationSearchTitle(text: 'مستهلكات طبية'),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: GridView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: 5,
-                // padding: EdgeInsets.zero,
-                physics: BouncingScrollPhysics(),
-                gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
-                        itemCount: 5,
-                        childAspectRatio: 1.2,
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 1),
-                itemBuilder: (ctxt, index) {
-                  return CategoryandTitle(
-                      height: 100,
-                      width: 100,
-                      text: 'معدات جراحية',
-                      imgurl: 'assets/images/demo.jpg',
-                      ontap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryItemsScreen()));
-                      });
-                }),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Container(
-                  height: 25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    gradient: LinearGradient(colors: [
-                      Colors.green,
-                      Colors.blue.shade900,
-                    ], begin: Alignment.topLeft, end: Alignment.topRight),
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return SafeArea(
+          child: Scaffold(
+            drawer: Drawer(),
+            appBar: AppBar(
+              flexibleSpace: HeaderWidget(),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                    ),
                   ),
-                  // width: 50,
-                  child: AuthButton(
-                    color: Colors.transparent,
-                    text: 'who are we',
-                    onPressed: () {},
+                );
+              }),
+            ),
+            body: HomeCubit.get(context).medicalModel == null
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.green.shade300,
+                    ),
+                  )
+                : Column(
+                    children: [
+                      NotificationSearchTitle(
+                          text: '${getLang(context, 'Medical_Supplies')}'),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: 5,
+                            // padding: EdgeInsets.zero,
+                            physics: BouncingScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
+                                    itemCount: 5,
+                                    childAspectRatio: 1.2,
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 0,
+                                    mainAxisSpacing: 1),
+                            itemBuilder: (ctxt, index) {
+                              return CategoryChild(
+                                model: HomeCubit.get(context)
+                                    .medicalModel!
+                                    .data![index],
+                                index: index,
+                              );
+                            }),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FotterWidget()
+                    ],
                   ),
-                ),
-              ),
-            ],
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: double.infinity,
-            height: 100,
-            color: Colors.green,
-          )
-        ],
-      ),
+        );
+      },
     );
+  }
+}
+
+class CategoryChild extends StatelessWidget {
+  MedicalSuppliesData? model;
+  int? index;
+  CategoryChild({Key? key, this.model, this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CategoryandTitle(
+        height: 100,
+        width: 100,
+        text: '${model!.name}',
+        imgurl: '${HomeCubit.get(context).img[index!]}',
+        ontap: () {
+          // Navigator.of(context)
+          //     .push(MaterialPageRoute(builder: (_) => CategoryItemsScreen()));
+        });
   }
 }

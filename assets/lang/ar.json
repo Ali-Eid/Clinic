@@ -1,0 +1,18 @@
+{
+    "home":"الخدمات الاساسية",
+    "otherservice":"الخدمات الأخرى",
+    "Medical_Supplies":"مستهلكات طبية",
+    "maintenance":"صيانة اجهزتي",
+    "device":"نوع الجهاز",
+    "type":"الطراز",
+    "serial_num":"الرقم التسلسلي",
+    "description":"الوصف",
+    "phone_number":"رقم للتواصل",
+    "confirm":"متابعة",
+    "city":"المدينة",
+    "district":"المنطقة",
+    "details_address":"تفاصيل العنوان",
+    "confirm_request":"تأكيد الطلب",
+    "confirm_btn":"تأكيد"
+
+}

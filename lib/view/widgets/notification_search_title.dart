@@ -10,7 +10,7 @@ class NotificationSearchTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         InkWell(
             onTap: () {
@@ -20,15 +20,23 @@ class NotificationSearchTitle extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
+        InkWell(
+            onTap: () {
+              print('search');
+            },
+            child: IconItemWidget(iconData: Icons.search)),
+        SizedBox(
+          height: 5,
+        ),
         Row(
           children: [
+            TitleWidget(text: text),
+            Spacer(),
             InkWell(
                 onTap: () {
-                  print('search');
+                  print('lang');
                 },
-                child: IconItemWidget(iconData: Icons.search)),
-            Spacer(),
-            TitleWidget(text: text)
+                child: IconItemWidget(iconData: Icons.language)),
           ],
         ),
       ],

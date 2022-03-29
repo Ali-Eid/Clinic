@@ -1,5 +1,6 @@
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryandTitle extends StatelessWidget {
   String text;
@@ -25,13 +26,16 @@ class CategoryandTitle extends StatelessWidget {
           child: Container(
             width: width,
             height: height,
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Colors.green,
                   Colors.blue.shade900,
                 ]),
                 borderRadius: BorderRadius.circular(20)),
-            child: Image(image: AssetImage(imgurl)),
+            child: Image(
+              image: AssetImage(imgurl),
+            ),
           ),
         ),
         TextButton(
@@ -39,7 +43,7 @@ class CategoryandTitle extends StatelessWidget {
             child: TextUtils(
               text: text,
               color: Colors.blue.shade900,
-              fontSize: 16,
+              fontSize: 12,
               fontWeight: FontWeight.bold,
             ))
       ],

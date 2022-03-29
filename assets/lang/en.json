@@ -1,0 +1,20 @@
+{
+    "home":"Our Services",
+    "otherservice":"Other Services",
+    "Medical_Supplies":"Medical Supplies",
+    "maintenance":"Maintenance",
+    "device":"Device",
+    "type":"type",
+    "serial_num":"Serial Number",
+    "description":"description",
+    "phone_number":"phone number",
+    "confirm":"confirm",
+    "city":"City",
+    "district":"District",
+    "details_address":"Details address",
+    "confirm_request":"Confirm",
+    "confirm_btn":"Confirm"
+    
+
+
+}

@@ -1,186 +1,193 @@
+import 'package:clinic/applocal.dart';
+import 'package:clinic/logic/home/cubit/home_cubit.dart';
+import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/category_child/category_child.dart';
+import 'package:clinic/view/screens/maintenance/maintenance.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/category_and_title.dart';
+import 'package:clinic/view/widgets/fotter.dart';
+import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:clinic/view/widgets/title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        drawer: Drawer(),
-        // appBar: AppBar(
-        //   leading: Builder(builder: (context) {
-        //     return IconButton(
-        //       onPressed: () => Scaffold.of(context).openDrawer(),
-        //       icon: Icon(
-        //         Icons.menu,
-        //         color: Colors.black,
-        //       ),
-        //     );
-        //   }),
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        // ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Builder(builder: (context) {
-                    return IconButton(
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        icon: Icon(Icons.menu));
-                  })),
-              // SizedBox(
-              //   height: 50,
-              // ),
-              NotificationSearchTitle(text: 'الخدمات الأساسية'),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CategoryandTitle(
-                      ontap: () {
-                        print('تعقيم العيادة');
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryChildScreen()));
-                      },
-                      text: 'تعقيم العيادة',
-                      imgurl: 'assets/images/demo.jpg',
+    var home = getLang(context, 'home');
+    var other = getLang(context, 'otherservice');
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return SafeArea(
+          child: Scaffold(
+            drawer: Drawer(),
+            appBar: AppBar(
+              flexibleSpace: HeaderWidget(),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.black,
                     ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    CategoryandTitle(
-                      ontap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryChildScreen()));
-                      },
-                      text: 'صيانة اجهزتي',
-                      imgurl: 'assets/images/demo.jpg',
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    CategoryandTitle(
-                      ontap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryChildScreen()));
-                      },
-                      text: 'مستهلكات طبية',
-                      imgurl: 'assets/images/demo.jpg',
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TitleWidget(text: 'الخدمات الاخرى'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  ),
+                );
+              }),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
                 children: [
-                  CategoryandTitle(
-                    text: 'اكساء وديكورات',
-                    imgurl: 'assets/images/demo.jpg',
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  CategoryandTitle(
-                    text: 'اكساء وديكورات',
-                    imgurl: 'assets/images/demo.jpg',
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  CategoryandTitle(
-                    text: 'اكساء وديكورات',
-                    imgurl: 'assets/images/demo.jpg',
-                    ontap: () {},
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CategoryandTitle(
-                    text: 'اكساء وديكورات',
-                    imgurl: 'assets/images/demo.jpg',
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  CategoryandTitle(
-                    text: 'اكساء وديكورات',
-                    imgurl: 'assets/images/demo.jpg',
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  CategoryandTitle(
-                    text: 'اكساء وديكورات',
-                    imgurl: 'assets/images/demo.jpg',
-                    ontap: () {},
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Container(
-                      height: 25,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: LinearGradient(colors: [
-                          Colors.green,
-                          Colors.blue.shade900,
-                        ], begin: Alignment.topLeft, end: Alignment.topRight),
-                      ),
-                      // width: 50,
-                      child: AuthButton(
-                        color: Colors.transparent,
-                        text: 'who are we',
-                        onPressed: () {},
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          NotificationSearchTitle(
+                            text: '${getLang(context, "home")}',
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CategoryandTitle(
+                                  ontap: () {},
+                                  text: 'تعقيم العيادة',
+                                  imgurl: 'assets/images/Asset 27.png',
+                                ),
+                                // SizedBox(
+                                //   width: 30,
+                                // ),
+                                CategoryandTitle(
+                                  ontap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => Maintenance()));
+                                  },
+                                  text: '${getLang(context, 'maintenance')}',
+                                  imgurl: 'assets/images/Asset 22.png',
+                                ),
+                                // SizedBox(
+                                //   width: 30,
+                                // ),
+                                CategoryandTitle(
+                                  ontap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => CategoryChildScreen(),
+                                      ),
+                                    );
+                                  },
+                                  // text: 'Medical Supplies',
+                                  text:
+                                      '${getLang(context, 'Medical_Supplies')}',
+                                  imgurl: 'assets/images/Asset 21.png',
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Align(
+                            alignment:
+                                AppLocale.of(context).locale!.languageCode ==
+                                        "ar"
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                            child: TitleWidget(
+                                text: '${getLang(context, "otherservice")}'),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 17),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CategoryandTitle(
+                                  text: 'اعلن عن عيادتك',
+                                  imgurl: 'assets/images/Asset 20.png',
+                                  ontap: () {},
+                                ),
+                                // SizedBox(
+                                //   width: 30,
+                                // ),
+                                CategoryandTitle(
+                                  text: 'عيادات للبيع والايجار',
+                                  imgurl: 'assets/images/Asset 19.png',
+                                  ontap: () {},
+                                ),
+                                // SizedBox(
+                                //   width: 30,
+                                // ),
+                                CategoryandTitle(
+                                  text: 'اكساء و ديكورات',
+                                  imgurl: 'assets/images/Asset 17.png',
+                                  ontap: () {},
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CategoryandTitle(
+                                text: 'مستجدات طبية و دوائية',
+                                imgurl: 'assets/images/Asset 16.png',
+                                ontap: () {},
+                              ),
+                              // SizedBox(
+                              //   width: 30,
+                              // ),
+                              CategoryandTitle(
+                                text: 'فرص عمل',
+                                imgurl: 'assets/images/Asset 15.png',
+                                ontap: () {},
+                              ),
+                              // SizedBox(
+                              //   width: 30,
+                              // ),
+                              CategoryandTitle(
+                                text: 'كهرباء- تكييف وتبريد',
+                                imgurl: 'assets/images/Asset 14.png',
+                                ontap: () {},
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
                     ),
                   ),
+                  FotterWidget()
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -20,6 +20,7 @@ class TextUtils extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+        fontFamily: 'Mikhak',
         decoration: decoration,
         color: color,
         fontSize: fontSize,

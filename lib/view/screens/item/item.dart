@@ -3,6 +3,7 @@ import 'package:clinic/view/widgets/elevated_button_gradient.dart';
 import 'package:clinic/view/widgets/icon_item_search_or_noti.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemScreen extends StatelessWidget {
   const ItemScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class ItemScreen extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   InkWell(
                       onTap: () {
@@ -30,13 +31,15 @@ class ItemScreen extends StatelessWidget {
                     height: 5,
                   ),
                   Row(
+                    // mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      Spacer(),
                       InkWell(
                           onTap: () {
                             print('search');
                           },
                           child: IconItemWidget(iconData: Icons.search)),
-                      Spacer(),
+                      // Spacer(),
                     ],
                   ),
                   SizedBox(
@@ -103,10 +106,13 @@ class ItemScreen extends StatelessWidget {
             ),
           ),
           Container(
-            width: double.infinity,
-            height: 100,
-            color: Colors.green,
-          )
+            height: 50,
+            child: SvgPicture.asset(
+              'assets/images/footer.svg',
+              color: Colors.green,
+              fit: BoxFit.fill,
+            ),
+          ),
         ],
       ),
     );

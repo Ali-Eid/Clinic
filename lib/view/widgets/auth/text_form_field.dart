@@ -5,9 +5,12 @@ class AuthTextFormField extends StatelessWidget {
   bool obsecure = false;
   TextInputType? textInputType = TextInputType.text;
   FormFieldValidator<String>? validator;
+  FormFieldSetter<String>? onsaved;
   Widget? prefixIcon;
   Widget? suffixIcon;
   String? hinttext;
+  // int? minLines = 1;
+  int? maxLines;
   AuthTextFormField(
       {Key? key,
       required this.controller,
@@ -16,6 +19,9 @@ class AuthTextFormField extends StatelessWidget {
       this.prefixIcon,
       required this.hinttext,
       this.suffixIcon,
+      this.maxLines = 1,
+      this.onsaved,
+      // this.minLines,
       this.textInputType})
       : super(key: key);
 
@@ -25,21 +31,34 @@ class AuthTextFormField extends StatelessWidget {
       controller: controller,
       obscureText: obsecure,
       cursorColor: Colors.black,
+      // minLines: minLines,
+      maxLines: maxLines,
       keyboardType: textInputType,
       validator: validator,
+      onSaved: onsaved,
+      style: TextStyle(
+        fontFamily: 'Mikhak',
+        color: Colors.black,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        // isDense: true,
+
+        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         filled: true,
         fillColor: Colors.white,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         hintText: hinttext,
         hintStyle: TextStyle(
-          color: Colors.grey.shade400,
-          fontSize: 16,
+          fontFamily: 'Mikhak',
+          color: Colors.grey.shade500,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
         focusColor: Colors.transparent,
+
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(
