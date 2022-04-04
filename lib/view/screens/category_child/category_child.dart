@@ -4,6 +4,7 @@ import 'package:clinic/model/medical_supplies.dart';
 import 'package:clinic/view/screens/category_child/categoy_items/category_items.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/category_and_title.dart';
+import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/grid_custom.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
@@ -27,7 +28,7 @@ class CategoryChildScreen extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            drawer: Drawer(),
+            drawer: DrawerPage(),
             appBar: AppBar(
               flexibleSpace: HeaderWidget(),
               backgroundColor: Colors.transparent,
@@ -84,7 +85,10 @@ class CategoryChildScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      FotterWidget()
+                      FotterWidget(
+                        salla1: true,
+                        model: HomeCubit.get(context).contactInfoModel!.data,
+                      )
                     ],
                   ),
           ),
@@ -107,8 +111,27 @@ class CategoryChild extends StatelessWidget {
         text: '${model!.name}',
         imgurl: '${HomeCubit.get(context).img[index!]}',
         ontap: () {
-          // Navigator.of(context)
-          //     .push(MaterialPageRoute(builder: (_) => CategoryItemsScreen()));
+          HomeCubit.get(context).getsubCategory(model!.id!);
+
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration(seconds: 1),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                animation = CurvedAnimation(
+                    parent: animation, curve: Curves.linearToEaseOut);
+                return ScaleTransition(
+                  scale: animation,
+                  alignment: Alignment.center,
+                  child: child,
+                );
+              },
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return CategoryItemsScreen(id: model!.id!, name: model!.name!);
+              },
+            ),
+          );
         });
   }
 }

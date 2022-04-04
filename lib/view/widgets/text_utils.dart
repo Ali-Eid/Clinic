@@ -19,6 +19,9 @@ class TextUtils extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: 2,
+      softWrap: true,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontFamily: 'Mikhak',
         decoration: decoration,

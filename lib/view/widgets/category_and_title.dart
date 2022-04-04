@@ -29,8 +29,8 @@ class CategoryandTitle extends StatelessWidget {
             padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Colors.green,
-                  Colors.blue.shade900,
+                  Color(0Xff054F86),
+                  Color(0Xff61C089),
                 ]),
                 borderRadius: BorderRadius.circular(20)),
             child: Image(

@@ -93,7 +93,7 @@ class Address {
   int? id;
   int? districtId;
   int? cityId;
-  Null? details;
+  var details;
   City? city;
   District? district;
 

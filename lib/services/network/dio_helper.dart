@@ -22,7 +22,7 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers['Content-Type'] = 'application/json';
-    dio!.options.headers['lang'] = lang;
+    dio!.options.headers['Accept-Language'] = lang;
     dio!.options.headers['Authorization'] = 'Bearer $token';
     return await dio!.get(url, queryParameters: queryparameters);
   }

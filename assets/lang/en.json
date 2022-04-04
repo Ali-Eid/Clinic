@@ -3,6 +3,7 @@
     "otherservice":"Other Services",
     "Medical_Supplies":"Medical Supplies",
     "maintenance":"Maintenance",
+    "clean_your_clinic":"clean your clinic",
     "device":"Device",
     "type":"type",
     "serial_num":"Serial Number",
@@ -13,7 +14,8 @@
     "district":"District",
     "details_address":"Details address",
     "confirm_request":"Confirm",
-    "confirm_btn":"Confirm"
+    "confirm_btn":"Confirm",
+    "clean_clinic":"Clean Clinic"
     
 
 

@@ -16,8 +16,8 @@ class TitlePrimaryWidget extends StatelessWidget {
               : BorderRadius.only(topRight: Radius.circular(30)),
           gradient: LinearGradient(
             colors: [
-              Colors.green,
-              Colors.blue.shade900,
+              Color(0Xff054F86),
+              Color(0Xff61C089),
             ],
           ),
           color: Colors.transparent.withOpacity(0.60)),

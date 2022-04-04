@@ -42,8 +42,8 @@ class TextFieldWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.green.shade300,
-                    Colors.blue.shade900,
+                    Color(0Xff054F86),
+                    Color(0Xff61C089),
                   ],
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(30))),

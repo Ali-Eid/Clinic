@@ -14,14 +14,10 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ConfirmScreen extends StatelessWidget {
-  ConfirmScreen(
-      {Key? key, this.device, this.description, this.type, this.serialnum})
-      : super(key: key);
-  String? device;
-  String? type;
-  String? serialnum;
+class ConfirmOrderClean extends StatelessWidget {
+  ConfirmOrderClean({Key? key, this.description, this.type}) : super(key: key);
   String? description;
+  String? type;
   TextEditingController detailsController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController destrictController = TextEditingController();
@@ -33,13 +29,13 @@ class ConfirmScreen extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
-          if (state is SuccessRequestMaintenanceState) {
+          if (state is SuccessRequestCleanClinicState) {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.SUCCES,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Maintenance Request',
-              desc: '${state.ordermedical!.message}',
+              title: 'Clean Clinic Request',
+              desc: 'Success',
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -63,12 +59,12 @@ class ConfirmScreen extends StatelessWidget {
               },
             ).show();
           }
-          if (state is ErrorRequestMaintenanceState) {
+          if (state is ErrorRequestCleanClinicState) {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.ERROR,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Maintenance Request',
+              title: 'Clean Clinic Request',
               desc: state.error,
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
@@ -170,8 +166,8 @@ class ConfirmScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
-                                            Colors.green.shade300,
-                                            Colors.blue.shade900,
+                                            Color(0Xff054F86),
+                                            Color(0Xff61C089),
                                           ],
                                         ),
                                         borderRadius: BorderRadius.all(
@@ -222,8 +218,8 @@ class ConfirmScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30),
                                     gradient: LinearGradient(
                                         colors: [
-                                          Colors.green.shade300,
-                                          Colors.blue.shade900,
+                                          Color(0Xff054F86),
+                                          Color(0Xff61C089),
                                         ],
                                         begin: Alignment.topLeft,
                                         end: Alignment.topRight),
@@ -233,12 +229,10 @@ class ConfirmScreen extends StatelessWidget {
                                     onPressed: () {
                                       if (formkey.currentState!.validate()) {
                                         HomeCubit.get(context)
-                                            .requestmaintenance(
+                                            .requestcleanclinic(
+                                                type: type!,
                                                 moblilenum:
                                                     phoneController.text,
-                                                serialnum: serialnum!,
-                                                device: device!,
-                                                type: type!,
                                                 description: description!,
                                                 details:
                                                     detailsController.text);

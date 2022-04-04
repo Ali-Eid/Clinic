@@ -3,6 +3,7 @@
     "otherservice":"الخدمات الأخرى",
     "Medical_Supplies":"مستهلكات طبية",
     "maintenance":"صيانة اجهزتي",
+    "clean_your_clinic":"تعقيم العيادة",
     "device":"نوع الجهاز",
     "type":"الطراز",
     "serial_num":"الرقم التسلسلي",
@@ -13,6 +14,7 @@
     "district":"المنطقة",
     "details_address":"تفاصيل العنوان",
     "confirm_request":"تأكيد الطلب",
-    "confirm_btn":"تأكيد"
+    "confirm_btn":"تأكيد",
+    "clean_clinic":"تعقيم العيادة"
 
 }

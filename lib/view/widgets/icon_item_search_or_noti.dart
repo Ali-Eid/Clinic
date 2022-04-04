@@ -19,10 +19,14 @@ class IconItemWidget extends StatelessWidget {
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
                 ),
-          gradient: LinearGradient(colors: [
-            Colors.blue.shade900,
-            Colors.green.shade400,
-          ], begin: Alignment.bottomCenter)),
+          gradient: LinearGradient(
+            colors: [
+              Color(0Xff054F86),
+              Color(0Xff61C089),
+              // Colors.green.shade400,
+            ],
+            begin: Alignment.topCenter,
+          )),
       child: Icon(
         iconData,
         color: Colors.white,

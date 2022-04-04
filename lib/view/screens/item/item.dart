@@ -1,8 +1,20 @@
+import 'package:buildcondition/buildcondition.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clinic/applocal.dart';
+import 'package:clinic/logic/home/cubit/home_cubit.dart';
+import 'package:clinic/model/product_model.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
+import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/elevated_button_gradient.dart';
+import 'package:clinic/view/widgets/fotter.dart';
+import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/icon_item_search_or_noti.dart';
+import 'package:clinic/view/widgets/notification_search_title.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemScreen extends StatelessWidget {
@@ -10,118 +22,108 @@ class ItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        print('notifications');
-                      },
-                      child: IconItemWidget(iconData: Icons.notifications)),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Spacer(),
-                      InkWell(
-                          onTap: () {
-                            print('search');
-                          },
-                          child: IconItemWidget(iconData: Icons.search)),
-                      // Spacer(),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  FrameWithPriceAndName(),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      Center(
-                        child: Material(
-                          elevation: 15,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            height: 130,
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: TextUtils(
-                                text: 'Description....',
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 110,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.green,
-                                Colors.blue.shade900,
-                              ],
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        child: TextUtils(
-                            text: 'الوصف',
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ButtonGradientWidget(
-                      color: Colors.transparent,
-                      text: 'اضافة الى السلة',
-                      onPressed: () {},
+    return SafeArea(
+      child: BlocConsumer<HomeCubit, HomeState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return Scaffold(
+            drawer: DrawerPage(),
+            appBar: AppBar(
+              flexibleSpace: HeaderWidget(),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.black,
                     ),
                   ),
-                ],
+                );
+              }),
+            ),
+            body: BuildCondition(
+              fallback: (context) => Center(
+                child: CircularProgressIndicator(
+                  color: Colors.green.shade400,
+                ),
+              ),
+              condition: state is! LoadingCategoriesState,
+              builder: (context) => BuildCondition(
+                fallback: (context) => Center(
+                  child: TextUtils(
+                      text: 'No Product Data',
+                      color: Colors.green.shade400,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
+                condition:
+                    HomeCubit.get(context).productModel!.data!.isNotEmpty,
+                builder: (context) => Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NotificationSearchTitle(
+                              text:
+                                  '${HomeCubit.get(context).productModel!.data![0].name}',
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            FrameWithPriceAndName(
+                              model:
+                                  HomeCubit.get(context).productModel!.data![0],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: ButtonGradientWidget(
+                                color: Colors.transparent,
+                                text: 'Add to Cart',
+                                onPressed: () {
+                                  HomeCubit.get(context).addtocart(
+                                      id: HomeCubit.get(context)
+                                          .productModel!
+                                          .data![0]
+                                          .id);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    FotterWidget(
+                      salla1: true,
+                      model: HomeCubit.get(context).contactInfoModel!.data,
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            height: 50,
-            child: SvgPicture.asset(
-              'assets/images/footer.svg',
-              color: Colors.green,
-              fit: BoxFit.fill,
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 }
 
 class FrameWithPriceAndName extends StatelessWidget {
-  const FrameWithPriceAndName({
+  DataProduct? model;
+  FrameWithPriceAndName({
     Key? key,
+    required this.model,
   }) : super(key: key);
 
   @override
@@ -138,17 +140,49 @@ class FrameWithPriceAndName extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Colors.green,
-                    Colors.blue.shade900,
+                    Color(0Xff054F86),
+                    Color(0Xff61C089),
                   ], begin: Alignment.topLeft, end: Alignment.topRight),
                 ),
                 child: Container(
                   width: 225,
                   height: 235,
                   color: Colors.white,
-                  child: Image(
-                    image: AssetImage('assets/images/demo.jpg'),
-                    fit: BoxFit.cover,
+                  child: CarouselSlider(
+                    items: [
+                      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                    ]
+                        .map(
+                          (e) => CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            imageUrl: "${e}",
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.green.shade400),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        )
+                        .toList(),
+                    // carouselController: carouselController,
+                    options: CarouselOptions(
+                      height: MediaQuery.of(context).size.height,
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 1,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      pauseAutoPlayInFiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.linearToEaseOut,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ),
                 ),
               ),
@@ -158,14 +192,14 @@ class FrameWithPriceAndName extends StatelessWidget {
                 width: 225,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
-                      Colors.green,
-                      Colors.blue.shade900,
+                      Color(0Xff054F86),
+                      Color(0Xff61C089),
                     ]),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30))),
                 child: TextUtils(
-                    text: 'Name',
+                    text: model!.name!,
                     color: Colors.white,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
@@ -179,19 +213,64 @@ class FrameWithPriceAndName extends StatelessWidget {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.green,
-                    Colors.blue.shade900,
+                    Color(0Xff054F86),
+                    Color(0Xff61C089),
                   ],
                 ),
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30))),
             child: TextUtils(
-                text: 'Price',
+                text: '${model!.price}',
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold),
-          )
+          ),
+          SizedBox(
+            height: 35,
+          ),
+          Stack(
+            alignment: AlignmentDirectional.topEnd,
+            children: [
+              Center(
+                child: Material(
+                  elevation: 15,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    height: 130,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: TextUtils(
+                        text: '${model!.details}',
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: 110,
+                height: 40,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0Xff054F86),
+                        Color(0Xff61C089),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                child: TextUtils(
+                    text: 'Description',
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
         ],
       ),
     );

@@ -14,9 +14,9 @@ class TitleWidget extends StatelessWidget {
               ? BorderRadius.only(topLeft: Radius.circular(30))
               : BorderRadius.only(topRight: Radius.circular(30)),
           gradient: LinearGradient(colors: [
-            Colors.green,
-            Colors.blue.shade900,
-          ])),
+            Color(0Xff054F86),
+            Color(0Xff61C089),
+          ], begin: Alignment.bottomCenter)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: TextUtils(

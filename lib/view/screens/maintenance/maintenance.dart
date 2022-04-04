@@ -6,6 +6,7 @@ import 'package:clinic/model/maintenance_request_model.dart';
 import 'package:clinic/view/screens/confirm/confirm_screen.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/auth/text_form_field.dart';
+import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/maintenance/text_form_field_widget.dart';
@@ -33,7 +34,8 @@ class Maintenance extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-              drawer: Drawer(),
+              resizeToAvoidBottomInset: false,
+              drawer: DrawerPage(),
               appBar: AppBar(
                 flexibleSpace: HeaderWidget(),
                 backgroundColor: Colors.transparent,
@@ -51,190 +53,199 @@ class Maintenance extends StatelessWidget {
                   );
                 }),
               ),
-              body: Form(
-                key: formkey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      NotificationSearchTitle(
-                        text: '${getLang(context, "maintenance")}',
-                      ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: Form(
+                      key: formkey,
+                      child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.10,
+                            NotificationSearchTitle(
+                              text: '${getLang(context, "maintenance")}',
                             ),
-                            TextFieldWidget(
-                              suffixIcon:
-                                  Icon(Icons.star, color: Colors.grey.shade400),
-                              controller: DeviceController,
-                              text: '${getLang(context, 'device')}',
-                              fieldemptymsg: 'Device  must not be empty',
-                              onsaved: (value) {
-                                maintenancereq!.device = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextFieldWidget(
-                              suffixIcon:
-                                  Icon(Icons.star, color: Colors.grey.shade400),
-                              controller: typeController,
-                              text: '${getLang(context, 'type')}',
-                              fieldemptymsg: 'type must not be empty',
-                              onsaved: (value) {
-                                maintenancereq!.type = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextFieldWidget(
-                              suffixIcon:
-                                  Icon(Icons.star, color: Colors.grey.shade400),
-                              controller: serialController,
-                              text: '${getLang(context, 'serial_num')}',
-                              fieldemptymsg: 'Serial Number must not be empty',
-                              onsaved: (value) {
-                                maintenancereq!.serialnum = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              // height: height,
-                              decoration: BoxDecoration(boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black38,
-                                    blurRadius: 25,
-                                    offset: Offset(0, 10))
-                              ]),
-                              child: AuthTextFormField(
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.only(bottom: 150),
-                                    child: Icon(Icons.star,
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.10,
+                                  ),
+                                  TextFieldWidget(
+                                    suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
+                                    controller: DeviceController,
+                                    text: '${getLang(context, 'device')}',
+                                    fieldemptymsg: 'Device  must not be empty',
+                                    onsaved: (value) {
+                                      maintenancereq!.device = value;
+                                    },
                                   ),
-                                  onsaved: (value) {
-                                    maintenancereq!.descriptipn = value;
-                                  },
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 150,
-                                    ),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      width: 100,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.green.shade300,
-                                              Colors.blue.shade900,
-                                            ],
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextFieldWidget(
+                                    suffixIcon: Icon(Icons.star,
+                                        color: Colors.grey.shade400),
+                                    controller: typeController,
+                                    text: '${getLang(context, 'type')}',
+                                    fieldemptymsg: 'type must not be empty',
+                                    onsaved: (value) {
+                                      maintenancereq!.type = value;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextFieldWidget(
+                                    suffixIcon: Icon(Icons.star,
+                                        color: Colors.grey.shade400),
+                                    controller: serialController,
+                                    text: '${getLang(context, 'serial_num')}',
+                                    fieldemptymsg:
+                                        'Serial Number must not be empty',
+                                    onsaved: (value) {
+                                      maintenancereq!.serialnum = value;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    // height: height,
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black38,
+                                          blurRadius: 25,
+                                          offset: Offset(0, 10))
+                                    ]),
+                                    child: AuthTextFormField(
+                                        suffixIcon: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 150),
+                                          child: Icon(Icons.star,
+                                              color: Colors.grey.shade400),
+                                        ),
+                                        onsaved: (value) {
+                                          maintenancereq!.descriptipn = value;
+                                        },
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 150,
                                           ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30))),
-                                      child: TextUtils(
-                                          text:
-                                              '${getLang(context, 'description')}',
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            width: 100,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Color(0Xff054F86),
+                                                    Color(0Xff61C089),
+                                                  ],
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30))),
+                                            child: TextUtils(
+                                                text:
+                                                    '${getLang(context, 'description')}',
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        controller: DescController,
+                                        maxLines: 7,
+                                        // minLines: 7,
+                                        obsecure: false,
+                                        // suffixIcon: suffixIcon,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Description must not be empty';
+                                          }
+                                          return null;
+                                        },
+                                        hinttext: ''),
                                   ),
-                                  controller: DescController,
-                                  maxLines: 7,
-                                  // minLines: 7,
-                                  obsecure: false,
-                                  // suffixIcon: suffixIcon,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Description must not be empty';
-                                    }
-                                    return null;
-                                  },
-                                  hinttext: ''),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                BuildCondition(
-                                  fallback: (context) => Center(
-                                    child: Container(
-                                      // width: 130,
-                                      height: 40,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.green.shade400,
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      BuildCondition(
+                                        fallback: (context) => Center(
+                                          child: Container(
+                                            // width: 130,
+                                            height: 40,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.green.shade400,
+                                            ),
+                                          ),
+                                        ),
+                                        condition: state
+                                            is! LoadingRequestMaintenanceState,
+                                        builder: (context) => Container(
+                                          width: 130,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color(0Xff054F86),
+                                                Color(0Xff61C089),
+                                              ],
+                                              // begin: Alignment.topLeft,
+                                              // end: Alignment.topRight,
+                                            ),
+                                          ),
+                                          child: AuthButton(
+                                            text:
+                                                '${getLang(context, 'confirm')}',
+                                            onPressed: () {
+                                              if (formkey.currentState!
+                                                  .validate()) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (_) => ConfirmScreen(
+                                                            device:
+                                                                DeviceController
+                                                                    .text,
+                                                            description:
+                                                                DescController
+                                                                    .text,
+                                                            serialnum:
+                                                                serialController
+                                                                    .text,
+                                                            type: typeController
+                                                                .text)));
+                                              }
+                                            },
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  condition:
-                                      state is! LoadingRequestMaintenanceState,
-                                  builder: (context) => Container(
-                                    width: 130,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Colors.green.shade300,
-                                            Colors.blue.shade900,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.topRight),
-                                    ),
-                                    child: AuthButton(
-                                      text: '${getLang(context, 'confirm')}',
-                                      onPressed: () {
-                                        if (formkey.currentState!.validate()) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) => ConfirmScreen(
-                                                      device:
-                                                          DeviceController.text,
-                                                      description:
-                                                          DescController.text,
-                                                      serialnum:
-                                                          serialController.text,
-                                                      type: typeController
-                                                          .text)));
-                                          // HomeCubit.get(context)
-                                          //     .requestmaintenance(
-                                          //   moblilenum: phoneController.text,
-                                          //   serialnum: serialController.text,
-                                          //   device: DeviceController.text,
-                                          //   type: typeController.text,
-                                          // );
-                                        }
-                                      },
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 58,
-                      ),
-                      FotterWidget()
-                    ],
+                    ),
                   ),
-                ),
+                  FotterWidget(
+                    model: HomeCubit.get(context).contactInfoModel!.data,
+                  )
+                ],
               )),
         );
       },
