@@ -11,6 +11,7 @@ import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/maintenance/text_form_field_widget.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderClinic extends StatelessWidget {
   String? type;
@@ -89,7 +90,8 @@ class OrderClinic extends StatelessWidget {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30))),
                                 child: TextUtils(
-                                    text: '${getLang(context, 'description')}',
+                                    text: AppLocalizations.of(context)!
+                                        .description,
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold),
@@ -122,7 +124,7 @@ class OrderClinic extends StatelessWidget {
                           ], begin: Alignment.topLeft, end: Alignment.topRight),
                         ),
                         child: AuthButton(
-                          text: '${getLang(context, 'confirm')}',
+                          text: AppLocalizations.of(context)!.confirm,
                           onPressed: () {
                             if (formkey.currentState!.validate()) {
                               Navigator.push(

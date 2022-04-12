@@ -1,26 +1,40 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clinic/applocal.dart';
+import 'package:clinic/logic/auth/cubit/auth_cubit.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
+import 'package:clinic/services/cach_helper.dart';
+import 'package:clinic/view/screens/auth/login_screen.dart';
 import 'package:clinic/view/screens/cart/cart_screen.dart';
 import 'package:clinic/view/screens/category_child/category_child.dart';
 import 'package:clinic/view/screens/clear_clinic/clear_clinic_screen.dart';
+import 'package:clinic/view/screens/last_order/last_order.dart';
 import 'package:clinic/view/screens/maintenance/maintenance.dart';
+import 'package:clinic/view/screens/medical_supplies/category_screen.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-        return DrawerHome();
-      },
+    return BlocProvider(
+      create: (context) => HomeCubit()
+        ..meInfo()
+        ..getCategories()
+        ..getcart()
+        ..getContactinfo(),
+      child: BlocConsumer<HomeCubit, HomeState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          // HomeCubit.get(context).meInfo();
+          return DrawerHome();
+        },
+      ),
     );
   }
 }
@@ -79,7 +93,7 @@ class DrawerHome extends StatelessWidget {
                         ),
                         TextUtils(
                             text:
-                                '${HomeCubit.get(context).model!.data!.firstName}${HomeCubit.get(context).model!.data!.lastName} ',
+                                '${HomeCubit.get(context).model?.data!.firstName ?? ''}${HomeCubit.get(context).model?.data!.lastName ?? ''}',
                             color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.bold)
@@ -93,7 +107,7 @@ class DrawerHome extends StatelessWidget {
                   childrenPadding: EdgeInsets.zero,
                   title: Center(
                     child: TextUtils(
-                      text: '${getLang(context, "home")}',
+                      text: '${AppLocalizations.of(context)!.home}',
                       color: Colors.blue.shade900,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -108,10 +122,11 @@ class DrawerHome extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryChildScreen()));
+                            builder: (_) => CategoryScreen()));
                       },
                       child: TextUtils(
-                        text: '${getLang(context, 'Medical_Supplies')}',
+                        text:
+                            '${AppLocalizations.of(context)!.medical_Supplies}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -123,7 +138,7 @@ class DrawerHome extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => Maintenance()));
                       },
                       child: TextUtils(
-                        text: '${getLang(context, 'maintenance')}',
+                        text: '${AppLocalizations.of(context)!.maintenance}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -136,7 +151,8 @@ class DrawerHome extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => ClearScreen()));
                       },
                       child: TextUtils(
-                        text: '${getLang(context, "clean_your_clinic")}',
+                        text:
+                            '${AppLocalizations.of(context)!.clean_your_clinic}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -152,7 +168,7 @@ class DrawerHome extends StatelessWidget {
                   collapsedBackgroundColor: Colors.white,
                   title: Center(
                     child: TextUtils(
-                      text: '${getLang(context, "otherservice")}',
+                      text: '${AppLocalizations.of(context)!.otherservice}',
                       color: Colors.blue.shade900,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -173,7 +189,8 @@ class DrawerHome extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'اكساء و ديكورات',
+                        text:
+                            '${AppLocalizations.of(context)!.clinic_decoration}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -203,7 +220,8 @@ class DrawerHome extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'اعلن عن عيادتك',
+                        text:
+                            '${AppLocalizations.of(context)!.publish_your_clinic}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -218,7 +236,8 @@ class DrawerHome extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'كهرباء- تكييف وتبريد',
+                        text:
+                            '${AppLocalizations.of(context)!.clinic_electricity}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -233,7 +252,8 @@ class DrawerHome extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'فرص عمل',
+                        text:
+                            '${AppLocalizations.of(context)!.work_opportunities}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -256,9 +276,13 @@ class DrawerHome extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        HomeCubit.get(context).getlastorder();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => LastOrderScreen()));
+                      },
                       child: TextUtils(
-                          text: 'طلباتك السابقة',
+                          text: '${AppLocalizations.of(context)!.last_order}',
                           color: Colors.blue.shade900,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
@@ -275,7 +299,7 @@ class DrawerHome extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => CartScreen()));
                       },
                       child: TextUtils(
-                          text: 'السلة',
+                          text: '${AppLocalizations.of(context)!.cart}',
                           color: Colors.blue.shade900,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
@@ -299,7 +323,31 @@ class DrawerHome extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // CacheHelper.removeData(key: 'token').then((value) {
+                        //   // HomeCubit.get(context).signout();
+                        //   Navigator.of(context).pushAndRemoveUntil(
+                        //       PageRouteBuilder(
+                        //         transitionDuration: Duration(seconds: 1),
+                        //         transitionsBuilder: (context, animation,
+                        //             secondaryAnimation, child) {
+                        //           animation = CurvedAnimation(
+                        //               parent: animation,
+                        //               curve: Curves.linearToEaseOut);
+                        //           return ScaleTransition(
+                        //             scale: animation,
+                        //             alignment: Alignment.center,
+                        //             child: child,
+                        //           );
+                        //         },
+                        //         pageBuilder:
+                        //             (context, animation, secondaryAnimation) {
+                        //           return LoginScreen();
+                        //         },
+                        //       ),
+                        //       (route) => false);
+                        // });
+                      },
                       child: TextUtils(
                           text: 'تسجيل الخروج',
                           color: Colors.blue.shade900,
@@ -367,7 +415,7 @@ class DrawerPage extends StatelessWidget {
                         ),
                         TextUtils(
                             text:
-                                '${HomeCubit.get(context).model!.data!.firstName} ${HomeCubit.get(context).model!.data!.lastName} ',
+                                '${HomeCubit.get(context).model?.data!.firstName} ${HomeCubit.get(context).model?.data!.lastName} ',
                             color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.bold)
@@ -381,7 +429,7 @@ class DrawerPage extends StatelessWidget {
                   childrenPadding: EdgeInsets.zero,
                   title: Center(
                     child: TextUtils(
-                      text: '${getLang(context, "home")}',
+                      text: '${AppLocalizations.of(context)!.home}',
                       color: Colors.blue.shade900,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -396,10 +444,11 @@ class DrawerPage extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (_) => CategoryChildScreen()));
+                            builder: (_) => CategoryScreen()));
                       },
                       child: TextUtils(
-                        text: '${getLang(context, 'Medical_Supplies')}',
+                        text:
+                            '${AppLocalizations.of(context)!.medical_Supplies}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -411,7 +460,7 @@ class DrawerPage extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => Maintenance()));
                       },
                       child: TextUtils(
-                        text: '${getLang(context, 'maintenance')}',
+                        text: '${AppLocalizations.of(context)!.maintenance}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -424,7 +473,8 @@ class DrawerPage extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => ClearScreen()));
                       },
                       child: TextUtils(
-                        text: '${getLang(context, "clean_your_clinic")}',
+                        text:
+                            '${AppLocalizations.of(context)!.clean_your_clinic}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -440,7 +490,7 @@ class DrawerPage extends StatelessWidget {
                   collapsedBackgroundColor: Colors.white,
                   title: Center(
                     child: TextUtils(
-                      text: '${getLang(context, "otherservice")}',
+                      text: '${AppLocalizations.of(context)!.otherservice}',
                       color: Colors.blue.shade900,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -461,7 +511,8 @@ class DrawerPage extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'اكساء و ديكورات',
+                        text:
+                            '${AppLocalizations.of(context)!.clinic_decoration}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -491,7 +542,8 @@ class DrawerPage extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'اعلن عن عيادتك',
+                        text:
+                            '${AppLocalizations.of(context)!.publish_your_clinic}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -506,7 +558,8 @@ class DrawerPage extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'كهرباء- تكييف وتبريد',
+                        text:
+                            '${AppLocalizations.of(context)!.clinic_electricity}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -521,7 +574,8 @@ class DrawerPage extends StatelessWidget {
                                 )));
                       },
                       child: TextUtils(
-                        text: 'فرص عمل',
+                        text:
+                            '${AppLocalizations.of(context)!.work_opportunities}',
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -544,9 +598,13 @@ class DrawerPage extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        HomeCubit.get(context).getlastorder();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => LastOrderScreen()));
+                      },
                       child: TextUtils(
-                          text: 'طلباتك السابقة',
+                          text: '${AppLocalizations.of(context)!.last_order}',
                           color: Colors.blue.shade900,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
@@ -563,7 +621,7 @@ class DrawerPage extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => CartScreen()));
                       },
                       child: TextUtils(
-                          text: 'السلة',
+                          text: '${AppLocalizations.of(context)!.cart}',
                           color: Colors.blue.shade900,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
@@ -587,7 +645,30 @@ class DrawerPage extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        CacheHelper.removeData(key: 'token').then((value) {
+                          Navigator.of(context).pushAndRemoveUntil(
+                              PageRouteBuilder(
+                                transitionDuration: Duration(seconds: 1),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  animation = CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.linearToEaseOut);
+                                  return ScaleTransition(
+                                    scale: animation,
+                                    alignment: Alignment.center,
+                                    child: child,
+                                  );
+                                },
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  return LoginScreen();
+                                },
+                              ),
+                              (route) => false);
+                        });
+                      },
                       child: TextUtils(
                           text: 'تسجيل الخروج',
                           color: Colors.blue.shade900,

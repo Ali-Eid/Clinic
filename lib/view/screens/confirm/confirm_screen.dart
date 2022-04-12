@@ -13,6 +13,7 @@ import 'package:clinic/view/widgets/notification_search_title.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfirmScreen extends StatelessWidget {
   ConfirmScreen(
@@ -27,6 +28,9 @@ class ConfirmScreen extends StatelessWidget {
   TextEditingController destrictController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   var formkey = GlobalKey<FormState>();
+
+  int? cityID = 0;
+  int? destrictID = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +106,7 @@ class ConfirmScreen extends StatelessWidget {
               child: Column(
                 children: [
                   NotificationSearchTitle(
-                    text: '${getLang(context, "confirm_request")}',
+                    text: '${AppLocalizations.of(context)!.confirm_request}',
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -118,28 +122,178 @@ class ConfirmScreen extends StatelessWidget {
                             suffixIcon:
                                 Icon(Icons.star, color: Colors.grey.shade400),
                             controller: phoneController,
-                            text: '${getLang(context, 'phone_number')}',
+                            text:
+                                '${AppLocalizations.of(context)!.phone_number}',
                             fieldemptymsg: 'Phone number  must not be empty',
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          TextFieldWidget(
-                            suffixIcon:
-                                Icon(Icons.star, color: Colors.grey.shade400),
-                            controller: cityController,
-                            text: '${getLang(context, 'city')}',
-                            fieldemptymsg: 'city must not be empty',
+                          // TextFieldWidget(
+                          //   suffixIcon:
+                          //       Icon(Icons.star, color: Colors.grey.shade400),
+                          //   controller: cityController,
+                          //   text: '${getLang(context, 'city')}',
+                          //   fieldemptymsg: 'city must not be empty',
+                          // ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0Xff054F86),
+                                          Color(0Xff61C089),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: TextUtils(
+                                      text: 'City',
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // height: 35,
+                                    // width: double.infinity,
+                                    child: DropdownButtonHideUnderline(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: DropdownButton<dynamic>(
+                                          elevation: 1,
+
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          // alignment: Alignment.center,
+                                          hint: TextUtils(
+                                              text: 'your city',
+                                              color: Colors.grey.shade500,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                          value: HomeCubit.get(context)
+                                              .valueDropDowncity,
+                                          items: HomeCubit.get(context)
+                                                      .citiesModel ==
+                                                  null
+                                              ? []
+                                              : HomeCubit.get(context)
+                                                  .citiesModel!
+                                                  .data!
+                                                  .map((value) {
+                                                  return DropdownMenuItem<
+                                                          String>(
+                                                      onTap: () {
+                                                        cityID = value.id;
+                                                        HomeCubit.get(context)
+                                                            .getDistrict(
+                                                                id: value.id);
+                                                      },
+                                                      child: Text(value.name!),
+                                                      value: value.name);
+                                                }).toList(),
+                                          onChanged: (val) {
+                                            HomeCubit.get(context)
+                                                .changevalueDropdown(val);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          TextFieldWidget(
-                            suffixIcon:
-                                Icon(Icons.star, color: Colors.grey.shade400),
-                            controller: destrictController,
-                            text: '${getLang(context, 'district')}',
-                            fieldemptymsg: 'District Number must not be empty',
+                          // TextFieldWidget(
+                          //   suffixIcon:
+                          //       Icon(Icons.star, color: Colors.grey.shade400),
+                          //   controller: destrictController,
+                          //   text: '${getLang(context, 'district')}',
+                          //   fieldemptymsg: 'District Number must not be empty',
+                          // ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0Xff054F86),
+                                          Color(0Xff61C089),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: TextUtils(
+                                      text: 'District',
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // height: 35,
+                                    width: double.infinity,
+                                    child: DropdownButtonHideUnderline(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: DropdownButton<dynamic>(
+                                          hint: TextUtils(
+                                              text: 'your Districit',
+                                              color: Colors.grey.shade500,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                          value: HomeCubit.get(context)
+                                              .valueDropDowndistrict,
+                                          items: HomeCubit.get(context)
+                                                      .disrictModel ==
+                                                  null
+                                              ? []
+                                              : HomeCubit.get(context)
+                                                  .disrictModel!
+                                                  .data!
+                                                  .map((value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    child: Text(value.name!),
+                                                    value: value.name,
+                                                    onTap: () {
+                                                      destrictID = value.id;
+                                                    },
+                                                  );
+                                                }).toList(),
+                                          onChanged: (val) {
+                                            HomeCubit.get(context)
+                                                .changevalueDropdownDistrict(
+                                                    val);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -170,15 +324,15 @@ class ConfirmScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
-                                            Colors.green.shade300,
-                                            Colors.blue.shade900,
+                                            Color(0Xff054F86),
+                                            Color(0Xff61C089),
                                           ],
                                         ),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(30))),
                                     child: TextUtils(
                                         text:
-                                            '${getLang(context, 'details_address')}',
+                                            '${AppLocalizations.of(context)!.details_address}',
                                         color: Colors.white,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -221,21 +375,25 @@ class ConfirmScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     gradient: LinearGradient(
-                                        colors: [
-                                          Colors.green.shade300,
-                                          Colors.blue.shade900,
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.topRight),
+                                      colors: [
+                                        Color(0Xff054F86),
+                                        Color(0Xff61C089),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.topRight,
+                                    ),
                                   ),
                                   child: AuthButton(
-                                    text: '${getLang(context, 'confirm_btn')}',
+                                    text:
+                                        '${AppLocalizations.of(context)!.confirm_btn}',
                                     onPressed: () {
                                       if (formkey.currentState!.validate()) {
                                         HomeCubit.get(context)
                                             .requestmaintenance(
                                                 moblilenum:
                                                     phoneController.text,
+                                                city: cityID!,
+                                                destrict: destrictID!,
                                                 serialnum: serialnum!,
                                                 device: device!,
                                                 type: type!,

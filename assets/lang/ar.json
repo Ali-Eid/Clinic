@@ -1,9 +1,14 @@
 {
+    "logo":"عيادتي",
     "home":"الخدمات الاساسية",
     "otherservice":"الخدمات الأخرى",
     "Medical_Supplies":"مستهلكات طبية",
     "maintenance":"صيانة اجهزتي",
     "clean_your_clinic":"تعقيم العيادة",
+    "clinic_decoration":"اكساء و ديكورات",
+    "publish_your_clinic":"اعلن عن عيادتك",
+    "clinic_electricity":"كهرباء - تكييف ونبريد",
+    "work_opportunities":"فرص عمل",
     "device":"نوع الجهاز",
     "type":"الطراز",
     "serial_num":"الرقم التسلسلي",
@@ -15,6 +20,8 @@
     "details_address":"تفاصيل العنوان",
     "confirm_request":"تأكيد الطلب",
     "confirm_btn":"تأكيد",
-    "clean_clinic":"تعقيم العيادة"
+    "clean_clinic":"تعقيم العيادة",
+    "last_order" : "طلباتك السابقة",
+    "Cart" : "السلة"
 
 }

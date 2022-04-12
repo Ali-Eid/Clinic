@@ -1,5 +1,6 @@
 import 'package:clinic/applocal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IconItemWidget extends StatelessWidget {
   IconData iconData;
@@ -11,7 +12,7 @@ class IconItemWidget extends StatelessWidget {
       width: 45,
       height: 20,
       decoration: BoxDecoration(
-          borderRadius: AppLocale.of(context).locale!.languageCode == "ar"
+          borderRadius: AppLocalizations.of(context)!.language == "Arabic"
               ? BorderRadius.only(
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10))

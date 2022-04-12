@@ -12,6 +12,7 @@ import 'package:clinic/view/widgets/frame_desc.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
+import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,10 +79,14 @@ class ClearScreen extends StatelessWidget {
             ),
             body: BuildCondition(
               fallback: (context) => Center(
-                child: CircularProgressIndicator(
-                  color: Colors.green.shade400,
+                  child: EasyLoader(
+                image: AssetImage(
+                  'assets/images/logo.png',
                 ),
-              ),
+                backgroundColor: Colors.grey.shade300,
+                // iconSize: 20,
+                iconColor: Color(0Xff054F86),
+              )),
               condition: state is SuccessGetServiceState,
               builder: (context) => Column(
                 children: [

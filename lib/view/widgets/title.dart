@@ -1,6 +1,7 @@
 import 'package:clinic/applocal.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TitleWidget extends StatelessWidget {
   String text;
@@ -10,7 +11,7 @@ class TitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: AppLocale.of(context).locale!.languageCode == "ar"
+          borderRadius: AppLocalizations.of(context)!.language == "Arabic"
               ? BorderRadius.only(topLeft: Radius.circular(30))
               : BorderRadius.only(topRight: Radius.circular(30)),
           gradient: LinearGradient(colors: [

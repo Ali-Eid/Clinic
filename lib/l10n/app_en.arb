@@ -1,0 +1,30 @@
+{
+    "language": "English",
+    "@language":{
+      "description": "The current Language"
+    },
+    "logo":"My Clinic",
+    "home":"Primary Services",
+    "otherservice":"Other Services",
+    "medical_Supplies":"Medical Supplies",
+    "maintenance":"Maintenance",
+    "clean_your_clinic":"clean your clinic",
+    "clinic_decoration":"clinic decoration",
+    "publish_your_clinic":"publish your clinic",
+    "clinic_electricity":"electricity-conditioning",
+    "work_opportunities":"work opportunities",
+    "device":"Device",
+    "type":"type",
+    "serial_num":"Serial Number",
+    "description":"description",
+    "phone_number":"phone number",
+    "confirm":"confirm",
+    "city":"City",
+    "district":"District",
+    "details_address":"Details address",
+    "confirm_request":"Confirm",
+    "confirm_btn":"Confirm",
+    "clean_clinic":"Clean Clinic",
+    "last_order" : "Last Orders",
+    "cart" : "Cart"
+}

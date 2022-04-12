@@ -37,26 +37,36 @@ class FotterWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {
-                      // Utils.openLink(url: '${model!.facebook}');
+                    onTap: () async {
+                      // var url = model!.facebook!;
+                      // if (await canLaunch(url)) {
+                      //   await launch(url);
+                      // } else {
+                      //   throw 'Could not launch $url';
+                      // }
                     },
                     child: Icon(
                       FontAwesomeIcons.facebook,
                       color: Colors.white,
-                      size: 20,
+                      size: 15,
                     ),
                   ),
                   SizedBox(
                     width: 4,
                   ),
                   InkWell(
-                    onTap: () {
-                      print('object');
+                    onTap: () async {
+                      //  var url = model!.instagram!;
+                      // if (await canLaunch(url)) {
+                      //   await launch(url);
+                      // } else {
+                      //   throw 'Could not launch $url';
+                      // }
                     },
                     child: Icon(
                       FontAwesomeIcons.instagram,
                       color: Colors.white,
-                      size: 20,
+                      size: 15,
                     ),
                   ),
                   SizedBox(
@@ -69,13 +79,13 @@ class FotterWidget extends StatelessWidget {
                     child: Icon(
                       FontAwesomeIcons.phone,
                       color: Colors.white,
-                      size: 20,
+                      size: 15,
                     ),
                   ),
                   SizedBox(
                     width: 3,
                   ),
-                  Text('${model!.mobileNumber}',
+                  Text('${model?.mobileNumber ?? ''}',
                       style: TextStyle(
                         color: Colors.white,
                       ))
@@ -107,7 +117,7 @@ class salla extends StatelessWidget {
           child: InkWell(
             onTap: () {
               HomeCubit.get(context).getcart();
-              Navigator.of(context).push(
+              Navigator.of(context).pushReplacement(
                 PageRouteBuilder(
                   transitionDuration: Duration(seconds: 1),
                   transitionsBuilder:
@@ -132,21 +142,24 @@ class salla extends StatelessWidget {
                 SvgPicture.asset(
                   'assets/images/shopping-cart.svg',
                   color: Colors.white,
+                  matchTextDirection: true,
                   // height: 42,
                   width: 60,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 3),
-                  child: CircleAvatar(
-                    radius: 8,
-                    backgroundColor: Colors.blue.shade900,
-                    child: TextUtils(
-                        text:
-                            '${HomeCubit.get(context).showCartModel?.data!.cart!.length ?? '0'}',
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  child: HomeCubit.get(context).showCartModel != null
+                      ? CircleAvatar(
+                          radius: 8,
+                          backgroundColor: Colors.blue.shade900,
+                          child: TextUtils(
+                              text: '${HomeCubit.get(context).cart.length}',
+                              // '${HomeCubit.get(context).showCartModel?.data?.cart?.length ?? ''}',
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Text(''),
                 )
               ],
             ),

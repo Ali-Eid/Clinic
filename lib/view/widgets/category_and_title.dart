@@ -39,6 +39,7 @@ class CategoryandTitle extends StatelessWidget {
           ),
         ),
         TextButton(
+            style: TextButton.styleFrom(padding: EdgeInsets.zero),
             onPressed: ontap,
             child: TextUtils(
               text: text,

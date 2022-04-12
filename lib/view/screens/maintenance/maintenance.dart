@@ -15,6 +15,7 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Maintenance extends StatelessWidget {
   Maintenance({Key? key}) : super(key: key);
@@ -62,7 +63,8 @@ class Maintenance extends StatelessWidget {
                         child: Column(
                           children: [
                             NotificationSearchTitle(
-                              text: '${getLang(context, "maintenance")}',
+                              text:
+                                  '${AppLocalizations.of(context)!.maintenance}',
                             ),
                             // SizedBox(
                             //   height: 20,
@@ -80,7 +82,8 @@ class Maintenance extends StatelessWidget {
                                     suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
                                     controller: DeviceController,
-                                    text: '${getLang(context, 'device')}',
+                                    text:
+                                        '${AppLocalizations.of(context)!.device}',
                                     fieldemptymsg: 'Device  must not be empty',
                                     onsaved: (value) {
                                       maintenancereq!.device = value;
@@ -93,7 +96,8 @@ class Maintenance extends StatelessWidget {
                                     suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
                                     controller: typeController,
-                                    text: '${getLang(context, 'type')}',
+                                    text:
+                                        '${AppLocalizations.of(context)!.type}',
                                     fieldemptymsg: 'type must not be empty',
                                     onsaved: (value) {
                                       maintenancereq!.type = value;
@@ -106,7 +110,8 @@ class Maintenance extends StatelessWidget {
                                     suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
                                     controller: serialController,
-                                    text: '${getLang(context, 'serial_num')}',
+                                    text:
+                                        '${AppLocalizations.of(context)!.serial_num}',
                                     fieldemptymsg:
                                         'Serial Number must not be empty',
                                     onsaved: (value) {
@@ -153,7 +158,7 @@ class Maintenance extends StatelessWidget {
                                                     Radius.circular(30))),
                                             child: TextUtils(
                                                 text:
-                                                    '${getLang(context, 'description')}',
+                                                    '${AppLocalizations.of(context)!.description}',
                                                 color: Colors.white,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold),
@@ -207,7 +212,7 @@ class Maintenance extends StatelessWidget {
                                           ),
                                           child: AuthButton(
                                             text:
-                                                '${getLang(context, 'confirm')}',
+                                                '${AppLocalizations.of(context)!.confirm}',
                                             onPressed: () {
                                               if (formkey.currentState!
                                                   .validate()) {

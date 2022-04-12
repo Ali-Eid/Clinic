@@ -5,6 +5,7 @@ import 'package:clinic/model/service_model.dart';
 import 'package:clinic/view/widgets/elevated_button_gradient.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FrameDesc extends StatelessWidget {
   CarouselController carouselController = CarouselController();
@@ -30,7 +31,7 @@ class FrameDesc extends StatelessWidget {
               width: 25,
               decoration: BoxDecoration(
                   borderRadius:
-                      AppLocale.of(context).locale!.languageCode == "ar"
+                      AppLocalizations.of(context)!.language == "Arabic"
                           ? BorderRadius.only(
                               topRight: Radius.circular(15),
                               bottomRight: Radius.circular(15))
@@ -127,7 +128,7 @@ class FrameDesc extends StatelessWidget {
                     ],
                   ),
                   borderRadius:
-                      AppLocale.of(context).locale!.languageCode == "ar"
+                      AppLocalizations.of(context)!.language == "Arabic"
                           ? BorderRadius.only(
                               topLeft: Radius.circular(15),
                               bottomLeft: Radius.circular(15))

@@ -1,13 +1,13 @@
 class ShowCartModel {
   bool? status;
-  DataCart? data;
+  Data? data;
   String? message;
 
   ShowCartModel({this.status, this.data, this.message});
 
   ShowCartModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new DataCart.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message = json['message'];
   }
 
@@ -22,13 +22,13 @@ class ShowCartModel {
   }
 }
 
-class DataCart {
+class Data {
   List<Cart>? cart;
-  String? totalPrice;
+  dynamic totalPrice;
 
-  DataCart({this.cart, this.totalPrice});
+  Data({this.cart, this.totalPrice});
 
-  DataCart.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     if (json['cart'] != null) {
       cart = <Cart>[];
       json['cart'].forEach((v) {
@@ -54,7 +54,7 @@ class Cart {
   int? price;
   String? name;
   String? details;
-  Pivot? pivot;
+  CartProduct? cartProduct;
   List<Images>? images;
   Category? category;
 
@@ -64,7 +64,7 @@ class Cart {
       this.price,
       this.name,
       this.details,
-      this.pivot,
+      this.cartProduct,
       this.images,
       this.category});
 
@@ -74,7 +74,9 @@ class Cart {
     price = json['price'];
     name = json['name'];
     details = json['details'];
-    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+    cartProduct = json['cart_product'] != null
+        ? new CartProduct.fromJson(json['cart_product'])
+        : null;
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
@@ -93,8 +95,8 @@ class Cart {
     data['price'] = this.price;
     data['name'] = this.name;
     data['details'] = this.details;
-    if (this.pivot != null) {
-      data['pivot'] = this.pivot!.toJson();
+    if (this.cartProduct != null) {
+      data['cart_product'] = this.cartProduct!.toJson();
     }
     if (this.images != null) {
       data['images'] = this.images!.map((v) => v.toJson()).toList();
@@ -106,17 +108,19 @@ class Cart {
   }
 }
 
-class Pivot {
+class CartProduct {
   int? userId;
   int? productId;
   int? quantity;
+  int? id;
 
-  Pivot({this.userId, this.productId, this.quantity});
+  CartProduct({this.userId, this.productId, this.quantity, this.id});
 
-  Pivot.fromJson(Map<String, dynamic> json) {
+  CartProduct.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
     productId = json['product_id'];
     quantity = json['quantity'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -124,6 +128,7 @@ class Pivot {
     data['user_id'] = this.userId;
     data['product_id'] = this.productId;
     data['quantity'] = this.quantity;
+    data['id'] = this.id;
     return data;
   }
 }

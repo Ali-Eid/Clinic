@@ -5,6 +5,8 @@ abstract class AuthState {}
 
 class SignUpInitial extends AuthState {}
 
+class ChangeVisibilityPasswordState extends AuthState {}
+
 class SuccessLoadCities extends AuthState {}
 
 class SuccessLoadDestrict extends AuthState {}
@@ -43,4 +45,14 @@ class SuccessLoginState extends AuthState {
 class ErrorLoginState extends AuthState {
   String? error;
   ErrorLoginState({this.error});
+}
+
+class SuccessLogOutState extends AuthState {
+  AuthModel? loginmodel;
+  SuccessLogOutState({this.loginmodel});
+}
+
+class ErrorLogOutState extends AuthState {
+  String? error;
+  ErrorLogOutState({this.error});
 }

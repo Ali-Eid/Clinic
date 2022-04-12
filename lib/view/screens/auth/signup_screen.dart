@@ -10,8 +10,10 @@ import 'package:clinic/services/cach_helper.dart';
 import 'package:clinic/view/screens/home_screen.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/auth/text_form_field.dart';
+import 'package:clinic/view/widgets/footer_auth.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
+import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -223,7 +225,20 @@ class SignUpScreen extends StatelessWidget {
                               ]),
                               child: AuthTextFormField(
                                   controller: passwordController,
-                                  obsecure: true,
+                                  obsecure: AuthCubit.get(context).isvisibility,
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        AuthCubit.get(context)
+                                            .changeobsecurepassword();
+                                      },
+                                      icon: AuthCubit.get(context).isvisibility
+                                          ? Icon(Icons.visibility,
+                                              size: 20, color: Colors.grey)
+                                          : Icon(
+                                              Icons.visibility_off,
+                                              color: Colors.grey,
+                                              size: 20,
+                                            )),
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'password is too short';
@@ -268,6 +283,9 @@ class SignUpScreen extends StatelessWidget {
                                               .map((value) {
                                               return DropdownMenuItem<String>(
                                                   onTap: () {
+                                                    AuthCubit.get(context)
+                                                            .valueDropDowndistrict ==
+                                                        null;
                                                     cityID = value.id;
                                                     AuthCubit.get(context)
                                                         .getDistrict(
@@ -277,6 +295,9 @@ class SignUpScreen extends StatelessWidget {
                                                   value: value.name);
                                             }).toList(),
                                       onChanged: (val) {
+                                        AuthCubit.get(context)
+                                                .valueDropDowndistrict ==
+                                            null;
                                         AuthCubit.get(context)
                                             .changevalueDropdown(val);
                                       },
@@ -387,10 +408,14 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           BuildCondition(
                             fallback: (context) => Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.green.shade400,
+                                child: EasyLoader(
+                              image: AssetImage(
+                                'assets/images/logo.png',
                               ),
-                            ),
+                              backgroundColor: Colors.grey.shade300,
+                              iconSize: 30,
+                              iconColor: Color(0Xff054F86),
+                            )),
                             condition: state is! LoadingAuthState,
                             builder: (context) => Container(
                               width: 130,
@@ -462,7 +487,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                FotterWidget(),
+                FotterAuthWidget(),
                 // Container(
                 //     height: 57,
                 //     width: MediaQuery.of(context).size.width,

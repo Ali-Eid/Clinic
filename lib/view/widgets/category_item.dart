@@ -4,10 +4,10 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItemWidget extends StatelessWidget {
-  GestureTapCallback ontap;
+  GestureTapCallback? ontap;
   DataSubCategory model;
 
-  CategoryItemWidget({Key? key, required this.ontap, required this.model})
+  CategoryItemWidget({Key? key, this.ontap, required this.model})
       : super(key: key);
 
   @override

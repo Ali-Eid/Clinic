@@ -8,6 +8,7 @@ import 'package:clinic/model/login_model.dart';
 import 'package:clinic/model/sign_up_error.dart';
 import 'package:clinic/model/auth_model.dart';
 import 'package:clinic/model/specialist_model.dart';
+import 'package:clinic/services/cach_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   DisrtictModel? disrictModel;
   void getDistrict({int? id}) async {
+    valueDropDowndistrict = null;
     try {
       http.Response response =
           await http.get(Uri.parse('${url}cities/${id}/districts'), headers: {
@@ -130,6 +132,7 @@ class AuthCubit extends Cubit<AuthState> {
         print(response.statusCode);
         usermodel = AuthModel.fromJson(
             jsonDecode(response.body) as Map<String, dynamic>);
+        // CacheHelper.saveData(key: 'token', value: usermodel!.data!.token);
         emit(SuccessAuthState(model: usermodel));
       }
       if (response.statusCode != 200) {
@@ -165,6 +168,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (response.statusCode == 200) {
         usermodel = AuthModel.fromJson(
             jsonDecode(response.body) as Map<String, dynamic>);
+        // CacheHelper.saveData(key: 'token', value: usermodel!.data!.token);
         emit(SuccessLoginState(loginmodel: usermodel));
       } else {
         print('error ${jsonDecode(response.body) as Map<String, dynamic>}');
@@ -174,6 +178,28 @@ class AuthCubit extends Cubit<AuthState> {
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  bool isvisibility = true;
+  void changeobsecurepassword() {
+    isvisibility = !isvisibility;
+    emit(ChangeVisibilityPasswordState());
+  }
+
+  void signout() async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('${url}logout'), headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': 'en'
+      });
+      print('sign out : ${response.body}');
+      emit(SuccessLogOutState());
+    } catch (e) {
+      emit(ErrorLogOutState());
     }
   }
 }

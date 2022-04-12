@@ -12,10 +12,12 @@ import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/icon_item_search_or_noti.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
+import 'package:clinic/view/widgets/show_toast.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_loader/easy_loader.dart';
 
 class ItemScreen extends StatelessWidget {
   const ItemScreen({Key? key}) : super(key: key);
@@ -25,6 +27,19 @@ class ItemScreen extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
+          if (state is SuccessShowCartState) {
+            // showToast(
+            //     message: 'add to cart successfully', state: ToastState.success);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              duration: Duration(milliseconds: 500),
+              content: TextUtils(
+                  text: 'add to cart successfully',
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold),
+              backgroundColor: Color(0Xff054F86),
+            ));
+          }
           // TODO: implement listener
         },
         builder: (context, state) {
@@ -49,10 +64,12 @@ class ItemScreen extends StatelessWidget {
             ),
             body: BuildCondition(
               fallback: (context) => Center(
-                child: CircularProgressIndicator(
-                  color: Colors.green.shade400,
-                ),
-              ),
+                  child: EasyLoader(
+                image: AssetImage('assets/images/logo.png'),
+                backgroundColor: Colors.white,
+                // iconSize: 30,
+                iconColor: Color(0Xff054F86),
+              )),
               condition: state is! LoadingCategoriesState,
               builder: (context) => BuildCondition(
                 fallback: (context) => Center(
@@ -63,7 +80,7 @@ class ItemScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 condition:
-                    HomeCubit.get(context).productModel!.data!.isNotEmpty,
+                    HomeCubit.get(context).productModel?.data!.isNotEmpty,
                 builder: (context) => Column(
                   children: [
                     Expanded(

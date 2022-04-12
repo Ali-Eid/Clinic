@@ -1,10 +1,14 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/cart/show_cart.dart';
 import 'package:clinic/model/sub_category_model.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
+import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CartCategoryItemWidget extends StatelessWidget {
+class CartCategoryItemWidget extends StatefulWidget {
   GestureTapCallback? ontap;
   // DataSubCategory? model;
   Cart? modelCart;
@@ -13,146 +17,247 @@ class CartCategoryItemWidget extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CartCategoryItemWidget> createState() => _CartCategoryItemWidgetState();
+}
+
+class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
+  int? quantityorg;
+  // int? quantity = 1;
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: ontap,
-      child: Column(
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.bottomCenter,
+    quantityorg = widget.modelCart!.cartProduct!.quantity;
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return InkWell(
+          onTap: widget.ontap,
+          child: Column(
             children: [
-              Container(
-                width: 200,
-                height: 200,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  // border: Border.all(width: 1),
-                  gradient: LinearGradient(colors: [
-                    Color(0Xff054F86),
-                    Color(0Xff61C089),
-                  ], begin: Alignment.topLeft, end: Alignment.topRight),
-                ),
-                child: Container(
-                  width: 195,
-                  height: 195,
-                  color: Colors.white,
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    // imageUrl: "${model.icon}",
-                    imageUrl:
-                        'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                    placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(
-                          color: Colors.green.shade400),
-                    ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                alignment: Alignment.center,
-                width: 190,
-                height: 30,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Color(0Xff054F86),
-                      Color(0Xff61C089),
-                    ], begin: Alignment.topLeft, end: Alignment.topRight),
-                    borderRadius: BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(30),
-                        topStart: Radius.circular(30))),
-                child: TextUtils(
-                    text: modelCart?.name ?? 'Name',
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Card(
-            margin: EdgeInsets.zero,
-            elevation: 10,
-            color: Colors.transparent,
-            shadowColor: Colors.grey,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              width: 180,
-              height: 30,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Color(0Xff054F86),
-                    Color(0Xff61C089),
-                  ], begin: Alignment.topLeft, end: Alignment.topRight),
-                  borderRadius: BorderRadiusDirectional.only(
-                      bottomEnd: Radius.circular(30),
-                      bottomStart: Radius.circular(30))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
+                alignment: AlignmentDirectional.bottomCenter,
                 children: [
-                  Icon(Icons.arrow_drop_down_sharp, color: Colors.white),
-                  TextUtils(
-                    text: '${modelCart?.pivot!.quantity}',
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  Icon(
-                    Icons.arrow_drop_up_sharp,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Card(
-            margin: EdgeInsets.zero,
-            elevation: 10,
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            color: Colors.transparent,
-            shadowColor: Colors.grey,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              width: 140,
-              height: 25,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Color(0Xff054F86),
-                    Color(0Xff61C089),
-                  ], begin: Alignment.topLeft, end: Alignment.topRight),
-                  borderRadius: BorderRadiusDirectional.only(
-                      bottomEnd: Radius.circular(30),
-                      bottomStart: Radius.circular(30))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextUtils(
-                      text: '${modelCart?.price}',
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
                   Container(
-                    width: 1,
-                    height: 20,
-                    color: Colors.white,
+                    width: 200,
+                    height: 200,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      // border: Border.all(width: 1),
+                      gradient: LinearGradient(colors: [
+                        Color(0Xff054F86),
+                        Color(0Xff61C089),
+                      ], begin: Alignment.topLeft, end: Alignment.topRight),
+                    ),
+                    child: Container(
+                      width: 195,
+                      height: 195,
+                      color: Colors.white,
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        // imageUrl: "${model.icon}",
+                        imageUrl:
+                            'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                              color: Colors.green.shade400),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
                   ),
-                  InkWell(
-                    onTap: () {},
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    alignment: Alignment.center,
+                    width: 190,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Color(0Xff054F86),
+                          Color(0Xff61C089),
+                        ], begin: Alignment.topLeft, end: Alignment.topRight),
+                        borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(30),
+                            topStart: Radius.circular(30))),
                     child: TextUtils(
-                        text: 'Delete',
+                        text: widget.modelCart?.name ?? 'Name',
                         color: Colors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.bold),
-                  ),
+                  )
                 ],
               ),
-            ),
-          )
-        ],
-      ),
+              Card(
+                margin: EdgeInsets.zero,
+                elevation: 10,
+                color: Colors.transparent,
+                shadowColor: Colors.grey,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  alignment: Alignment.center,
+                  width: 180,
+                  height: 30,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Color(0Xff054F86),
+                        Color(0Xff61C089),
+                      ], begin: Alignment.topLeft, end: Alignment.topRight),
+                      borderRadius: BorderRadiusDirectional.only(
+                          bottomEnd: Radius.circular(30),
+                          bottomStart: Radius.circular(30))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Icon(Icons.arrow_drop_down_sharp, color: Colors.white),
+                      IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            setState(() {
+                              // quantity = quantityorg;
+                              if (widget.modelCart!.cartProduct!.quantity! <
+                                  2) {
+                                widget.modelCart!.cartProduct!.quantity = 1;
+                              } else {
+                                widget.modelCart!.cartProduct!.quantity =
+                                    widget.modelCart!.cartProduct!.quantity! -
+                                        1;
+                              }
+                            });
+                          },
+                          icon: Icon(Icons.arrow_drop_down_sharp,
+                              color: Colors.white)),
+                      TextUtils(
+                        // text: '${widget.modelCart?.cartProduct!.quantity}',
+                        text: widget.modelCart!.cartProduct!.quantity! > 0
+                            ? '${widget.modelCart!.cartProduct!.quantity}'
+                            : '1',
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            setState(() {
+                              widget.modelCart!.cartProduct!.quantity =
+                                  widget.modelCart!.cartProduct!.quantity! + 1;
+                            });
+                          },
+                          icon: Icon(Icons.arrow_drop_up_sharp,
+                              color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.zero,
+                elevation: 10,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                color: Colors.transparent,
+                shadowColor: Colors.grey,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  alignment: Alignment.center,
+                  width: 140,
+                  height: 25,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Color(0Xff054F86),
+                        Color(0Xff61C089),
+                      ], begin: Alignment.topLeft, end: Alignment.topRight),
+                      borderRadius: BorderRadiusDirectional.only(
+                          bottomEnd: Radius.circular(30),
+                          bottomStart: Radius.circular(30))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextUtils(
+                          // text: '${widget.modelCart!.price! * quantityorg!}  ',
+                          text: widget.modelCart!.cartProduct!.quantity! > 0
+                              ? '${widget.modelCart!.price! * widget.modelCart!.cartProduct!.quantity!}'
+                              : '${widget.modelCart!.price!}',
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                      Container(
+                        width: 1,
+                        height: 20,
+                        color: Colors.white,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HomeCubit.get(context).deleteItem(
+                              id: widget.modelCart!.cartProduct!.id);
+                        },
+                        child: TextUtils(
+                            text: 'Delete',
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // widget.modelCart!.cartProduct!.quantity! == quantityorg!
+
+              BuildCondition(
+                fallback: (context) => Center(
+                  child: EasyLoader(
+                    image: AssetImage(
+                      'assets/images/logo.png',
+                    ),
+                    backgroundColor: Colors.grey.shade300,
+                    iconSize: 20,
+                    iconColor: Color(0Xff054F86),
+                  ),
+                ),
+                condition: state is! LoadingAddquantitytState,
+                builder: (context) => InkWell(
+                  onTap: () {
+                    // setState(() {
+                    HomeCubit.get(context).updatequantity(
+                        id: widget.modelCart!.cartProduct!.id,
+                        quantity:
+                            widget.modelCart!.cartProduct!.quantity.toString());
+                    //  HomeCubit.get(context).getcart();
+                    // });
+                  },
+                  child: Card(
+                    margin: EdgeInsets.zero,
+                    elevation: 10,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Colors.transparent,
+                    shadowColor: Colors.grey,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      alignment: Alignment.center,
+                      width: 100,
+                      height: 25,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color(0Xff054F86),
+                            Color(0Xff61C089),
+                          ], begin: Alignment.topLeft, end: Alignment.topRight),
+                          borderRadius: BorderRadiusDirectional.only(
+                              bottomEnd: Radius.circular(30),
+                              bottomStart: Radius.circular(30))),
+                      child: TextUtils(
+                          text: 'update',
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              )
+              // : Text('')
+            ],
+          ),
+        );
+      },
     );
   }
 }

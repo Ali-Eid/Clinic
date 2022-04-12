@@ -14,6 +14,17 @@ class ErrorGetServiceState extends HomeState {
   ErrorGetServiceState({this.error});
 }
 
+//address states
+
+class SuccessChangevalueState extends HomeState {}
+
+class SuccessLoadCities extends HomeState {}
+
+class SuccessLoadDestrict extends HomeState {}
+
+class ErrorLoadCities extends HomeState {}
+
+//
 class LoadingCategoriesState extends HomeState {}
 
 class SuccessCategoriesState extends HomeState {
@@ -32,12 +43,20 @@ class SuccessSubCategoriesState extends HomeState {
 class ErrorSubCategoriesState extends HomeState {}
 
 //prouduct_Details
+class LoadingProductDetailsState extends HomeState {}
+
 class SuccessProductDetailsState extends HomeState {
-  SubCategoryModel? submodel;
-  SuccessProductDetailsState({this.submodel});
+  // SubCategoryModel? submodel;
+  ProductDetailsModel? itemdetails;
+  SuccessProductDetailsState({this.itemdetails});
 }
 
 class ErrorProductDetailsState extends HomeState {}
+
+//sub category product
+class SuccessproductsSubCategory extends HomeState {}
+
+class ErrorproductsSubCategory extends HomeState {}
 
 //UserInfo
 class SuccessUserInfoState extends HomeState {
@@ -81,9 +100,60 @@ class ErrorAddToCartState extends HomeState {
 }
 
 //Show Cart
+class LoadingShowCartState extends HomeState {}
+
 class SuccessShowCartState extends HomeState {}
 
 class ErrorShowCartState extends HomeState {
   String? error;
   ErrorShowCartState({this.error});
+}
+
+//add quantity
+class LoadingAddquantitytState extends HomeState {}
+
+class SuccessAddquantitytState extends HomeState {}
+
+class ErrorAddquantitytState extends HomeState {
+  String? error;
+  ErrorAddquantitytState({this.error});
+}
+
+//change quantity
+class changequntatyAddState extends HomeState {}
+
+class changequntatyMinesState extends HomeState {}
+
+//sign out
+
+class SuccessLogOutState extends HomeState {
+  SuccessLogOutState();
+}
+
+class ErrorLogOutState extends HomeState {
+  String? error;
+  ErrorLogOutState({this.error});
+}
+
+//Last order
+class SuccessLastOrderState extends HomeState {}
+
+class ErrorLastOrderState extends HomeState {
+  String? error;
+  ErrorLastOrderState({this.error});
+}
+
+//search
+class LoadingSearchProductState extends HomeState {
+  LoadingSearchProductState();
+}
+
+class SuccessSearchProductState extends HomeState {
+  SearchModel? search;
+  SuccessSearchProductState({this.search});
+}
+
+class ErrorSearchProductState extends HomeState {
+  String? error;
+  ErrorSearchProductState({this.error});
 }

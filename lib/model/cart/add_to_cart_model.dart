@@ -13,9 +13,9 @@ class CartAddModel {
 }
 
 class Data {
-  List<int>? attached;
-  List<int>? detached;
-  List<int>? updated;
+  List<dynamic>? attached;
+  List<dynamic>? detached;
+  List<dynamic>? updated;
 
   Data({this.attached, this.detached, this.updated});
 

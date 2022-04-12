@@ -5,8 +5,10 @@ import 'package:clinic/view/screens/auth/signup_screen.dart';
 import 'package:clinic/view/screens/home_screen.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/auth/text_form_field.dart';
+import 'package:clinic/view/widgets/footer_auth.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
+import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -150,7 +152,20 @@ class LoginScreen extends StatelessWidget {
                               ]),
                               child: AuthTextFormField(
                                   controller: passwordController,
-                                  obsecure: true,
+                                  obsecure: AuthCubit.get(context).isvisibility,
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        AuthCubit.get(context)
+                                            .changeobsecurepassword();
+                                      },
+                                      icon: AuthCubit.get(context).isvisibility
+                                          ? Icon(Icons.visibility,
+                                              size: 20, color: Colors.grey)
+                                          : Icon(
+                                              Icons.visibility_off,
+                                              color: Colors.grey,
+                                              size: 20,
+                                            )),
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'password is too short';
@@ -166,12 +181,16 @@ class LoginScreen extends StatelessWidget {
                           state is LoadingLoginState
                               ? Center(
                                   child: Container(
-                                    height: 40,
-                                    color: Colors.transparent,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.green.shade400,
-                                    ),
-                                  ),
+                                      height: 40,
+                                      color: Colors.transparent,
+                                      child: EasyLoader(
+                                        image: AssetImage(
+                                          'assets/images/logo.png',
+                                        ),
+                                        backgroundColor: Colors.grey.shade300,
+                                        // iconSize: 20,
+                                        iconColor: Color(0Xff054F86),
+                                      )),
                                 )
                               : Container(
                                   width: 130,
@@ -254,7 +273,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                FotterWidget(),
+                FotterAuthWidget(),
               ],
             ),
           ),

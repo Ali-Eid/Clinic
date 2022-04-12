@@ -11,8 +11,10 @@ import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/maintenance/text_form_field_widget.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
+import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfirmOrderClean extends StatelessWidget {
   ConfirmOrderClean({Key? key, this.description, this.type}) : super(key: key);
@@ -23,6 +25,8 @@ class ConfirmOrderClean extends StatelessWidget {
   TextEditingController destrictController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   var formkey = GlobalKey<FormState>();
+  int? cityID = 0;
+  int? destrictID = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class ConfirmOrderClean extends StatelessWidget {
               context: context,
               dialogType: DialogType.SUCCES,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Clean Clinic Request',
+              title: 'Order Request',
               desc: 'Success',
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
@@ -98,7 +102,7 @@ class ConfirmOrderClean extends StatelessWidget {
               child: Column(
                 children: [
                   NotificationSearchTitle(
-                    text: '${getLang(context, "confirm_request")}',
+                    text: AppLocalizations.of(context)!.confirm_request,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -114,28 +118,170 @@ class ConfirmOrderClean extends StatelessWidget {
                             suffixIcon:
                                 Icon(Icons.star, color: Colors.grey.shade400),
                             controller: phoneController,
-                            text: '${getLang(context, 'phone_number')}',
+                            text: AppLocalizations.of(context)!.phone_number,
                             fieldemptymsg: 'Phone number  must not be empty',
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          TextFieldWidget(
-                            suffixIcon:
-                                Icon(Icons.star, color: Colors.grey.shade400),
-                            controller: cityController,
-                            text: '${getLang(context, 'city')}',
-                            fieldemptymsg: 'city must not be empty',
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0Xff054F86),
+                                          Color(0Xff61C089),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: TextUtils(
+                                      text: 'City',
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // height: 35,
+                                    // width: double.infinity,
+                                    child: DropdownButtonHideUnderline(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: DropdownButton<dynamic>(
+                                          elevation: 1,
+
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          // alignment: Alignment.center,
+                                          hint: TextUtils(
+                                              text: 'your city',
+                                              color: Colors.grey.shade500,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                          value: HomeCubit.get(context)
+                                              .valueDropDowncity,
+                                          items: HomeCubit.get(context)
+                                                      .citiesModel ==
+                                                  null
+                                              ? []
+                                              : HomeCubit.get(context)
+                                                  .citiesModel!
+                                                  .data!
+                                                  .map((value) {
+                                                  return DropdownMenuItem<
+                                                          String>(
+                                                      onTap: () {
+                                                        cityID = value.id;
+                                                        HomeCubit.get(context)
+                                                            .getDistrict(
+                                                                id: value.id);
+                                                      },
+                                                      child: Text(value.name!),
+                                                      value: value.name);
+                                                }).toList(),
+                                          onChanged: (val) {
+                                            HomeCubit.get(context)
+                                                .changevalueDropdown(val);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          TextFieldWidget(
-                            suffixIcon:
-                                Icon(Icons.star, color: Colors.grey.shade400),
-                            controller: destrictController,
-                            text: '${getLang(context, 'district')}',
-                            fieldemptymsg: 'District Number must not be empty',
+                          // TextFieldWidget(
+                          //   suffixIcon:
+                          //       Icon(Icons.star, color: Colors.grey.shade400),
+                          //   controller: destrictController,
+                          //   text: '${getLang(context, 'district')}',
+                          //   fieldemptymsg: 'District Number must not be empty',
+                          // ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0Xff054F86),
+                                          Color(0Xff61C089),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: TextUtils(
+                                      text: 'District',
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // height: 35,
+                                    width: double.infinity,
+                                    child: DropdownButtonHideUnderline(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: DropdownButton<dynamic>(
+                                          hint: TextUtils(
+                                              text: 'your Districit',
+                                              color: Colors.grey.shade500,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                          value: HomeCubit.get(context)
+                                              .valueDropDowndistrict,
+                                          items: HomeCubit.get(context)
+                                                      .disrictModel ==
+                                                  null
+                                              ? []
+                                              : HomeCubit.get(context)
+                                                  .disrictModel!
+                                                  .data!
+                                                  .map((value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    child: Text(value.name!),
+                                                    value: value.name,
+                                                    onTap: () {
+                                                      destrictID = value.id;
+                                                    },
+                                                  );
+                                                }).toList(),
+                                          onChanged: (val) {
+                                            HomeCubit.get(context)
+                                                .changevalueDropdownDistrict(
+                                                    val);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -173,8 +319,8 @@ class ConfirmOrderClean extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(30))),
                                     child: TextUtils(
-                                        text:
-                                            '${getLang(context, 'details_address')}',
+                                        text: AppLocalizations.of(context)!
+                                            .details_address,
                                         color: Colors.white,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -202,12 +348,16 @@ class ConfirmOrderClean extends StatelessWidget {
                               BuildCondition(
                                 fallback: (context) => Center(
                                   child: Container(
-                                    // width: 130,
-                                    height: 40,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.green.shade400,
-                                    ),
-                                  ),
+                                      // width: 130,
+                                      height: 40,
+                                      child: EasyLoader(
+                                        image: AssetImage(
+                                          'assets/images/logo.png',
+                                        ),
+                                        backgroundColor: Colors.grey.shade300,
+                                        // iconSize: 20,
+                                        iconColor: Color(0Xff054F86),
+                                      )),
                                 ),
                                 condition:
                                     state is! LoadingRequestMaintenanceState,
@@ -225,15 +375,18 @@ class ConfirmOrderClean extends StatelessWidget {
                                         end: Alignment.topRight),
                                   ),
                                   child: AuthButton(
-                                    text: '${getLang(context, 'confirm_btn')}',
+                                    text: AppLocalizations.of(context)!
+                                        .confirm_btn,
                                     onPressed: () {
                                       if (formkey.currentState!.validate()) {
                                         HomeCubit.get(context)
                                             .requestcleanclinic(
+                                                city: cityID!,
+                                                district: destrictID!,
                                                 type: type!,
                                                 moblilenum:
                                                     phoneController.text,
-                                                description: description!,
+                                                description: description ?? '',
                                                 details:
                                                     detailsController.text);
                                       }
