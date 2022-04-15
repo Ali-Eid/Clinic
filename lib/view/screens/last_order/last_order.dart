@@ -1,9 +1,9 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/last_order_model.dart';
 import 'package:clinic/view/screens/cart/cart_screen.dart';
 import 'package:clinic/view/screens/last_order/last_product_order.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
@@ -11,6 +11,8 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class LastOrderScreen extends StatelessWidget {
   const LastOrderScreen({Key? key}) : super(key: key);
@@ -23,7 +25,7 @@ class LastOrderScreen extends StatelessWidget {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            flexibleSpace: HeaderWidget(),
+            flexibleSpace: const HeaderWidget(),
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: Builder(builder: (context) {
@@ -31,7 +33,7 @@ class LastOrderScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20),
                 child: IconButton(
                   onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.menu,
                     color: Colors.black,
                   ),
@@ -41,17 +43,17 @@ class LastOrderScreen extends StatelessWidget {
           ),
           body: BuildCondition(
             fallback: (context) => Center(
-              child: CircularProgressIndicator(
-                color: Color(0Xff054F86),
-              ),
-            ),
+                child: Shimmer.fromColors(
+                    child: const ShimmerLoad(),
+                    baseColor: const Color(0Xff054F86),
+                    highlightColor: const Color(0Xff61C089))),
             condition: HomeCubit.get(context).lastOrderModel?.data! != null,
             builder: (context) => Column(
               children: [
                 NotificationSearchTitle(
-                  text: 'Last Order',
+                  text: AppLocalizations.of(context)!.last_order,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Expanded(
@@ -107,25 +109,25 @@ class item_last_order extends StatelessWidget {
                   ),
                   color: Colors.grey.shade300),
               child: TextUtils(
-                  text: '${model!.status}',
+                  text: '${model!.translatedStatus}',
                   color: Colors.grey,
                   fontSize: 15,
                   fontWeight: FontWeight.bold),
             ),
             TextUtils(
-                text: '${model!.createdAt!.substring(0, 10)}',
+                text: model!.createdAt!.substring(0, 10),
                 color: Colors.grey,
                 fontSize: 20,
                 fontWeight: FontWeight.bold),
             Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               alignment: Alignment.center,
               width: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                   300,
                 ),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [
                     Color(0Xff054F86),
                     Color(0Xff61C089),
@@ -142,7 +144,7 @@ class item_last_order extends StatelessWidget {
                                   products: model!.details!.products!,
                                 )));
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.shopping_cart_sharp,
                         color: Colors.white,
                       ),

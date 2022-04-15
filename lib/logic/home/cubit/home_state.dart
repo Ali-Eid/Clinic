@@ -126,9 +126,7 @@ class changequntatyMinesState extends HomeState {}
 
 //sign out
 
-class SuccessLogOutState extends HomeState {
-  SuccessLogOutState();
-}
+class SuccessLogOutState extends HomeState {}
 
 class ErrorLogOutState extends HomeState {
   String? error;
@@ -144,9 +142,7 @@ class ErrorLastOrderState extends HomeState {
 }
 
 //search
-class LoadingSearchProductState extends HomeState {
-  LoadingSearchProductState();
-}
+class LoadingSearchProductState extends HomeState {}
 
 class SuccessSearchProductState extends HomeState {
   SearchModel? search;
@@ -156,4 +152,17 @@ class SuccessSearchProductState extends HomeState {
 class ErrorSearchProductState extends HomeState {
   String? error;
   ErrorSearchProductState({this.error});
+}
+
+//Lates_news
+class LoadingLatestNewsState extends HomeState {}
+
+class SuccessLatestNewsState extends HomeState {
+  LatestNewsModel? latestNewsModel;
+  SuccessLatestNewsState({this.latestNewsModel});
+}
+
+class ErrorLatestNewsState extends HomeState {
+  String? error;
+  ErrorLatestNewsState({this.error});
 }

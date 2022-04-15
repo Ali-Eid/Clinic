@@ -1,4 +1,3 @@
-import 'package:clinic/applocal.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,9 +11,9 @@ class TitleWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           borderRadius: AppLocalizations.of(context)!.language == "Arabic"
-              ? BorderRadius.only(topLeft: Radius.circular(30))
-              : BorderRadius.only(topRight: Radius.circular(30)),
-          gradient: LinearGradient(colors: [
+              ? const BorderRadius.only(topLeft: Radius.circular(30))
+              : const BorderRadius.only(topRight: Radius.circular(30)),
+          gradient: const LinearGradient(colors: [
             Color(0Xff054F86),
             Color(0Xff61C089),
           ], begin: Alignment.bottomCenter)),

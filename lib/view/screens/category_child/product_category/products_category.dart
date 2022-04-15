@@ -4,6 +4,7 @@ import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/product_model.dart';
 import 'package:clinic/view/screens/category_child/product_category/item_product.dart';
 import 'package:clinic/view/screens/item/item.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/category_item.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/fotter.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductCategory extends StatelessWidget {
   int id;
@@ -33,9 +35,9 @@ class ProductCategory extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -43,7 +45,7 @@ class ProductCategory extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -51,28 +53,27 @@ class ProductCategory extends StatelessWidget {
                 );
               }),
             ),
-            body: BuildCondition(
-              fallback: (context) => Center(
-                child: EasyLoader(
-                  image: AssetImage('assets/images/logo.png'),
-                  backgroundColor: Colors.white,
-                  // iconSize: 30,
-                  iconColor: Color(0Xff054F86),
+            body: Column(
+              children: [
+                NotificationSearchTitle(text: name),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              condition: state is! LoadingCategoriesState,
-              builder: (context) => Column(
-                children: [
-                  NotificationSearchTitle(text: name),
-                  SizedBox(
-                    height: 10,
+                BuildCondition(
+                  fallback: (context) => Expanded(
+                    child: Center(
+                        child: Shimmer.fromColors(
+                            child: const ShimmerLoad(),
+                            baseColor: const Color(0Xff054F86),
+                            highlightColor: const Color(0Xff61C089))),
                   ),
-                  BuildCondition(
+                  condition: state is! LoadingCategoriesState,
+                  builder: (context) => BuildCondition(
                     fallback: (context) => Expanded(
                         child: Lottie.asset('assets/images/no-data.json',
                             width: 200, height: 100)),
                     condition:
-                        HomeCubit.get(context).productModel!.data!.isNotEmpty,
+                        HomeCubit.get(context).productModel?.data!.isNotEmpty,
                     builder: (context) => Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -81,7 +82,7 @@ class ProductCategory extends StatelessWidget {
                                 .productModel!
                                 .data!
                                 .length,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                               itemCount: HomeCubit.get(context)
@@ -106,7 +107,7 @@ class ProductCategory extends StatelessWidget {
                                         context,
                                         PageRouteBuilder(
                                           transitionDuration:
-                                              Duration(seconds: 1),
+                                              const Duration(seconds: 1),
                                           transitionsBuilder: (context,
                                               animation,
                                               secondaryAnimation,
@@ -132,12 +133,12 @@ class ProductCategory extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FotterWidget(
-                    salla1: true,
-                    model: HomeCubit.get(context).contactInfoModel!.data,
-                  ),
-                ],
-              ),
+                ),
+                FotterWidget(
+                  salla1: true,
+                  model: HomeCubit.get(context).contactInfoModel!.data,
+                ),
+              ],
             ),
           );
         },
@@ -164,7 +165,7 @@ class CategoryItemWidget2 extends StatelessWidget {
             width: 165,
             height: 165,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // border: Border.all(width: 1),
               gradient: LinearGradient(colors: [
                 Color(0Xff054F86),
@@ -185,16 +186,16 @@ class CategoryItemWidget2 extends StatelessWidget {
                   child:
                       CircularProgressIndicator(color: Colors.green.shade400),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             // alignment: Alignment.center,
             width: 125,
             // height: 25,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Color(0Xff054F86),
                   Color(0Xff61C089),

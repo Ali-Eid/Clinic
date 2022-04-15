@@ -12,6 +12,7 @@ import 'package:clinic/services/cach_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'auth_state.dart';
 
@@ -25,7 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       http.Response response =
           await http.get(Uri.parse('${url}cities'), headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
         // 'Authorization': 'Bearer ${token}',
         'Accept': 'application/json',
         'Accept-Language': 'en'
@@ -62,8 +63,8 @@ class AuthCubit extends Cubit<AuthState> {
     valueDropDowndistrict = null;
     try {
       http.Response response =
-          await http.get(Uri.parse('${url}cities/${id}/districts'), headers: {
-        'Content-Type': 'application/json',
+          await http.get(Uri.parse('${url}cities/$id/districts'), headers: {
+        // 'Content-Type': 'application/json',
         // 'Authorization': 'Bearer ${token}',
         'Accept': 'application/json',
         'Accept-Language': 'en'
@@ -132,7 +133,7 @@ class AuthCubit extends Cubit<AuthState> {
         print(response.statusCode);
         usermodel = AuthModel.fromJson(
             jsonDecode(response.body) as Map<String, dynamic>);
-        // CacheHelper.saveData(key: 'token', value: usermodel!.data!.token);
+        // await CacheHelper.saveData(key: 'token', value: usermodel!.data!.token);
         emit(SuccessAuthState(model: usermodel));
       }
       if (response.statusCode != 200) {
@@ -168,6 +169,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (response.statusCode == 200) {
         usermodel = AuthModel.fromJson(
             jsonDecode(response.body) as Map<String, dynamic>);
+        // await CacheHelper.saveData(key: 'token', value: usermodel!.data!.token);
         // CacheHelper.saveData(key: 'token', value: usermodel!.data!.token);
         emit(SuccessLoginState(loginmodel: usermodel));
       } else {
@@ -197,6 +199,7 @@ class AuthCubit extends Cubit<AuthState> {
         'Accept-Language': 'en'
       });
       print('sign out : ${response.body}');
+      CacheHelper.removeData(key: 'token');
       emit(SuccessLogOutState());
     } catch (e) {
       emit(ErrorLogOutState());

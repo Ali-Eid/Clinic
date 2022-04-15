@@ -36,7 +36,7 @@ class ButtonGradientWidget extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               elevation: 10,
-              minimumSize: Size(130, 40),
+              minimumSize: const Size(130, 40),
               primary: color,
               onSurface: Colors.transparent,
               onPrimary: Colors.transparent,

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/model/service_model.dart';
 import 'package:clinic/view/widgets/elevated_button_gradient.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
@@ -32,13 +31,13 @@ class FrameDesc extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius:
                       AppLocalizations.of(context)!.language == "Arabic"
-                          ? BorderRadius.only(
+                          ? const BorderRadius.only(
                               topRight: Radius.circular(15),
                               bottomRight: Radius.circular(15))
-                          : BorderRadius.only(
+                          : const BorderRadius.only(
                               topLeft: Radius.circular(15),
                               bottomLeft: Radius.circular(15)),
-                  gradient: LinearGradient(colors: [
+                  gradient: const LinearGradient(colors: [
                     Color(0Xff054F86),
                     Color(0Xff61C089),
                   ])),
@@ -46,9 +45,9 @@ class FrameDesc extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   onPressed: () {
                     carouselController.previousPage(
-                        duration: Duration(milliseconds: 300));
+                        duration: const Duration(milliseconds: 300));
                   },
-                  icon: Icon(Icons.arrow_left, color: Colors.white)),
+                  icon: const Icon(Icons.arrow_left, color: Colors.white)),
             ),
             Container(
               width: 300,
@@ -73,13 +72,13 @@ class FrameDesc extends StatelessWidget {
                         (e) => CachedNetworkImage(
                           fit: BoxFit.cover,
                           width: double.infinity,
-                          imageUrl: "${e}",
+                          imageUrl: e,
                           placeholder: (context, url) => Center(
                             child: CircularProgressIndicator(
                                 color: Colors.green.shade400),
                           ),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                         ),
                       )
                       .toList(),
@@ -95,8 +94,9 @@ class FrameDesc extends StatelessWidget {
                     // pauseAutoPlayOnTouch: false,
                     reverse: false,
                     autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                     autoPlayCurve: Curves.linearToEaseOut,
                     enlargeCenterPage: true,
                     scrollDirection: Axis.horizontal,
@@ -112,16 +112,16 @@ class FrameDesc extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   onPressed: () {
                     carouselController.nextPage(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_right,
                     color: Colors.white,
                   ),
                 ),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [
                       Color(0Xff61C089),
                       Color(0Xff054F86),
@@ -129,16 +129,16 @@ class FrameDesc extends StatelessWidget {
                   ),
                   borderRadius:
                       AppLocalizations.of(context)!.language == "Arabic"
-                          ? BorderRadius.only(
+                          ? const BorderRadius.only(
                               topLeft: Radius.circular(15),
                               bottomLeft: Radius.circular(15))
-                          : BorderRadius.only(
+                          : const BorderRadius.only(
                               topRight: Radius.circular(15),
                               bottomRight: Radius.circular(15)),
                 )),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         Stack(
@@ -147,16 +147,16 @@ class FrameDesc extends StatelessWidget {
             Center(
               child: Material(
                 elevation: 15,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.80,
                   // height: 130,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: TextUtils(
-                      text: model!.data!.description ?? 'No Description',
+                      text: model?.data!.description ?? 'No Description',
                       color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w500),
@@ -167,7 +167,7 @@ class FrameDesc extends StatelessWidget {
               alignment: Alignment.center,
               width: 110,
               height: 40,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       Color(0Xff054F86),
@@ -176,19 +176,19 @@ class FrameDesc extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(30))),
               child: TextUtils(
-                  text: 'Description',
+                  text: AppLocalizations.of(context)!.description,
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         ButtonGradientWidget(
           color: Colors.transparent,
-          text: 'Next',
+          text: AppLocalizations.of(context)!.confirm,
           onPressed: onpressed,
         ),
       ],

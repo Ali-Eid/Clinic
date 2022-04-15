@@ -7,17 +7,17 @@ class ContactInfoModel {
 
   ContactInfoModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new DataContact.fromJson(json['data']) : null;
+    data = json['data'] != null ? DataContact.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -36,10 +36,10 @@ class DataContact {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['mobile_number'] = this.mobileNumber;
-    data['facebook'] = this.facebook;
-    data['instagram'] = this.instagram;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['mobile_number'] = mobileNumber;
+    data['facebook'] = facebook;
+    data['instagram'] = instagram;
     return data;
   }
 }

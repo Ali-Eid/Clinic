@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:clinic/constants.dart';
 import 'package:clinic/end_points.dart';
+import 'package:clinic/model/auth_model.dart';
 import 'package:clinic/model/cart/add_to_cart_model.dart';
 import 'package:clinic/model/cart/show_cart.dart';
 import 'package:clinic/model/cities_model.dart';
 import 'package:clinic/model/contact_info.dart';
 import 'package:clinic/model/district_model.dart';
 import 'package:clinic/model/last_order_model.dart';
+import 'package:clinic/model/latest_news_model.dart';
 import 'package:clinic/model/login_model.dart';
 import 'package:clinic/model/medical_supplies.dart';
 import 'package:clinic/model/order_model.dart';
@@ -64,10 +66,10 @@ class HomeCubit extends Cubit<HomeState> {
 
   SubCategoryModel? subModel;
   void getsubCategory(int id) async {
-    emit(LoadingCategoriesState());
     try {
+      emit(LoadingCategoriesState());
       http.Response response = await http.get(
-          Uri.parse('${url}medical-supplies/categories/${id}/subcategories'),
+          Uri.parse('${url}medical-supplies/categories/$id/subcategories'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
@@ -89,7 +91,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(LoadingCategoriesState());
     try {
       http.Response response = await http.get(
-          Uri.parse('${url}medical-supplies/categories/${id}/products'),
+          Uri.parse('${url}medical-supplies/categories/$id/products'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
@@ -110,7 +112,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(LoadingCategoriesState());
     try {
       http.Response response = await http.get(
-          Uri.parse('${url}medical-supplies/categories/${id}/products'),
+          Uri.parse('${url}medical-supplies/categories/$id/products'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
@@ -132,7 +134,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       emit(LoadingProductDetailsState());
       http.Response response = await http
-          .get(Uri.parse('${url}medical-supplies/products/${id}'), headers: {
+          .get(Uri.parse('${url}medical-supplies/products/$id'), headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
         'Accept': 'application/json',
@@ -162,15 +164,16 @@ class HomeCubit extends Cubit<HomeState> {
         'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
       });
       print(response.body);
-      if (response.statusCode == 200) {
-        model = UserModel.fromJson(
-            jsonDecode(response.body) as Map<String, dynamic>);
-        print('city_id : ${model!.data!.address!.cityId}');
-        print('district_id : ${model!.data!.address!.districtId}');
-        print('details : ${model!.data!.address!.id}');
-        //contact_method
-        emit(SuccessUserInfoState());
-      }
+      // if (response.statusCode == 200) {
+      model =
+          UserModel.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+      print('city_id : ${model!.data!.address!.cityId}');
+      print('district_id : ${model!.data!.address!.districtId}');
+      print('details : ${model!.data!.address!.id}');
+      //contact_method
+      getContactinfo();
+      // }
+      //  emit(SuccessUserInfoState());
     } catch (e) {
       print('error user info ${e.toString()}');
       emit(ErrorUserInfoState());
@@ -178,7 +181,12 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void getContactinfo() async {
-    http.Response response = await http.get(Uri.parse('${url}contact-infos'));
+    http.Response response =
+        await http.get(Uri.parse('${url}contact-infos'), headers: {
+      'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+      'Accept': 'application/json',
+      'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+    });
     contactInfoModel = ContactInfoModel.fromJson(
         jsonDecode(response.body) as Map<String, dynamic>);
     emit(SuccessUserInfoState());
@@ -243,7 +251,7 @@ class HomeCubit extends Cubit<HomeState> {
     valueDropDowndistrict = null;
     try {
       http.Response response =
-          await http.get(Uri.parse('${url}cities/${id}/districts'), headers: {
+          await http.get(Uri.parse('${url}cities/$id/districts'), headers: {
         'Content-Type': 'application/json',
         // 'Authorization': 'Bearer ${token}',
         'Accept': 'application/json',
@@ -290,8 +298,8 @@ class HomeCubit extends Cubit<HomeState> {
         body: jsonEncode({
           'mobile_number': moblilenum,
           'address': {
-            'city_id': '${city}',
-            'district_id': '${destrict}',
+            'city_id': '$city',
+            'district_id': '$destrict',
             'details': details,
           },
           'type': 'maintenance',
@@ -309,7 +317,7 @@ class HomeCubit extends Cubit<HomeState> {
           'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
         },
       );
-      print('${response.body}');
+      print(response.body);
       var data = jsonDecode(response.body) as Map<String, dynamic>;
       oredermodel = OrderModel.fromJson(data);
       if (!(oredermodel!.status!)) {
@@ -350,8 +358,8 @@ class HomeCubit extends Cubit<HomeState> {
         body: jsonEncode({
           'mobile_number': moblilenum,
           'address': {
-            'city_id': '${city}',
-            'district_id': '${district}',
+            'city_id': '$city',
+            'district_id': '$district',
             'details': details,
           },
           'type': type,
@@ -364,7 +372,7 @@ class HomeCubit extends Cubit<HomeState> {
           'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
         },
       );
-      print('${response.body}');
+      print(response.body);
       var data = jsonDecode(response.body) as Map<String, dynamic>;
       oredermodel = OrderModel.fromJson(data);
       if (!(oredermodel!.status!)) {
@@ -390,11 +398,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   ServiceModel? servicemodel;
-  void servicedetails({int? id}) async {
-    emit(LoadingGetServiceState());
+  void servicedetails({String? slug}) async {
     try {
+      emit(LoadingGetServiceState());
       http.Response response =
-          await http.get(Uri.parse('${url}services/${id}'), headers: {
+          await http.get(Uri.parse('${url}services/$slug'), headers: {
         // 'Content-Type': 'application/json',
         'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
         'Accept': 'application/json',
@@ -415,11 +423,11 @@ class HomeCubit extends Cubit<HomeState> {
   CartAddModel? cartAddModel;
   // List<DataProduct> cart_item = [];
   void addtocart({int? id}) async {
+    cart.add(id!);
+    if (!cart.contains(id)) {
+      emit(SuccessAddToCartState());
+    }
     try {
-      cart.add(id!);
-      if (!cart.contains(id)) {
-        emit(SuccessAddToCartState());
-      }
       http.Response response =
           await http.post(Uri.parse('${url}cart'), headers: {
         // 'Content-Type': 'application/json',
@@ -436,56 +444,16 @@ class HomeCubit extends Cubit<HomeState> {
             jsonDecode(response.body) as Map<String, dynamic>);
         if (cartAddModel!.data!.attached!.isEmpty) {
           cart.remove(id);
+          getcart();
         }
+        // getcart();
+        emit(SuccessAddToCartState());
       }
-      getcart();
-      // emit(SuccessAddToCartState());
     } catch (e) {
       print(e.toString());
       emit(ErrorAddToCartState(error: e.toString()));
     }
   }
-
-  // void addtocart2({int? id}) async {
-  //   try {
-  //     print('cart 1 ${cart}');
-  //     cart.add(id!);
-  //     if (cart.length < 2) {
-  //       emit(SuccessAddToCartState());
-  //     }
-  //     print('cart add 1 ${cart}');
-  //     http.Response response =
-  //         await http.post(Uri.parse('${url}cart'), headers: {
-  //       // 'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
-  //       'Accept': 'application/json',
-  //       'Accept-Language': 'en'
-  //     }, body: {
-  //       'product_ids[0]': id.toString()
-  //     });
-  //     print(response.body);
-  //     if (response.statusCode == 200) {
-  //       // print(response.body);
-  //       print('cart add 3 before del ${cart}');
-  //       cartAddModel = CartAddModel.fromJson(
-  //           jsonDecode(response.body) as Map<String, dynamic>);
-  //       if (cartAddModel!.data!.attached!.isEmpty) {
-  //         cart.remove(id);
-  //         print('cart add 3 after del ${cart}');
-  //       }
-  //     }
-
-  //     //
-  //     //   print('add to cart Response is :${response.body}');
-  //     //   // getcart();
-  //     //
-  //     getcart();
-  //     emit(SuccessAddToCartState());
-  //   } catch (e) {
-  //     print(e.toString());
-  //     emit(ErrorAddToCartState(error: e.toString()));
-  //   }
-  // }
 
   ShowCartModel? showCartModel;
 
@@ -503,11 +471,7 @@ class HomeCubit extends Cubit<HomeState> {
       print('response get cart ${response.body}');
       showCartModel = ShowCartModel.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
-      // showCartModel!.data!.cart!.forEach((element) {
-      //   cart_item.add(element);
-      // });
-      // print('cart List cart ${cart_item}');
-      cart = [];
+      // cart = [];
       listcartbuild();
       emit(SuccessShowCartState());
     } catch (e) {
@@ -516,39 +480,40 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  void getcart2() async {
-    // emit(LoadingShowCartState());
+  // void getcart2() async {
+  //   // emit(LoadingShowCartState());
 
-    try {
-      http.Response response =
-          await http.get(Uri.parse('${url}cart'), headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
-        'Accept': 'application/json',
-        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
-      });
-      print('response get cart ${response.body}');
-      showCartModel = ShowCartModel.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
-      // showCartModel!.data!.cart!.forEach((element) {
-      //   cart_item.add(element);
-      // });
-      // print('cart List cart ${cart_item}');
-      cart = [];
-      listcartbuild();
-      emit(SuccessShowCartState());
-      // yield showCartModel!;
-    } catch (e) {
-      print(e.toString());
-      emit(ErrorShowCartState());
-    }
-  }
+  //   try {
+  //     http.Response response =
+  //         await http.get(Uri.parse('${url}cart'), headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+  //       'Accept': 'application/json',
+  //       'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+  //     });
+  //     print('response get cart ${response.body}');
+  //     showCartModel = ShowCartModel.fromJson(
+  //         jsonDecode(response.body) as Map<String, dynamic>);
+  //     // showCartModel!.data!.cart!.forEach((element) {
+  //     //   cart_item.add(element);
+  //     // });
+  //     // print('cart List cart ${cart_item}');
+  //     cart = [];
+  //     listcartbuild();
+  //     emit(SuccessShowCartState());
+  //     // yield showCartModel!;
+  //   } catch (e) {
+  //     print(e.toString());
+  //     emit(ErrorShowCartState());
+  //   }
+  // }
 
   List<int> cart = [];
   void listcartbuild() {
-    showCartModel!.data!.cart!.forEach((element) {
+    cart = [];
+    for (var element in showCartModel!.data!.cart!) {
       cart.add(element.cartProduct!.id!);
-    });
+    }
   }
 
   ShowCartModel? cartquantity;
@@ -556,7 +521,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(LoadingAddquantitytState());
     try {
       http.Response response =
-          await http.put(Uri.parse('${url}cart/${id}'), body: {
+          await http.put(Uri.parse('${url}cart/$id'), body: {
         'quantity': quantity
       }, headers: {
         // 'Content-Type': 'application/json',
@@ -581,7 +546,7 @@ class HomeCubit extends Cubit<HomeState> {
   void deleteItem({int? id}) async {
     try {
       http.Response response =
-          await http.delete(Uri.parse('${url}cart/${id}'), headers: {
+          await http.delete(Uri.parse('${url}cart/$id'), headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
         'Accept': 'application/json',
@@ -657,6 +622,46 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       print(e.toString());
       emit(ErrorSearchProductState(error: e.toString()));
+    }
+  }
+
+  void getlatestnews() async {
+    try {
+      http.Response response = await http.get(
+          Uri.parse('${url}latest-news/posts?page=1&per_page=0'),
+          headers: {
+            'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+            'Accept': 'application/json',
+            'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+          });
+      print(response.body);
+      if (response.statusCode == 200) {
+        emit(SuccessLatestNewsState(
+            latestNewsModel: LatestNewsModel.fromJson(
+                jsonDecode(response.body) as Map<String, dynamic>)));
+      }
+    } catch (e) {
+      print(e.toString());
+      emit(ErrorLatestNewsState(error: e.toString()));
+    }
+  }
+
+  void signout() async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('${url}logout'), headers: {
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+      });
+      print('sign out : ${response.body}');
+      model = null;
+      cart = [];
+      cartAddModel = null;
+      contactInfoModel = null;
+      await CacheHelper.removeData(key: 'token');
+    } catch (e) {
+      emit(ErrorLogOutState(error: e.toString()));
     }
   }
 }

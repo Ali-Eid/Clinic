@@ -1,6 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/maintenance_request_model.dart';
 import 'package:clinic/view/screens/confirm/confirm_screen.dart';
@@ -36,9 +35,9 @@ class Maintenance extends StatelessWidget {
         return SafeArea(
           child: Scaffold(
               resizeToAvoidBottomInset: false,
-              drawer: DrawerPage(),
+              drawer: const DrawerPage(),
               appBar: AppBar(
-                flexibleSpace: HeaderWidget(),
+                flexibleSpace: const HeaderWidget(),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 leading: Builder(builder: (context) {
@@ -46,7 +45,7 @@ class Maintenance extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: IconButton(
                       onPressed: () => Scaffold.of(context).openDrawer(),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.menu,
                         color: Colors.black,
                       ),
@@ -63,12 +62,8 @@ class Maintenance extends StatelessWidget {
                         child: Column(
                           children: [
                             NotificationSearchTitle(
-                              text:
-                                  '${AppLocalizations.of(context)!.maintenance}',
+                              text: AppLocalizations.of(context)!.maintenance,
                             ),
-                            // SizedBox(
-                            //   height: 20,
-                            // ),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
@@ -82,48 +77,48 @@ class Maintenance extends StatelessWidget {
                                     suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
                                     controller: DeviceController,
-                                    text:
-                                        '${AppLocalizations.of(context)!.device}',
-                                    fieldemptymsg: 'Device  must not be empty',
+                                    text: AppLocalizations.of(context)!.device,
+                                    fieldemptymsg: AppLocalizations.of(context)!
+                                        .device_validate,
                                     onsaved: (value) {
                                       maintenancereq!.device = value;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   TextFieldWidget(
                                     suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
                                     controller: typeController,
-                                    text:
-                                        '${AppLocalizations.of(context)!.type}',
-                                    fieldemptymsg: 'type must not be empty',
+                                    text: AppLocalizations.of(context)!.type,
+                                    fieldemptymsg: AppLocalizations.of(context)!
+                                        .type_validate,
                                     onsaved: (value) {
                                       maintenancereq!.type = value;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   TextFieldWidget(
                                     suffixIcon: Icon(Icons.star,
                                         color: Colors.grey.shade400),
                                     controller: serialController,
-                                    text:
-                                        '${AppLocalizations.of(context)!.serial_num}',
-                                    fieldemptymsg:
-                                        'Serial Number must not be empty',
+                                    text: AppLocalizations.of(context)!
+                                        .serial_num,
+                                    fieldemptymsg: AppLocalizations.of(context)!
+                                        .serial_num_validate,
                                     onsaved: (value) {
                                       maintenancereq!.serialnum = value;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   Container(
                                     // height: height,
-                                    decoration: BoxDecoration(boxShadow: [
+                                    decoration: const BoxDecoration(boxShadow: [
                                       BoxShadow(
                                           color: Colors.black38,
                                           blurRadius: 25,
@@ -147,7 +142,7 @@ class Maintenance extends StatelessWidget {
                                             alignment: Alignment.center,
                                             width: 100,
                                             height: 50,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 gradient: LinearGradient(
                                                   colors: [
                                                     Color(0Xff054F86),
@@ -157,8 +152,9 @@ class Maintenance extends StatelessWidget {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(30))),
                                             child: TextUtils(
-                                                text:
-                                                    '${AppLocalizations.of(context)!.description}',
+                                                text: AppLocalizations.of(
+                                                        context)!
+                                                    .description,
                                                 color: Colors.white,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold),
@@ -171,13 +167,14 @@ class Maintenance extends StatelessWidget {
                                         // suffixIcon: suffixIcon,
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return 'Description must not be empty';
+                                            return AppLocalizations.of(context)!
+                                                .description_validate;
                                           }
                                           return null;
                                         },
                                         hinttext: ''),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   Row(
@@ -185,7 +182,7 @@ class Maintenance extends StatelessWidget {
                                     children: [
                                       BuildCondition(
                                         fallback: (context) => Center(
-                                          child: Container(
+                                          child: SizedBox(
                                             // width: 130,
                                             height: 40,
                                             child: CircularProgressIndicator(
@@ -201,7 +198,7 @@ class Maintenance extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(30),
-                                            gradient: LinearGradient(
+                                            gradient: const LinearGradient(
                                               colors: [
                                                 Color(0Xff054F86),
                                                 Color(0Xff61C089),
@@ -211,11 +208,13 @@ class Maintenance extends StatelessWidget {
                                             ),
                                           ),
                                           child: AuthButton(
-                                            text:
-                                                '${AppLocalizations.of(context)!.confirm}',
+                                            text: AppLocalizations.of(context)!
+                                                .confirm,
                                             onPressed: () {
                                               if (formkey.currentState!
                                                   .validate()) {
+                                               HomeCubit.get(context).valueDropDowncity = null;
+                            HomeCubit.get(context).getCities();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -257,276 +256,3 @@ class Maintenance extends StatelessWidget {
     );
   }
 }
-
-// Column(
-//   // mainAxisAlignment: MainAxisAlignment.center,
-//   children: [
-//     Stack(
-//       alignment: Alignment.topRight,
-//       children: [
-//         Material(
-//           elevation: 15,
-//           borderRadius: BorderRadius.all(Radius.circular(20)),
-//           child: Container(
-//             width: MediaQuery.of(context).size.width * 0.80,
-//             height: 40,
-//             padding: EdgeInsets.all(10),
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius:
-//                     BorderRadius.all(Radius.circular(20))),
-//             child: AuthTextFormField(
-//               controller: DescController,
-//               obsecure: false,
-//               validator: (value) {
-//                 if (value!.isEmpty) {
-//                   return 'email is not valid';
-//                 }
-//                 return null;
-//               },
-//             ),
-//           ),
-//         ),
-//         Container(
-//           alignment: Alignment.center,
-//           width: 110,
-//           height: 40,
-//           decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                 colors: [
-//                   Colors.green.shade300,
-//                   Colors.blue.shade900,
-//                 ],
-//               ),
-//               borderRadius: BorderRadius.all(Radius.circular(30))),
-//           child: TextUtils(
-//               text: 'نوع الجهاز',
-//               color: Colors.white,
-//               fontSize: 14,
-//               fontWeight: FontWeight.bold),
-//         ),
-//       ],
-//     ),
-//     SizedBox(
-//       height: 20,
-//     ),
-//     Stack(
-//       alignment: Alignment.topRight,
-//       children: [
-//         Material(
-//           elevation: 15,
-//           borderRadius: BorderRadius.all(Radius.circular(20)),
-//           child: Container(
-//             width: MediaQuery.of(context).size.width * 0.80,
-//             height: 40,
-//             padding: EdgeInsets.all(10),
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius:
-//                     BorderRadius.all(Radius.circular(20))),
-//             child: AuthTextFormField(
-//               controller: DescController,
-//               obsecure: false,
-//               validator: (value) {
-//                 if (value!.isEmpty) {
-//                   return 'email is not valid';
-//                 }
-//                 return null;
-//               },
-//             ),
-//           ),
-//         ),
-//         Container(
-//           alignment: Alignment.center,
-//           width: 110,
-//           height: 40,
-//           decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                 colors: [
-//                   Colors.green.shade300,
-//                   Colors.blue.shade900,
-//                 ],
-//               ),
-//               borderRadius: BorderRadius.all(Radius.circular(30))),
-//           child: TextUtils(
-//               text: 'الطراز',
-//               color: Colors.white,
-//               fontSize: 14,
-//               fontWeight: FontWeight.bold),
-//         ),
-//       ],
-//     ),
-//     SizedBox(
-//       height: 20,
-//     ),
-//     Stack(
-//       alignment: Alignment.topRight,
-//       children: [
-//         Material(
-//           elevation: 15,
-//           borderRadius: BorderRadius.all(Radius.circular(20)),
-//           child: Container(
-//             width: MediaQuery.of(context).size.width * 0.80,
-//             height: 40,
-//             padding: EdgeInsets.all(10),
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius:
-//                     BorderRadius.all(Radius.circular(20))),
-//             child: AuthTextFormField(
-//               controller: DescController,
-//               obsecure: false,
-//               validator: (value) {
-//                 if (value!.isEmpty) {
-//                   return 'email is not valid';
-//                 }
-//                 return null;
-//               },
-//             ),
-//           ),
-//         ),
-//         Container(
-//           alignment: Alignment.center,
-//           width: 110,
-//           height: 40,
-//           decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                 colors: [
-//                   Colors.green.shade300,
-//                   Colors.blue.shade900,
-//                 ],
-//               ),
-//               borderRadius: BorderRadius.all(Radius.circular(30))),
-//           child: TextUtils(
-//               text: 'الرقم التسلسلي',
-//               color: Colors.white,
-//               fontSize: 14,
-//               fontWeight: FontWeight.bold),
-//         ),
-//       ],
-//     ),
-//     SizedBox(
-//       height: 20,
-//     ),
-//     Stack(
-//       alignment: Alignment.topRight,
-//       children: [
-//         Material(
-//           elevation: 15,
-//           borderRadius: BorderRadius.all(Radius.circular(20)),
-//           child: Container(
-//             width: MediaQuery.of(context).size.width * 0.80,
-//             height: 100,
-//             padding: EdgeInsets.all(10),
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius:
-//                     BorderRadius.all(Radius.circular(20))),
-//             child: AuthTextFormField(
-//               controller: DescController,
-//               obsecure: false,
-//               validator: (value) {
-//                 if (value!.isEmpty) {
-//                   return 'email is not valid';
-//                 }
-//                 return null;
-//               },
-//             ),
-//           ),
-//         ),
-//         Container(
-//           alignment: Alignment.center,
-//           width: 110,
-//           height: 40,
-//           decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                 colors: [
-//                   Colors.green.shade300,
-//                   Colors.blue.shade900,
-//                 ],
-//               ),
-//               borderRadius: BorderRadius.all(Radius.circular(30))),
-//           child: TextUtils(
-//               text: 'وصف المشكلة',
-//               color: Colors.white,
-//               fontSize: 14,
-//               fontWeight: FontWeight.bold),
-//         ),
-//       ],
-//     ),
-//     SizedBox(
-//       height: 20,
-//     ),
-//     Stack(
-//       alignment: Alignment.topRight,
-//       children: [
-//         Material(
-//           elevation: 15,
-//           borderRadius: BorderRadius.all(Radius.circular(20)),
-//           child: Container(
-//             width: MediaQuery.of(context).size.width * 0.80,
-//             height: 40,
-//             padding: EdgeInsets.all(10),
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius:
-//                     BorderRadius.all(Radius.circular(20))),
-//             child: AuthTextFormField(
-//               controller: DescController,
-//               obsecure: false,
-//               validator: (value) {
-//                 if (value!.isEmpty) {
-//                   return 'email is not valid';
-//                 }
-//                 return null;
-//               },
-//             ),
-//           ),
-//         ),
-//         Container(
-//           alignment: Alignment.center,
-//           width: 110,
-//           height: 40,
-//           decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                 colors: [
-//                   Colors.green.shade300,
-//                   Colors.blue.shade900,
-//                 ],
-//               ),
-//               borderRadius: BorderRadius.all(Radius.circular(30))),
-//           child: TextUtils(
-//               text: 'رقم للتواصل',
-//               color: Colors.white,
-//               fontSize: 14,
-//               fontWeight: FontWeight.bold),
-//         ),
-//       ],
-//     ),
-//     SizedBox(
-//       height: 50,
-//     ),
-//     Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 30),
-//       child: Align(
-//         alignment: Alignment.centerLeft,
-//         child: Container(
-//           width: 130,
-//           height: 35,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(30),
-//             gradient: LinearGradient(colors: [
-//               Colors.green.shade300,
-//               Colors.blue.shade900,
-//             ], begin: Alignment.topLeft, end: Alignment.topRight),
-//           ),
-//           child: AuthButton(
-//             text: 'confirm',
-//             onPressed: () {},
-//             color: Colors.transparent,
-//           ),
-//         ),
-//       ),
-//     ),
-//   ],
-// ),

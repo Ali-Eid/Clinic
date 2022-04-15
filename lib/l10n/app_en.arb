@@ -26,5 +26,49 @@
     "confirm_btn":"Confirm",
     "clean_clinic":"Clean Clinic",
     "last_order" : "Last Orders",
-    "cart" : "Cart"
+    "cart" : "Cart",
+    "your_city" : "your city",
+    "your_district" : "your district",
+    "phone_number_validate":"Phone number  must not be empty",
+    "description_validate":"Description must not be empty",
+    "details_address_validate":"Address must not be empty",
+    "device_validate":"Device must not be empty",
+    "order_request":"Order Request",
+    "status":"success send request",
+    "type_validate":"Type must not be empty",
+    "serial_num_validate":"Serial Number must not be empty",
+    "add_to_cart":"add to cart",
+    "no_product":"No Products",
+    "search":"Search",
+    "hint_text_search":"Search any product",
+    "cart_empty":"Cart is empty",
+    "buy":"Buy",
+    "clear_all":"Clear All",
+    "delete":"Delete",
+    "update":"update",
+    "latest_news":"Latest News",
+    "sign_in_to_your_account":"Sign in to your account",
+    "email":"your email",
+    "password":"your password",
+    "sign_in":"Sign in",
+    "create_account":"Or Create Account",
+    "sign_in_with_facebook":"Or Sign in with facebook",
+    "first_name":"first name",
+    "last_name":"last name",
+    "your_specialist":"your specialist",
+    "sign_up":"Sign up",
+    "sign_up_with_facebook":"Or Sign up with facebook",
+    "add_to_cart_successfully":"add to cart successfully",
+    "sign_out":"Sign out",
+    "please_enter_valid_email":"Please Enter Valid Email",
+    "password_valid":"please Enter password longer than 6 characters",
+    "please_enter_valid_first_name":"Please Enter Valid First Name",
+    "please_enter_valid_last_name":"Please Enter Valid Last Name"
+    
+    
+    
+    
+
+
+    
 }

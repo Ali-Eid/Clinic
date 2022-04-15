@@ -9,7 +9,7 @@ class SliverGridWithCustomGeometryLayout extends SliverGridRegularTileLayout {
     SliverGridRegularTileLayout layout,
   ) geometryBuilder;
 
-  SliverGridWithCustomGeometryLayout({
+  const SliverGridWithCustomGeometryLayout({
     required this.geometryBuilder,
     required int crossAxisCount,
     required double mainAxisStride,
@@ -17,13 +17,11 @@ class SliverGridWithCustomGeometryLayout extends SliverGridRegularTileLayout {
     required double childMainAxisExtent,
     required double childCrossAxisExtent,
     required bool reverseCrossAxis,
-  })  : assert(geometryBuilder != null),
-        assert(crossAxisCount != null && crossAxisCount > 0),
-        assert(mainAxisStride != null && mainAxisStride >= 0),
-        assert(crossAxisStride != null && crossAxisStride >= 0),
-        assert(childMainAxisExtent != null && childMainAxisExtent >= 0),
-        assert(childCrossAxisExtent != null && childCrossAxisExtent >= 0),
-        assert(reverseCrossAxis != null),
+  })  : assert(crossAxisCount > 0),
+        assert(mainAxisStride >= 0),
+        assert(crossAxisStride >= 0),
+        assert(childMainAxisExtent >= 0),
+        assert(childCrossAxisExtent >= 0),
         super(
           crossAxisCount: crossAxisCount,
           mainAxisStride: mainAxisStride,
@@ -52,11 +50,11 @@ class SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
-  })  : assert(itemCount != null && itemCount > 0),
-        assert(crossAxisCount != null && crossAxisCount > 0),
-        assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
-        assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
-        assert(childAspectRatio != null && childAspectRatio > 0),
+  })  : assert(itemCount > 0),
+        assert(crossAxisCount > 0),
+        assert(mainAxisSpacing >= 0),
+        assert(crossAxisSpacing >= 0),
+        assert(childAspectRatio > 0),
         super(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,

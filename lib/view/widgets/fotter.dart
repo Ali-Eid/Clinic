@@ -19,10 +19,10 @@ class FotterWidget extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        Container(
+        SizedBox(
           height: 60,
           width: MediaQuery.of(context).size.width,
-          child: Image(
+          child: const Image(
             matchTextDirection: true,
             image: AssetImage('assets/images/88.png'),
             fit: BoxFit.fill,
@@ -45,13 +45,13 @@ class FotterWidget extends StatelessWidget {
                       //   throw 'Could not launch $url';
                       // }
                     },
-                    child: Icon(
+                    child: const Icon(
                       FontAwesomeIcons.facebook,
                       color: Colors.white,
                       size: 15,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
                   InkWell(
@@ -63,35 +63,35 @@ class FotterWidget extends StatelessWidget {
                       //   throw 'Could not launch $url';
                       // }
                     },
-                    child: Icon(
+                    child: const Icon(
                       FontAwesomeIcons.instagram,
                       color: Colors.white,
                       size: 15,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
                   InkWell(
                     onTap: () {
                       print('object');
                     },
-                    child: Icon(
+                    child: const Icon(
                       FontAwesomeIcons.phone,
                       color: Colors.white,
                       size: 15,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 3,
                   ),
-                  Text('${model?.mobileNumber ?? ''}',
-                      style: TextStyle(
+                  Text(model?.mobileNumber ?? '',
+                      style: const TextStyle(
                         color: Colors.white,
                       ))
                 ],
               ),
-              salla1! ? salla() : Text(''),
+              salla1! ? const salla() : const Text(''),
             ],
           ),
         )
@@ -119,7 +119,7 @@ class salla extends StatelessWidget {
               HomeCubit.get(context).getcart();
               Navigator.of(context).pushReplacement(
                 PageRouteBuilder(
-                  transitionDuration: Duration(seconds: 1),
+                  transitionDuration: const Duration(seconds: 1),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     animation = CurvedAnimation(
@@ -131,7 +131,7 @@ class salla extends StatelessWidget {
                     );
                   },
                   pageBuilder: (context, animation, secondaryAnimation) {
-                    return CartScreen();
+                    return const CartScreen();
                   },
                 ),
               );
@@ -148,7 +148,7 @@ class salla extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 3),
-                  child: HomeCubit.get(context).showCartModel != null
+                  child: HomeCubit.get(context).cart != null
                       ? CircleAvatar(
                           radius: 8,
                           backgroundColor: Colors.blue.shade900,
@@ -159,7 +159,7 @@ class salla extends StatelessWidget {
                               fontSize: 10,
                               fontWeight: FontWeight.bold),
                         )
-                      : Text(''),
+                      : const Text(''),
                 )
               ],
             ),

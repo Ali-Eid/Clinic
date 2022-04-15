@@ -1,4 +1,3 @@
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/maintenance_request_model.dart';
 import 'package:clinic/view/screens/clear_clinic/order_clinic_confirm.dart';
@@ -25,9 +24,9 @@ class OrderClinic extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        drawer: DrawerPage(),
+        drawer: const DrawerPage(),
         appBar: AppBar(
-          flexibleSpace: HeaderWidget(),
+          flexibleSpace: const HeaderWidget(),
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Builder(builder: (context) {
@@ -35,7 +34,7 @@ class OrderClinic extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20),
               child: IconButton(
                 onPressed: () => Scaffold.of(context).openDrawer(),
-                icon: Icon(
+                icon: const Icon(
                   Icons.menu,
                   color: Colors.black,
                 ),
@@ -57,7 +56,7 @@ class OrderClinic extends StatelessWidget {
                       ),
                       Container(
                         // height: height,
-                        decoration: BoxDecoration(boxShadow: [
+                        decoration: const BoxDecoration(boxShadow: [
                           BoxShadow(
                               color: Colors.black38,
                               blurRadius: 25,
@@ -80,7 +79,7 @@ class OrderClinic extends StatelessWidget {
                                 alignment: Alignment.center,
                                 width: 100,
                                 height: 50,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
                                         Color(0Xff054F86),
@@ -104,13 +103,14 @@ class OrderClinic extends StatelessWidget {
                             // suffixIcon: suffixIcon,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Description must not be empty';
+                                return AppLocalizations.of(context)!
+                                    .description_validate;
                               }
                               return null;
                             },
                             hinttext: ''),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Container(
@@ -118,7 +118,7 @@ class OrderClinic extends StatelessWidget {
                         height: 40,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          gradient: LinearGradient(colors: [
+                          gradient: const LinearGradient(colors: [
                             Color(0Xff054F86),
                             Color(0Xff61C089),
                           ], begin: Alignment.topLeft, end: Alignment.topRight),
@@ -126,6 +126,8 @@ class OrderClinic extends StatelessWidget {
                         child: AuthButton(
                           text: AppLocalizations.of(context)!.confirm,
                           onPressed: () {
+                            HomeCubit.get(context).valueDropDowncity = null;
+                            HomeCubit.get(context).getCities();
                             if (formkey.currentState!.validate()) {
                               Navigator.push(
                                 context,

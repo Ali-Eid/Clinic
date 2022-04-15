@@ -1,5 +1,4 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/constants.dart';
 import 'package:clinic/logic/auth/cubit/auth_cubit.dart';
 
@@ -27,19 +26,20 @@ void main() async {
   await CacheHelper.init();
   Widget widget;
   token = CacheHelper.getData(key: 'token');
-  print('token :  ${token}');
+  print('token :  $token');
 
   if (token != null) {
-    widget = HomeScreen();
+    widget = const HomeScreen();
   } else {
     widget = LoginScreen();
   }
-  String locale = CacheHelper.getData(key: 'lang') ?? 'en';
-  print('locale :  ${locale}');
+  locale = CacheHelper.getData(key: 'lang') ?? 'en';
+  print('locale :  $locale');
   BlocOverrides.runZoned(
     () {
       runApp(MyApp(
         startwidget: widget,
+        locale: locale,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -59,13 +59,13 @@ class SplashScreen extends StatelessWidget {
           Container(
             width: 200,
             height: 200,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/images/logo.png'))),
           ),
           TextUtils(
-              text: '${AppLocalizations.of(context)!.logo}',
-              color: Color(0Xff054F86),
+              text: AppLocalizations.of(context)!.logo,
+              color: const Color(0Xff054F86),
               fontSize: 23,
               fontWeight: FontWeight.bold)
         ],
@@ -78,7 +78,7 @@ class SplashScreen extends StatelessWidget {
       splashIconSize: 250,
       disableNavigation: false,
       duration: 3000,
-      animationDuration: Duration(seconds: 3),
+      animationDuration: const Duration(seconds: 3),
       centered: true,
 
       // backgroundColor: Colors.red,
@@ -94,23 +94,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
-          create: (context) => AuthCubit()
-            ..getCities()
-            ..getSpecialist(),
-        ),
+            create: (context) => HomeCubit()
+              ..meInfo()
+              ..getCategories()
+              ..getcart()
+              ..getContactinfo()
+            // ..getCities(),
+            ),
         BlocProvider(
-          create: (context) => HomeCubit()
-            ..meInfo()
-            ..getCategories()
-            ..getcart()
-            ..getContactinfo()
-            ..getCities(),
+          create: (context) => LocalizationCubit()..setLocale(Locale(locale!)),
         ),
-        BlocProvider(
-          create: (context) => LocalizationCubit(),
-        ),
-        // BlocProvider(create: (context) => LoginCubit()),
       ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, state) {
@@ -120,26 +115,16 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             locale: LocalizationCubit.get(context).locale,
-            localizationsDelegates: [
+            localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate
             ],
-            supportedLocales: [
+            supportedLocales: const [
               Locale("en", ""),
               Locale("ar", ""),
             ],
-            // localeResolutionCallback: (locale, supportedLocales) {
-            //   if (locale != null) {
-            //     for (Locale local in supportedLocales) {
-            //       if (local.languageCode == locale.languageCode) {
-            //         return locale;
-            //       }
-            //     }
-            //   }
-            //   return supportedLocales.first;
-            // },
             debugShowCheckedModeBanner: false,
             home: SplashScreen(
               startWidget: startwidget,

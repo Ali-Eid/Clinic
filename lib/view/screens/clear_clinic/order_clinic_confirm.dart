@@ -1,9 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/maintenance_request_model.dart';
 import 'package:clinic/view/screens/home_screen.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/auth/text_form_field.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
@@ -15,6 +15,7 @@ import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ConfirmOrderClean extends StatelessWidget {
   ConfirmOrderClean({Key? key, this.description, this.type}) : super(key: key);
@@ -38,13 +39,13 @@ class ConfirmOrderClean extends StatelessWidget {
               context: context,
               dialogType: DialogType.SUCCES,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Order Request',
-              desc: 'Success',
+              title: AppLocalizations.of(context)!.order_request,
+              desc: AppLocalizations.of(context)!.status,
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     PageRouteBuilder(
-                      transitionDuration: Duration(seconds: 1),
+                      transitionDuration: const Duration(seconds: 1),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         animation = CurvedAnimation(
@@ -56,7 +57,7 @@ class ConfirmOrderClean extends StatelessWidget {
                         );
                       },
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return HomeScreen();
+                        return const HomeScreen();
                       },
                     ),
                     (route) => false);
@@ -68,7 +69,7 @@ class ConfirmOrderClean extends StatelessWidget {
               context: context,
               dialogType: DialogType.ERROR,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Clean Clinic Request',
+              title: AppLocalizations.of(context)!.order_request,
               desc: state.error,
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
@@ -80,9 +81,9 @@ class ConfirmOrderClean extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -90,7 +91,7 @@ class ConfirmOrderClean extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -119,9 +120,10 @@ class ConfirmOrderClean extends StatelessWidget {
                                 Icon(Icons.star, color: Colors.grey.shade400),
                             controller: phoneController,
                             text: AppLocalizations.of(context)!.phone_number,
-                            fieldemptymsg: 'Phone number  must not be empty',
+                            fieldemptymsg: AppLocalizations.of(context)!
+                                .phone_number_validate,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Card(
@@ -135,7 +137,7 @@ class ConfirmOrderClean extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: 100,
                                   height: 50,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
                                           Color(0Xff054F86),
@@ -145,7 +147,7 @@ class ConfirmOrderClean extends StatelessWidget {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30))),
                                   child: TextUtils(
-                                      text: 'City',
+                                      text: AppLocalizations.of(context)!.city,
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -161,10 +163,13 @@ class ConfirmOrderClean extends StatelessWidget {
                                         child: DropdownButton<dynamic>(
                                           elevation: 1,
 
-                                          icon: Icon(Icons.arrow_drop_down),
+                                          icon:
+                                              const Icon(Icons.arrow_drop_down),
                                           // alignment: Alignment.center,
                                           hint: TextUtils(
-                                              text: 'your city',
+                                              text:
+                                                  AppLocalizations.of(context)!
+                                                      .your_city,
                                               color: Colors.grey.shade500,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -201,7 +206,7 @@ class ConfirmOrderClean extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           // TextFieldWidget(
@@ -222,7 +227,7 @@ class ConfirmOrderClean extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: 100,
                                   height: 50,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
                                           Color(0Xff054F86),
@@ -232,13 +237,14 @@ class ConfirmOrderClean extends StatelessWidget {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30))),
                                   child: TextUtils(
-                                      text: 'District',
+                                      text: AppLocalizations.of(context)!
+                                          .district,
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Expanded(
-                                  child: Container(
+                                  child: SizedBox(
                                     // height: 35,
                                     width: double.infinity,
                                     child: DropdownButtonHideUnderline(
@@ -247,7 +253,9 @@ class ConfirmOrderClean extends StatelessWidget {
                                             20, 0, 20, 0),
                                         child: DropdownButton<dynamic>(
                                           hint: TextUtils(
-                                              text: 'your Districit',
+                                              text:
+                                                  AppLocalizations.of(context)!
+                                                      .your_district,
                                               color: Colors.grey.shade500,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -283,12 +291,12 @@ class ConfirmOrderClean extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Container(
                             // height: height,
-                            decoration: BoxDecoration(boxShadow: [
+                            decoration: const BoxDecoration(boxShadow: [
                               BoxShadow(
                                   color: Colors.black38,
                                   blurRadius: 25,
@@ -309,7 +317,7 @@ class ConfirmOrderClean extends StatelessWidget {
                                     alignment: Alignment.center,
                                     width: 100,
                                     height: 50,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
                                             Color(0Xff054F86),
@@ -333,13 +341,14 @@ class ConfirmOrderClean extends StatelessWidget {
                                 // suffixIcon: suffixIcon,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Description must not be empty';
+                                    return AppLocalizations.of(context)!
+                                        .details_address_validate;
                                   }
                                   return null;
                                 },
                                 hinttext: ''),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
@@ -347,18 +356,24 @@ class ConfirmOrderClean extends StatelessWidget {
                             children: [
                               BuildCondition(
                                 fallback: (context) => Center(
-                                  child: Container(
-                                      // width: 130,
-                                      height: 40,
-                                      child: EasyLoader(
-                                        image: AssetImage(
-                                          'assets/images/logo.png',
-                                        ),
-                                        backgroundColor: Colors.grey.shade300,
-                                        // iconSize: 20,
-                                        iconColor: Color(0Xff054F86),
-                                      )),
-                                ),
+                                    child: Shimmer.fromColors(
+                                        child: const ShimmerLoad(),
+                                        baseColor: const Color(0Xff054F86),
+                                        highlightColor:
+                                            const Color(0Xff61C089))),
+                                // Center(
+                                //   child: SizedBox(
+                                //       // width: 130,
+                                //       height: 40,
+                                //       child: EasyLoader(
+                                //         image: const AssetImage(
+                                //           'assets/images/logo.png',
+                                //         ),
+                                //         backgroundColor: Colors.grey.shade300,
+                                //         // iconSize: 20,
+                                //         iconColor: const Color(0Xff054F86),
+                                //       )),
+                                // ),
                                 condition:
                                     state is! LoadingRequestMaintenanceState,
                                 builder: (context) => Container(
@@ -366,7 +381,7 @@ class ConfirmOrderClean extends StatelessWidget {
                                   height: 40,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                         colors: [
                                           Color(0Xff054F86),
                                           Color(0Xff61C089),

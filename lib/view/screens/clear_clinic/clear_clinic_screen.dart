@@ -1,10 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/clear_clinic/order_clinic_screen.dart';
 import 'package:clinic/view/screens/home_screen.dart';
 import 'package:clinic/view/screens/item/item.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/elevated_button_gradient.dart';
 import 'package:clinic/view/widgets/fotter.dart';
@@ -15,6 +15,8 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ClearScreen extends StatelessWidget {
   String? type;
@@ -30,13 +32,13 @@ class ClearScreen extends StatelessWidget {
               context: context,
               dialogType: DialogType.WARNING,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Our Services',
+              title: AppLocalizations.of(context)!.otherservice,
               desc: '${state.error}',
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     PageRouteBuilder(
-                      transitionDuration: Duration(seconds: 1),
+                      transitionDuration: const Duration(seconds: 1),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         animation = CurvedAnimation(
@@ -48,7 +50,7 @@ class ClearScreen extends StatelessWidget {
                         );
                       },
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return HomeScreen();
+                        return const HomeScreen();
                       },
                     ),
                     (route) => false);
@@ -59,9 +61,9 @@ class ClearScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -69,7 +71,7 @@ class ClearScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -79,15 +81,20 @@ class ClearScreen extends StatelessWidget {
             ),
             body: BuildCondition(
               fallback: (context) => Center(
-                  child: EasyLoader(
-                image: AssetImage(
-                  'assets/images/logo.png',
-                ),
-                backgroundColor: Colors.grey.shade300,
-                // iconSize: 20,
-                iconColor: Color(0Xff054F86),
-              )),
-              condition: state is SuccessGetServiceState,
+                  child: Shimmer.fromColors(
+                      child: const ShimmerLoad(),
+                      baseColor: const Color(0Xff054F86),
+                      highlightColor: const Color(0Xff61C089))),
+              // Center(
+              //     child: EasyLoader(
+              //   image: const AssetImage(
+              //     'assets/images/logo.png',
+              //   ),
+              //   backgroundColor: Colors.grey.shade300,
+              //   // iconSize: 20,
+              //   iconColor: const Color(0Xff054F86),
+              // )),
+              condition: state is! LoadingGetServiceState,
               builder: (context) => Column(
                 children: [
                   Expanded(
@@ -98,14 +105,15 @@ class ClearScreen extends StatelessWidget {
                             text:
                                 '${HomeCubit.get(context).servicemodel!.data!.name}',
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           FrameDesc(
                               model: HomeCubit.get(context).servicemodel!,
                               onpressed: () => Navigator.of(context).push(
                                     PageRouteBuilder(
-                                      transitionDuration: Duration(seconds: 1),
+                                      transitionDuration:
+                                          const Duration(seconds: 1),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         animation = CurvedAnimation(

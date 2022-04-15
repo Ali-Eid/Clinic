@@ -1,10 +1,10 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/medical_supplies.dart';
 import 'package:clinic/view/screens/category_child/categoy_items/category_items.dart';
 import 'package:clinic/view/screens/category_child/product_category/products_category.dart';
 import 'package:clinic/view/screens/medical_supplies/sub_category.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/category_and_title.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
@@ -18,9 +18,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CategoryScreen extends StatelessWidget {
-  CategoryScreen({
+  const CategoryScreen({
     Key? key,
   }) : super(key: key);
 
@@ -33,9 +34,9 @@ class CategoryScreen extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -43,7 +44,7 @@ class CategoryScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -53,21 +54,17 @@ class CategoryScreen extends StatelessWidget {
             ),
             body: BuildCondition(
               fallback: (context) => Center(
-                  child: EasyLoader(
-                image: AssetImage(
-                  'assets/images/logo.png',
-                ),
-                backgroundColor: Colors.grey.shade300,
-                // iconSize: 20,
-                iconColor: Color(0Xff054F86),
-              )),
+                  child: Shimmer.fromColors(
+                      child: const ShimmerLoad(),
+                      baseColor: const Color(0Xff054F86),
+                      highlightColor: const Color(0Xff61C089))),
               condition: HomeCubit.get(context).medicalModel?.data != null,
               builder: (context) => Column(
                 children: [
                   NotificationSearchTitle(
-                    text: '${AppLocalizations.of(context)!.medical_Supplies}',
+                    text: AppLocalizations.of(context)!.medical_Supplies,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Expanded(
@@ -76,7 +73,7 @@ class CategoryScreen extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: 5,
                         // padding: EdgeInsets.zero,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         gridDelegate:
                             SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                                 itemCount: 5,
@@ -93,7 +90,7 @@ class CategoryScreen extends StatelessWidget {
                           );
                         }),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   FotterWidget(
@@ -121,7 +118,7 @@ class CategoryChild extends StatelessWidget {
         height: 100,
         width: 100,
         text: '${model!.name}',
-        imgurl: '${HomeCubit.get(context).img[index!]}',
+        imgurl: HomeCubit.get(context).img[index!],
         ontap: () {
           if (model!.hasChildren!) {
             HomeCubit.get(context).getsubCategory(model!.id!);
@@ -131,7 +128,7 @@ class CategoryChild extends StatelessWidget {
           Navigator.push(
             context,
             PageRouteBuilder(
-              transitionDuration: Duration(seconds: 1),
+              transitionDuration: const Duration(seconds: 1),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 animation = CurvedAnimation(

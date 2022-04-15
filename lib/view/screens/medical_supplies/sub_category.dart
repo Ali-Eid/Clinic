@@ -3,6 +3,7 @@ import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/category_child/categoy_items/item_category.dart';
 import 'package:clinic/view/screens/item/item.dart';
 import 'package:clinic/view/screens/medical_supplies/items_sub.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/category_item.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/fotter.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SubCategoryScreen extends StatelessWidget {
   // int id;
@@ -31,9 +34,9 @@ class SubCategoryScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -41,7 +44,7 @@ class SubCategoryScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -51,27 +54,29 @@ class SubCategoryScreen extends StatelessWidget {
             ),
             body: BuildCondition(
               fallback: (context) => Center(
-                child: EasyLoader(
-                  image: AssetImage('assets/images/logo.png'),
-                  backgroundColor: Colors.white,
-                  // iconSize: 30,
-                  iconColor: Color(0Xff054F86),
-                ),
-              ),
+                  child: Shimmer.fromColors(
+                      child: const ShimmerLoad(),
+                      baseColor: const Color(0Xff054F86),
+                      highlightColor: const Color(0Xff61C089))),
               condition: state is! LoadingCategoriesState,
               builder: (context) => BuildCondition(
                 fallback: (context) => Center(
-                  child: TextUtils(
-                      text: 'No Product Data',
-                      color: Colors.green.shade400,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
-                ),
+                    child: Shimmer.fromColors(
+                        child: const ShimmerLoad(),
+                        baseColor: const Color(0Xff054F86),
+                        highlightColor: const Color(0Xff61C089))),
+                // Center(
+                //   child: TextUtils(
+                //       text: AppLocalizations.of(context)!.no_product,
+                //       color: Colors.green.shade400,
+                //       fontSize: 30,
+                //       fontWeight: FontWeight.bold),
+                // ),
                 condition: HomeCubit.get(context).subModel != null,
                 builder: (context) => Column(
                   children: [
                     NotificationSearchTitle(text: name),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     BuildCondition(
@@ -86,7 +91,7 @@ class SubCategoryScreen extends StatelessWidget {
                           child: GridView.builder(
                             itemCount:
                                 HomeCubit.get(context).subModel!.data!.length,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                               itemCount:

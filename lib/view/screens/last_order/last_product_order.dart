@@ -4,6 +4,7 @@ import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/last_order_model.dart';
 import 'package:clinic/view/screens/item/item.dart';
 import 'package:clinic/view/screens/medical_supplies/item_details.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/category_item_cart_widget.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/elevated_button_gradient.dart';
@@ -16,6 +17,8 @@ import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class LastProductOrder extends StatelessWidget {
   List<Products>? products;
@@ -27,24 +30,24 @@ class LastProductOrder extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<HomeCubit, HomeState>(listener: (context, state) {
         // TODO: implement listener
-        if (state is SuccessShowCartState) {
+        if (state is SuccessAddToCartState) {
           // showToast(
           //     message: 'add to cart successfully', state: ToastState.success);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             content: TextUtils(
                 text: 'add to cart successfully',
                 color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold),
-            backgroundColor: Color(0Xff054F86),
+            backgroundColor: const Color(0Xff054F86),
           ));
         }
       }, builder: (context, state) {
         return Scaffold(
-          drawer: DrawerPage(),
+          drawer: const DrawerPage(),
           appBar: AppBar(
-            flexibleSpace: HeaderWidget(),
+            flexibleSpace: const HeaderWidget(),
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: Builder(builder: (context) {
@@ -52,7 +55,7 @@ class LastProductOrder extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20),
                 child: IconButton(
                   onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.menu,
                     color: Colors.black,
                   ),
@@ -62,18 +65,20 @@ class LastProductOrder extends StatelessWidget {
           ),
           body: BuildCondition(
             fallback: (context) => Center(
-              child: CircularProgressIndicator(),
-            ),
-            condition: products! != null || products!.length != 0,
+                child: Shimmer.fromColors(
+                    child: const ShimmerLoad(),
+                    baseColor: const Color(0Xff054F86),
+                    highlightColor: const Color(0Xff61C089))),
+            condition: products! != null || products!.isNotEmpty,
             builder: (context) => Column(
               children: [
                 NotificationSearchTitle(
-                  text: '${title}',
+                  text: '$title',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Expanded(
@@ -82,7 +87,7 @@ class LastProductOrder extends StatelessWidget {
                     child: GridView.builder(
                         itemCount: products!.length,
                         // HomeCubit.get(context).subModel!.data!.length,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         gridDelegate:
                             SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                                 itemCount: products!.length,
@@ -124,7 +129,7 @@ class item extends StatelessWidget {
             Navigator.push(
                 context,
                 PageRouteBuilder(
-                  transitionDuration: Duration(seconds: 1),
+                  transitionDuration: const Duration(seconds: 1),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     animation = CurvedAnimation(
@@ -136,7 +141,7 @@ class item extends StatelessWidget {
                     );
                   },
                   pageBuilder: (context, animation, secondaryAnimation) {
-                    return ItemDetailsScreen();
+                    return const ItemDetailsScreen();
                   },
                 ));
           },
@@ -147,7 +152,7 @@ class item extends StatelessWidget {
                 width: 200,
                 height: 200,
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   // border: Border.all(width: 1),
                   gradient: LinearGradient(colors: [
                     Color(0Xff054F86),
@@ -168,16 +173,17 @@ class item extends StatelessWidget {
                       child: CircularProgressIndicator(
                           color: Colors.green.shade400),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 alignment: Alignment.center,
                 width: 190,
                 height: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: [
                       Color(0Xff054F86),
                       Color(0Xff61C089),
@@ -186,7 +192,7 @@ class item extends StatelessWidget {
                         topEnd: Radius.circular(30),
                         topStart: Radius.circular(30))),
                 child: TextUtils(
-                    text: '${model?.product?.name ?? 'name'}',
+                    text: model?.product?.name ?? 'name',
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
@@ -205,22 +211,22 @@ class item extends StatelessWidget {
             color: Colors.transparent,
             shadowColor: Colors.grey,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               width: 170,
               height: 30,
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.shade300),
-                  gradient: LinearGradient(colors: [
+                  gradient: const LinearGradient(colors: [
                     Color(0Xff054F86),
                     Color(0Xff61C089),
                   ], begin: Alignment.topLeft, end: Alignment.topRight),
-                  borderRadius: BorderRadiusDirectional.only(
+                  borderRadius: const BorderRadiusDirectional.only(
                       bottomEnd: Radius.circular(30),
                       bottomStart: Radius.circular(30))),
               child: TextUtils(
                 // text: '${widget.modelCart?.cartProduct!.quantity}',
-                text: 'Add New Cart',
+                text: AppLocalizations.of(context)!.add_to_cart,
                 color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,

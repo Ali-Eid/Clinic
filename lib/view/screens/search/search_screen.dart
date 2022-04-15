@@ -16,11 +16,10 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../../applocal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatelessWidget {
-  TextEditingController searchcontroller = new TextEditingController();
+  TextEditingController searchcontroller = TextEditingController();
   SearchScreen({Key? key}) : super(key: key);
 
   @override
@@ -28,9 +27,9 @@ class SearchScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        drawer: DrawerPage(),
+        drawer: const DrawerPage(),
         appBar: AppBar(
-          flexibleSpace: HeaderWidget(),
+          flexibleSpace: const HeaderWidget(),
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Builder(builder: (context) {
@@ -38,7 +37,7 @@ class SearchScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20),
               child: IconButton(
                 onPressed: () => Scaffold.of(context).openDrawer(),
-                icon: Icon(
+                icon: const Icon(
                   Icons.menu,
                   color: Colors.black,
                 ),
@@ -55,9 +54,9 @@ class SearchScreen extends StatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 NotificationSearchTitle(
-                  text: 'Search',
+                  text: AppLocalizations.of(context)!.search,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -72,7 +71,7 @@ class SearchScreen extends StatelessWidget {
                     // keyboardType: textInputType,
                     // validator: validator,
                     // onSaved: onsaved,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Mikhak',
                       color: Colors.black,
                       fontSize: 16,
@@ -81,16 +80,16 @@ class SearchScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       // isDense: true,
 
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
                       filled: true,
                       fillColor: Colors.grey.shade300,
                       prefixIcon: Container(
-                          margin: EdgeInsetsDirectional.only(end: 10),
+                          margin: const EdgeInsetsDirectional.only(end: 10),
                           alignment: Alignment.center,
                           width: 50,
                           // height: 40,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
                                   Color(0Xff054F86),
@@ -99,7 +98,7 @@ class SearchScreen extends StatelessWidget {
                               ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30))),
-                          child: Icon(Icons.search, color: Colors.white)),
+                          child: const Icon(Icons.search, color: Colors.white)),
                       // suffixIcon: suffixIcon,
                       // hintText: hinttext,
                       hintStyle: TextStyle(
@@ -109,40 +108,40 @@ class SearchScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                       focusColor: Colors.transparent,
-
+                      hintText: AppLocalizations.of(context)!.hint_text_search,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.white,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.white,
                         ),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.white,
                         ),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 state is SuccessSearchProductState
                     ? state.search!.data!.data != null
-                        ? state.search!.data!.data!.length != 0
+                        ? state.search!.data!.data!.isNotEmpty
                             ? Expanded(
                                 child: GridView.builder(
                                     itemCount: state.search!.data!.data!.length,
@@ -211,7 +210,7 @@ class Frame_Name_search_widget extends StatelessWidget {
         Navigator.push(
             context,
             PageRouteBuilder(
-              transitionDuration: Duration(seconds: 1),
+              transitionDuration: const Duration(seconds: 1),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 animation = CurvedAnimation(
@@ -223,7 +222,7 @@ class Frame_Name_search_widget extends StatelessWidget {
                 );
               },
               pageBuilder: (context, animation, secondaryAnimation) {
-                return ItemDetailsScreen();
+                return const ItemDetailsScreen();
               },
             ));
       },
@@ -234,7 +233,7 @@ class Frame_Name_search_widget extends StatelessWidget {
             width: 150,
             height: 150,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(colors: [
                 Color(0Xff054F86),
                 Color(0Xff61C089),
@@ -253,12 +252,13 @@ class Frame_Name_search_widget extends StatelessWidget {
                       (e) => CachedNetworkImage(
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        imageUrl: "${e}",
+                        imageUrl: e,
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(
                               color: Colors.green.shade400),
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     )
                     .toList(),
@@ -272,8 +272,8 @@ class Frame_Name_search_widget extends StatelessWidget {
                   pauseAutoPlayInFiniteScroll: true,
                   reverse: false,
                   autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   autoPlayCurve: Curves.linearToEaseOut,
                   enlargeCenterPage: true,
                   scrollDirection: Axis.horizontal,
@@ -285,7 +285,7 @@ class Frame_Name_search_widget extends StatelessWidget {
             alignment: Alignment.center,
             height: 25,
             width: 140,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Color(0Xff054F86),
                   Color(0Xff61C089),

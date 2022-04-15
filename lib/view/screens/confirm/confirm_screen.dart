@@ -1,9 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/maintenance_request_model.dart';
 import 'package:clinic/view/screens/home_screen.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/auth/auth_button.dart';
 import 'package:clinic/view/widgets/auth/text_form_field.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
@@ -14,6 +14,7 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ConfirmScreen extends StatelessWidget {
   ConfirmScreen(
@@ -42,13 +43,13 @@ class ConfirmScreen extends StatelessWidget {
               context: context,
               dialogType: DialogType.SUCCES,
               animType: AnimType.BOTTOMSLIDE,
-              title: 'Maintenance Request',
-              desc: '${state.ordermedical!.message}',
+              title: AppLocalizations.of(context)!.maintenance,
+              desc: AppLocalizations.of(context)!.status,
               // btnCancelOnPress: () {},
               btnOkOnPress: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     PageRouteBuilder(
-                      transitionDuration: Duration(seconds: 1),
+                      transitionDuration: const Duration(seconds: 1),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         animation = CurvedAnimation(
@@ -60,7 +61,7 @@ class ConfirmScreen extends StatelessWidget {
                         );
                       },
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return HomeScreen();
+                        return const HomeScreen();
                       },
                     ),
                     (route) => false);
@@ -84,9 +85,9 @@ class ConfirmScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -94,7 +95,7 @@ class ConfirmScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -106,7 +107,7 @@ class ConfirmScreen extends StatelessWidget {
               child: Column(
                 children: [
                   NotificationSearchTitle(
-                    text: '${AppLocalizations.of(context)!.confirm_request}',
+                    text: AppLocalizations.of(context)!.confirm_request,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -122,11 +123,11 @@ class ConfirmScreen extends StatelessWidget {
                             suffixIcon:
                                 Icon(Icons.star, color: Colors.grey.shade400),
                             controller: phoneController,
-                            text:
-                                '${AppLocalizations.of(context)!.phone_number}',
-                            fieldemptymsg: 'Phone number  must not be empty',
+                            text: AppLocalizations.of(context)!.phone_number,
+                            fieldemptymsg: AppLocalizations.of(context)!
+                                .phone_number_validate,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           // TextFieldWidget(
@@ -147,7 +148,7 @@ class ConfirmScreen extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: 100,
                                   height: 50,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
                                           Color(0Xff054F86),
@@ -157,7 +158,7 @@ class ConfirmScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30))),
                                   child: TextUtils(
-                                      text: 'City',
+                                      text: AppLocalizations.of(context)!.city,
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -173,10 +174,13 @@ class ConfirmScreen extends StatelessWidget {
                                         child: DropdownButton<dynamic>(
                                           elevation: 1,
 
-                                          icon: Icon(Icons.arrow_drop_down),
+                                          icon:
+                                              const Icon(Icons.arrow_drop_down),
                                           // alignment: Alignment.center,
                                           hint: TextUtils(
-                                              text: 'your city',
+                                              text:
+                                                  AppLocalizations.of(context)!
+                                                      .your_city,
                                               color: Colors.grey.shade500,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -213,7 +217,7 @@ class ConfirmScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           // TextFieldWidget(
@@ -234,7 +238,7 @@ class ConfirmScreen extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: 100,
                                   height: 50,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
                                           Color(0Xff054F86),
@@ -244,13 +248,14 @@ class ConfirmScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30))),
                                   child: TextUtils(
-                                      text: 'District',
+                                      text: AppLocalizations.of(context)!
+                                          .district,
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Expanded(
-                                  child: Container(
+                                  child: SizedBox(
                                     // height: 35,
                                     width: double.infinity,
                                     child: DropdownButtonHideUnderline(
@@ -259,7 +264,9 @@ class ConfirmScreen extends StatelessWidget {
                                             20, 0, 20, 0),
                                         child: DropdownButton<dynamic>(
                                           hint: TextUtils(
-                                              text: 'your Districit',
+                                              text:
+                                                  AppLocalizations.of(context)!
+                                                      .your_district,
                                               color: Colors.grey.shade500,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -295,12 +302,12 @@ class ConfirmScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Container(
                             // height: height,
-                            decoration: BoxDecoration(boxShadow: [
+                            decoration: const BoxDecoration(boxShadow: [
                               BoxShadow(
                                   color: Colors.black38,
                                   blurRadius: 25,
@@ -321,7 +328,7 @@ class ConfirmScreen extends StatelessWidget {
                                     alignment: Alignment.center,
                                     width: 100,
                                     height: 50,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
                                             Color(0Xff054F86),
@@ -331,8 +338,8 @@ class ConfirmScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(30))),
                                     child: TextUtils(
-                                        text:
-                                            '${AppLocalizations.of(context)!.details_address}',
+                                        text: AppLocalizations.of(context)!
+                                            .details_address,
                                         color: Colors.white,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -345,27 +352,27 @@ class ConfirmScreen extends StatelessWidget {
                                 // suffixIcon: suffixIcon,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Description must not be empty';
+                                    return AppLocalizations.of(context)!
+                                        .description_validate;
                                   }
                                   return null;
                                 },
                                 hinttext: ''),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               BuildCondition(
-                                fallback: (context) => Center(
-                                  child: Container(
-                                    // width: 130,
-                                    height: 40,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.green.shade400,
-                                    ),
-                                  ),
+                                fallback: (context) => Expanded(
+                                  child: Center(
+                                      child: Shimmer.fromColors(
+                                          child: const ShimmerLoad(),
+                                          baseColor: const Color(0Xff054F86),
+                                          highlightColor:
+                                              const Color(0Xff61C089))),
                                 ),
                                 condition:
                                     state is! LoadingRequestMaintenanceState,
@@ -374,7 +381,7 @@ class ConfirmScreen extends StatelessWidget {
                                   height: 40,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                       colors: [
                                         Color(0Xff054F86),
                                         Color(0Xff61C089),
@@ -384,8 +391,8 @@ class ConfirmScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: AuthButton(
-                                    text:
-                                        '${AppLocalizations.of(context)!.confirm_btn}',
+                                    text: AppLocalizations.of(context)!
+                                        .confirm_btn,
                                     onPressed: () {
                                       if (formkey.currentState!.validate()) {
                                         HomeCubit.get(context)

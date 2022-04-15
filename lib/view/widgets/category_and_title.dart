@@ -26,9 +26,9 @@ class CategoryandTitle extends StatelessWidget {
           child: Container(
             width: width,
             height: height,
-            padding: EdgeInsets.all(14),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
+                gradient: const LinearGradient(colors: [
                   Color(0Xff054F86),
                   Color(0Xff61C089),
                 ]),

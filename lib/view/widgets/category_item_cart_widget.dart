@@ -7,6 +7,7 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartCategoryItemWidget extends StatefulWidget {
   GestureTapCallback? ontap;
@@ -43,7 +44,7 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                     width: 200,
                     height: 200,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       // border: Border.all(width: 1),
                       gradient: LinearGradient(colors: [
                         Color(0Xff054F86),
@@ -64,16 +65,17 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                           child: CircularProgressIndicator(
                               color: Colors.green.shade400),
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     alignment: Alignment.center,
                     width: 190,
                     height: 30,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         gradient: LinearGradient(colors: [
                           Color(0Xff054F86),
                           Color(0Xff61C089),
@@ -95,11 +97,11 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                 color: Colors.transparent,
                 shadowColor: Colors.grey,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   alignment: Alignment.center,
                   width: 180,
                   height: 30,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(colors: [
                         Color(0Xff054F86),
                         Color(0Xff61C089),
@@ -126,7 +128,7 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                               }
                             });
                           },
-                          icon: Icon(Icons.arrow_drop_down_sharp,
+                          icon: const Icon(Icons.arrow_drop_down_sharp,
                               color: Colors.white)),
                       TextUtils(
                         // text: '${widget.modelCart?.cartProduct!.quantity}',
@@ -145,7 +147,7 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                                   widget.modelCart!.cartProduct!.quantity! + 1;
                             });
                           },
-                          icon: Icon(Icons.arrow_drop_up_sharp,
+                          icon: const Icon(Icons.arrow_drop_up_sharp,
                               color: Colors.white)),
                     ],
                   ),
@@ -158,11 +160,11 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                 color: Colors.transparent,
                 shadowColor: Colors.grey,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   alignment: Alignment.center,
                   width: 140,
                   height: 25,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(colors: [
                         Color(0Xff054F86),
                         Color(0Xff61C089),
@@ -192,7 +194,7 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                               id: widget.modelCart!.cartProduct!.id);
                         },
                         child: TextUtils(
-                            text: 'Delete',
+                            text: AppLocalizations.of(context)!.delete,
                             color: Colors.white,
                             fontSize: 14,
                             fontWeight: FontWeight.bold),
@@ -204,14 +206,14 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
               // widget.modelCart!.cartProduct!.quantity! == quantityorg!
 
               BuildCondition(
-                fallback: (context) => Center(
-                  child: EasyLoader(
-                    image: AssetImage(
-                      'assets/images/logo.png',
+                fallback: (context) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: SizedBox(
+                      height: 10,
+                      width: 10,
+                      child: CircularProgressIndicator(),
                     ),
-                    backgroundColor: Colors.grey.shade300,
-                    iconSize: 20,
-                    iconColor: Color(0Xff054F86),
                   ),
                 ),
                 condition: state is! LoadingAddquantitytState,
@@ -232,11 +234,11 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                     color: Colors.transparent,
                     shadowColor: Colors.grey,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       alignment: Alignment.center,
                       width: 100,
                       height: 25,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           gradient: LinearGradient(colors: [
                             Color(0Xff054F86),
                             Color(0Xff61C089),
@@ -245,7 +247,7 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                               bottomEnd: Radius.circular(30),
                               bottomStart: Radius.circular(30))),
                       child: TextUtils(
-                          text: 'update',
+                          text: AppLocalizations.of(context)!.update,
                           color: Colors.white,
                           fontSize: 15,
                           fontWeight: FontWeight.w500),

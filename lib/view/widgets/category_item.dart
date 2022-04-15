@@ -21,7 +21,7 @@ class CategoryItemWidget extends StatelessWidget {
             width: 165,
             height: 165,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // border: Border.all(width: 1),
               gradient: LinearGradient(colors: [
                 Color(0Xff054F86),
@@ -42,16 +42,16 @@ class CategoryItemWidget extends StatelessWidget {
                   child:
                       CircularProgressIndicator(color: Colors.green.shade400),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             // alignment: Alignment.center,
             width: 125,
             // height: 25,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Color(0Xff054F86),
                   Color(0Xff61C089),

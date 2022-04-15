@@ -1,8 +1,8 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:clinic/applocal.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/clear_clinic/order_clinic_confirm.dart';
 import 'package:clinic/view/screens/item/item.dart';
+import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/category_item.dart';
 import 'package:clinic/view/widgets/category_item_cart_widget.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -30,9 +32,9 @@ class CartScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            drawer: DrawerPage(),
+            drawer: const DrawerPage(),
             appBar: AppBar(
-              flexibleSpace: HeaderWidget(),
+              flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Builder(builder: (context) {
@@ -40,7 +42,7 @@ class CartScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                     ),
@@ -50,13 +52,10 @@ class CartScreen extends StatelessWidget {
             ),
             body: BuildCondition(
                 fallback: (context) => Center(
-                        child: EasyLoader(
-                      image: AssetImage('assets/images/logo.png'),
-                      backgroundColor: Colors.white,
-                      // iconSize: 30,
-
-                      iconColor: Color(0Xff054F86),
-                    )),
+                    child: Shimmer.fromColors(
+                        child: const ShimmerLoad(),
+                        baseColor: const Color(0Xff054F86),
+                        highlightColor: const Color(0Xff61C089))),
                 condition: state is! LoadingShowCartState,
                 builder: (context) {
                   // HomeCubit.get(context).getcart();
@@ -72,12 +71,12 @@ class CartScreen extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.60,
                               height: MediaQuery.of(context).size.height * 0.20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             TextUtils(
-                                text: 'Cart is empty',
-                                color: Color(0Xff054F86),
+                                text: AppLocalizations.of(context)!.cart_empty,
+                                color: const Color(0Xff054F86),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold)
                           ],
@@ -98,12 +97,13 @@ class CartScreen extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TextUtils(
-                                  text: 'Cart is empty',
-                                  color: Color(0Xff054F86),
+                                  text:
+                                      AppLocalizations.of(context)!.cart_empty,
+                                  color: const Color(0Xff054F86),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold)
                             ],
@@ -119,9 +119,9 @@ class CartScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           NotificationSearchTitle(
-                            text: 'Cart',
+                            text: AppLocalizations.of(context)!.cart,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Expanded(
@@ -132,7 +132,7 @@ class CartScreen extends StatelessWidget {
                                     .cart!
                                     .length,
                                 // HomeCubit.get(context).subModel!.data!.length,
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                                         itemCount: HomeCubit.get(context)
@@ -164,7 +164,7 @@ class CartScreen extends StatelessWidget {
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
-                                        gradient: LinearGradient(colors: [
+                                        gradient: const LinearGradient(colors: [
                                           Color(0Xff054F86),
                                           Color(0Xff61C089),
                                         ])),
@@ -176,11 +176,15 @@ class CartScreen extends StatelessWidget {
                                           text:
                                               ' ${HomeCubit.get(context).showCartModel!.data!.totalPrice} ',
                                           onPressed: () {
+                                            HomeCubit.get(context)
+                                                .valueDropDowncity = null;
+                                            HomeCubit.get(context).getCities();
                                             Navigator.push(
                                                 context,
                                                 PageRouteBuilder(
                                                   transitionDuration:
-                                                      Duration(seconds: 1),
+                                                      const Duration(
+                                                          seconds: 1),
                                                   transitionsBuilder: (context,
                                                       animation,
                                                       secondaryAnimation,
@@ -211,7 +215,7 @@ class CartScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                         // borderRadius: BorderRadius.circular(30),
                                         gradient: LinearGradient(colors: [
@@ -221,7 +225,7 @@ class CartScreen extends StatelessWidget {
                                     child: CircleAvatar(
                                       backgroundColor: Colors.transparent,
                                       child: TextUtils(
-                                        text: 'Buy',
+                                        text: AppLocalizations.of(context)!.buy,
                                         color: Colors.white,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -233,13 +237,14 @@ class CartScreen extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    gradient: LinearGradient(colors: [
+                                    gradient: const LinearGradient(colors: [
                                       Color(0Xff054F86),
                                       Color(0Xff61C089),
                                     ])),
                                 child: ButtonGradientWidget(
                                     color: Colors.transparent,
-                                    text: 'Clear All',
+                                    text:
+                                        AppLocalizations.of(context)!.clear_all,
                                     onPressed: () {
                                       HomeCubit.get(context).deleteAllCart();
                                     }),

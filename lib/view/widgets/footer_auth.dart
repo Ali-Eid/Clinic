@@ -17,10 +17,10 @@ class FotterAuthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 45,
       width: MediaQuery.of(context).size.width,
-      child: Image(
+      child: const Image(
         matchTextDirection: true,
         image: AssetImage('assets/images/88.png'),
         fit: BoxFit.fill,

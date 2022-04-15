@@ -8,7 +8,7 @@ class HeaderWidget extends StatelessWidget {
     return Stack(
       fit: StackFit.passthrough,
       children: [
-        Image(
+        const Image(
           matchTextDirection: true,
           image: AssetImage('assets/images/xxxxxxx (1).png'),
           fit: BoxFit.fill,
@@ -18,7 +18,7 @@ class HeaderWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.15),
           alignment: AlignmentDirectional.centerEnd,
-          child: Image(
+          child: const Image(
             image: AssetImage(
               'assets/images/xxxxxxx (2).png',
             ),
