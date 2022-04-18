@@ -103,6 +103,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 15),
                               child: ButtonGradientWidget(
                                 color: Colors.transparent,
+                                width: MediaQuery.of(context).size.width * 0.40,
                                 text: AppLocalizations.of(context)!.add_to_cart,
                                 onPressed: () {
                                   HomeCubit.get(context).addtocart(

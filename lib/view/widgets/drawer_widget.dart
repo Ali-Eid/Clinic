@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clinic/logic/auth/cubit/auth_cubit.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/services/cach_helper.dart';
+import 'package:clinic/view/screens/about_us/about_us.dart';
 import 'package:clinic/view/screens/auth/login_screen.dart';
 import 'package:clinic/view/screens/cart/cart_screen.dart';
 import 'package:clinic/view/screens/category_child/category_child.dart';
@@ -10,6 +11,7 @@ import 'package:clinic/view/screens/last_order/last_order.dart';
 import 'package:clinic/view/screens/latest_news/latest_news_screen.dart';
 import 'package:clinic/view/screens/maintenance/maintenance.dart';
 import 'package:clinic/view/screens/medical_supplies/category_screen.dart';
+import 'package:clinic/view/screens/update_info_screen/update_info.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,28 +62,52 @@ class DrawerHome extends StatelessWidget {
                                   bottomRight: Radius.circular(20),
                                 )),
                   // height: MediaQuery.of(context).size.height * 0.25,
-                  child: DrawerHeader(
-                    padding: EdgeInsets.zero,
-                    margin: EdgeInsets.zero,
-                    // decoration: BoxDecoration(color: Colors.blue.shade900),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundImage: CachedNetworkImageProvider(
-                            'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(seconds: 1),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            animation = CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.linearToEaseOut);
+                            return ScaleTransition(
+                              scale: animation,
+                              alignment: Alignment.center,
+                              child: child,
+                            );
+                          },
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            return UpdateInfoScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: DrawerHeader(
+                      padding: EdgeInsets.zero,
+                      margin: EdgeInsets.zero,
+                      // decoration: BoxDecoration(color: Colors.blue.shade900),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircleAvatar(
+                            radius: 50,
+                            backgroundImage: CachedNetworkImageProvider(
+                              'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextUtils(
-                            text: text!,
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold)
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextUtils(
+                              text: text!,
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -109,7 +135,7 @@ class DrawerHome extends StatelessWidget {
                         HomeCubit.get(context)
                             .servicedetails(slug: 'medical-supplies');
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryScreen()));
+                            builder: (_) => const CategoryScreen()));
                       },
                       child: TextUtils(
                         text: AppLocalizations.of(context)!.medical_Supplies,
@@ -306,9 +332,13 @@ class DrawerHome extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        HomeCubit.get(context).getaboutus();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const AboutScreen()));
+                      },
                       child: TextUtils(
-                          text: 'من نحن',
+                          text: AppLocalizations.of(context)!.about_us,
                           color: Colors.blue.shade900,
                           fontSize: 15,
                           fontWeight: FontWeight.bold)),
@@ -402,43 +432,67 @@ class DrawerPage extends StatelessWidget {
                 // ),
                 Container(
                   // height: MediaQuery.of(context).size.height * 0.25,
-                  child: DrawerHeader(
-                    padding: EdgeInsets.zero,
-                    margin: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                        // color: Colors.blue.shade900,
-                        gradient: const LinearGradient(colors: [
-                          Color(0Xff054F86),
-                          Color(0Xff61C089),
-                        ]),
-                        borderRadius:
-                            AppLocalizations.of(context)!.language == 'Arabic'
-                                ? const BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20))
-                                : const BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundImage: CachedNetworkImageProvider(
-                            'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(seconds: 1),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            animation = CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.linearToEaseOut);
+                            return ScaleTransition(
+                              scale: animation,
+                              alignment: Alignment.center,
+                              child: child,
+                            );
+                          },
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            return UpdateInfoScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: DrawerHeader(
+                      padding: EdgeInsets.zero,
+                      margin: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                          // color: Colors.blue.shade900,
+                          gradient: const LinearGradient(colors: [
+                            Color(0Xff054F86),
+                            Color(0Xff61C089),
+                          ]),
+                          borderRadius:
+                              AppLocalizations.of(context)!.language == 'Arabic'
+                                  ? const BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      bottomLeft: Radius.circular(20))
+                                  : const BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                    )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircleAvatar(
+                            radius: 50,
+                            backgroundImage: CachedNetworkImageProvider(
+                              'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextUtils(
-                            text:
-                                '${HomeCubit.get(context).model?.data!.firstName} ${HomeCubit.get(context).model?.data!.lastName} ',
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold)
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextUtils(
+                              text:
+                                  '${HomeCubit.get(context).model?.data!.firstName} ${HomeCubit.get(context).model?.data!.lastName} ',
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -465,7 +519,7 @@ class DrawerPage extends StatelessWidget {
                         HomeCubit.get(context)
                             .servicedetails(slug: 'medical-supplies');
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (_) => CategoryScreen()));
+                            builder: (_) => const CategoryScreen()));
                       },
                       child: TextUtils(
                         text: AppLocalizations.of(context)!.medical_Supplies,
@@ -610,7 +664,7 @@ class DrawerPage extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         HomeCubit.get(context).getlatestnews();
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (_) => LatestNewsScreen()));
                       },
                       child: TextUtils(
@@ -630,7 +684,7 @@ class DrawerPage extends StatelessWidget {
                   child: TextButton(
                       onPressed: () {
                         HomeCubit.get(context).getlastorder();
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (_) => const LastOrderScreen()));
                       },
                       child: TextUtils(
@@ -647,7 +701,7 @@ class DrawerPage extends StatelessWidget {
                   child: TextButton(
                       onPressed: () {
                         HomeCubit.get(context).getcart();
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (_) => const CartScreen()));
                       },
                       child: TextUtils(
@@ -662,9 +716,13 @@ class DrawerPage extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        HomeCubit.get(context).getaboutus();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (_) => const AboutScreen()));
+                      },
                       child: TextUtils(
-                          text: 'من نحن',
+                          text: AppLocalizations.of(context)!.about_us,
                           color: Colors.blue.shade900,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),

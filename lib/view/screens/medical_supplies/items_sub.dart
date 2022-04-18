@@ -111,6 +111,7 @@ class ItemSubCateg extends StatelessWidget {
                       ),
                     ),
                     FotterWidget(
+                      model: HomeCubit.get(context).contactInfoModel?.data,
                       salla1: true,
                       // model: HomeCubit.get(context).contactInfoModel!.data,
                     ),

@@ -104,6 +104,7 @@ class LastProductOrder extends StatelessWidget {
                   ),
                 ),
                 FotterWidget(
+                  model: HomeCubit.get(context).contactInfoModel?.data,
                   salla1: true,
                 )
               ],

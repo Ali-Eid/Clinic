@@ -7,17 +7,17 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -30,9 +30,9 @@ class Data {
   String? lastName;
   String? email;
   String? mobileNumber;
-  Null? photo;
+  String? photo;
   bool? isActive;
-  Null? deletedAt;
+  var deletedAt;
   Address? address;
   City? specialty;
 
@@ -62,28 +62,28 @@ class Data {
     isActive = json['is_active'];
     deletedAt = json['deleted_at'];
     address =
-        json['address'] != null ? new Address.fromJson(json['address']) : null;
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     specialty =
-        json['specialty'] != null ? new City.fromJson(json['specialty']) : null;
+        json['specialty'] != null ? City.fromJson(json['specialty']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['address_id'] = this.addressId;
-    data['specialty_id'] = this.specialtyId;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['mobile_number'] = this.mobileNumber;
-    data['photo'] = this.photo;
-    data['is_active'] = this.isActive;
-    data['deleted_at'] = this.deletedAt;
-    if (this.address != null) {
-      data['address'] = this.address!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['address_id'] = addressId;
+    data['specialty_id'] = specialtyId;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['mobile_number'] = mobileNumber;
+    data['photo'] = photo;
+    data['is_active'] = isActive;
+    data['deleted_at'] = deletedAt;
+    if (address != null) {
+      data['address'] = address!.toJson();
     }
-    if (this.specialty != null) {
-      data['specialty'] = this.specialty!.toJson();
+    if (specialty != null) {
+      data['specialty'] = specialty!.toJson();
     }
     return data;
   }
@@ -110,23 +110,22 @@ class Address {
     districtId = json['district_id'];
     cityId = json['city_id'];
     details = json['details'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    district = json['district'] != null
-        ? new District.fromJson(json['district'])
-        : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
+    district =
+        json['district'] != null ? District.fromJson(json['district']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['district_id'] = this.districtId;
-    data['city_id'] = this.cityId;
-    data['details'] = this.details;
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['district_id'] = districtId;
+    data['city_id'] = cityId;
+    data['details'] = details;
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    if (this.district != null) {
-      data['district'] = this.district!.toJson();
+    if (district != null) {
+      data['district'] = district!.toJson();
     }
     return data;
   }
@@ -137,7 +136,7 @@ class City {
   String? nameAr;
   String? nameEn;
   bool? isActive;
-  Null? deletedAt;
+  var deletedAt;
   String? name;
 
   City(
@@ -158,13 +157,13 @@ class City {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name_ar'] = this.nameAr;
-    data['name_en'] = this.nameEn;
-    data['is_active'] = this.isActive;
-    data['deleted_at'] = this.deletedAt;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name_ar'] = nameAr;
+    data['name_en'] = nameEn;
+    data['is_active'] = isActive;
+    data['deleted_at'] = deletedAt;
+    data['name'] = name;
     return data;
   }
 }
@@ -175,7 +174,7 @@ class District {
   String? nameAr;
   String? nameEn;
   bool? isActive;
-  Null? deletedAt;
+  var deletedAt;
   String? name;
 
   District(
@@ -198,14 +197,14 @@ class District {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['city_id'] = this.cityId;
-    data['name_ar'] = this.nameAr;
-    data['name_en'] = this.nameEn;
-    data['is_active'] = this.isActive;
-    data['deleted_at'] = this.deletedAt;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['city_id'] = cityId;
+    data['name_ar'] = nameAr;
+    data['name_en'] = nameEn;
+    data['is_active'] = isActive;
+    data['deleted_at'] = deletedAt;
+    data['name'] = name;
     return data;
   }
 }

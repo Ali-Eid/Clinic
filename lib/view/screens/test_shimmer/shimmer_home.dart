@@ -30,7 +30,7 @@ class ShimmerHome extends StatelessWidget {
             height: 10,
           ),
           TextUtils(
-              text: 'Please Wait...',
+              text: AppLocalizations.of(context)!.please_wait,
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold)
@@ -58,7 +58,7 @@ class ShimmerLoad extends StatelessWidget {
             height: 10,
           ),
           TextUtils(
-              text: 'Please Wait...',
+              text: AppLocalizations.of(context)!.please_wait,
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold)

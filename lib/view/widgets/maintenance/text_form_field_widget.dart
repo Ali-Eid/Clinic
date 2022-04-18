@@ -29,29 +29,32 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      decoration: BoxDecoration(boxShadow: [
+      decoration: const BoxDecoration(boxShadow: [
         BoxShadow(color: Colors.black38, blurRadius: 25, offset: Offset(0, 10))
       ]),
       child: AuthTextFormField(
           onsaved: onsaved,
           textInputType: textinputType,
-          prefixIcon: Container(
-            alignment: Alignment.center,
-            width: 100,
-            // height: 40,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0Xff054F86),
-                    Color(0Xff61C089),
-                  ],
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: TextUtils(
-                text: text,
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold),
+          prefixIcon: Padding(
+            padding: const EdgeInsetsDirectional.only(end: 5.0),
+            child: Container(
+              alignment: Alignment.center,
+              width: 100,
+              // height: 40,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0Xff054F86),
+                      Color(0Xff61C089),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+              child: TextUtils(
+                  text: text,
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           controller: controller,
           // maxLines: 1,

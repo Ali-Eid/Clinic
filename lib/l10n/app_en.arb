@@ -63,7 +63,11 @@
     "please_enter_valid_email":"Please Enter Valid Email",
     "password_valid":"please Enter password longer than 6 characters",
     "please_enter_valid_first_name":"Please Enter Valid First Name",
-    "please_enter_valid_last_name":"Please Enter Valid Last Name"
+    "please_enter_valid_last_name":"Please Enter Valid Last Name",
+    "update_Info":"Update Info",
+    "success_update_info":"Success Update Info",
+    "about_us":"About us",
+    "please_wait":"Please Wait..."
     
     
     

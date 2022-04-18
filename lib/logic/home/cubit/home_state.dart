@@ -22,6 +22,8 @@ class SuccessLoadCities extends HomeState {}
 
 class SuccessLoadDestrict extends HomeState {}
 
+class SuccessLoadSpecialist extends HomeState {}
+
 class ErrorLoadCities extends HomeState {}
 
 //
@@ -64,7 +66,24 @@ class SuccessUserInfoState extends HomeState {
   SuccessUserInfoState();
 }
 
-class ErrorUserInfoState extends HomeState {}
+class SuccessUpdateUserInfoState extends HomeState {
+  // OrderModel? ordermedical;
+  SuccessUpdateUserInfoState();
+}
+
+class ErrorUserInfoState extends HomeState {
+  String? error;
+  ErrorUserInfoState({this.error});
+}
+
+// upload photo
+class SuccessChangeProfileImageState extends HomeState {
+  SuccessChangeProfileImageState();
+}
+
+class ErrorChangeProfileImageState extends HomeState {
+  ErrorChangeProfileImageState();
+}
 
 class LoadingRequestMaintenanceState extends HomeState {}
 
@@ -165,4 +184,15 @@ class SuccessLatestNewsState extends HomeState {
 class ErrorLatestNewsState extends HomeState {
   String? error;
   ErrorLatestNewsState({this.error});
+}
+
+//About Us
+class SuccessAboutUsState extends HomeState {
+  String? body;
+  SuccessAboutUsState({this.body});
+}
+
+class ErrorAboutUsState extends HomeState {
+  String? error;
+  ErrorAboutUsState({this.error});
 }

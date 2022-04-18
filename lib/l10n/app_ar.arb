@@ -60,7 +60,11 @@
     "please_enter_valid_email":"الرجاء ادخال بريد الكتروني صحيح",
     "password_valid":"الرجاء ادخال كلمة مرور اكثر من 6 محارف",
     "please_enter_valid_first_name":"الرجاء ادخال الاسم الاول صحيح",
-    "please_enter_valid_last_name":"الرجاء ادخال النسبة صحيح"
+    "please_enter_valid_last_name":"الرجاء ادخال النسبة صحيح",
+    "update_Info":"تحديث المعلومات",
+    "success_update_info":"تم تحديث المعلومات بنجاح",
+    "about_us":"من نحن",
+    "please_wait":"الرجاء الانتظار..."
     
     
     

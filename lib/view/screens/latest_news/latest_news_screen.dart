@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/latest_news_model.dart';
 import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
@@ -74,7 +75,9 @@ class LatestNewsScreen extends StatelessWidget {
                                 baseColor: const Color(0Xff054F86),
                                 highlightColor: const Color(0Xff61C089))),
                       ),
-                FotterWidget(),
+                FotterWidget(
+                  model: HomeCubit.get(context).contactInfoModel?.data,
+                ),
               ],
             ),
           );
@@ -113,26 +116,18 @@ class item_latest_news extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.290,
               color: Colors.white,
               child: CarouselSlider(
-                items:
-                    // model.images.map((e) => null)
-                    [
-                  'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                  'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                ]
-                        .map(
-                          (e) => CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            imageUrl: e,
-                            placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator(
-                                  color: Colors.green.shade400),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                items: model!.images!.map((e) {
+                  return CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      imageUrl: 'https://my-clinic22.herokuapp.com/${e.path}',
+                      placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.green.shade400),
                           ),
-                        )
-                        .toList(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error));
+                }).toList(),
                 // carouselController: carouselController,
                 options: CarouselOptions(
                   pauseAutoPlayOnManualNavigate: false,

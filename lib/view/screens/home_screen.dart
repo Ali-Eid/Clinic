@@ -100,17 +100,20 @@ class HomeScreen extends StatelessWidget {
                                   children: [
                                     CategoryandTitle(
                                       ontap: () {
-                                        HomeCubit.get(context).servicedetails(
-                                            slug: 'clean-your-clinic');
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (_) => ClearScreen(
-                                                      type: 'clean',
-                                                    )));
+                                        HomeCubit.get(context).getCategories();
+                                        // HomeCubit.get(context).servicedetails(
+                                        //     slug: 'medical-supplies');
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const CategoryScreen(),
+                                          ),
+                                        );
                                       },
+                                      // text: 'Medical Supplies',
                                       text: AppLocalizations.of(context)!
-                                          .clean_your_clinic,
-                                      imgurl: 'assets/images/Asset 27.png',
+                                          .medical_Supplies,
+                                      imgurl: 'assets/images/Asset 21.png',
                                     ),
                                     // SizedBox(
                                     //   width: 30,
@@ -130,21 +133,18 @@ class HomeScreen extends StatelessWidget {
                                     // ),
                                     CategoryandTitle(
                                       ontap: () {
-                                        HomeCubit.get(context).getCategories();
-                                        // HomeCubit.get(context).servicedetails(
-                                        //     slug: 'medical-supplies');
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (_) =>
-                                                const CategoryScreen(),
-                                          ),
-                                        );
+                                        HomeCubit.get(context).servicedetails(
+                                            slug: 'clean-your-clinic');
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (_) => ClearScreen(
+                                                      type: 'clean',
+                                                    )));
                                       },
-                                      // text: 'Medical Supplies',
                                       text: AppLocalizations.of(context)!
-                                          .medical_Supplies,
-                                      imgurl: 'assets/images/Asset 21.png',
-                                    )
+                                          .clean_your_clinic,
+                                      imgurl: 'assets/images/Asset 27.png',
+                                    ),
                                   ],
                                 ),
                               ),

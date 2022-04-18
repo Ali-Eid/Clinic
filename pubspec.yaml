@@ -57,15 +57,18 @@ dependencies:
   cached_network_image: ^3.2.0
   font_awesome_flutter:
   animated_splash_screen: ^1.2.0
-  flutter_html: ^0.11.1
   easy_loader: ^2.0.0
   intl: ^0.17.0
   shimmer: ^2.0.0
+  image_picker:
+
   # fluttertoast: ^8.0.8
   # url_launcher: ^6.0.20
   # flutter_launcher_icons:
   
-  # url_launcher: ^6.0.20
+  url_launcher: ^6.0.20
+  flutter_html: ^3.0.0-alpha.3
+  firebase_core: ^1.12.0
 
 dev_dependencies:
   flutter_test:

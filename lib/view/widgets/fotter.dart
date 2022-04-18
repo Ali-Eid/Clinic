@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 class FotterWidget extends StatelessWidget {
   bool? salla1;
   DataContact? model;
-  FotterWidget({Key? key, this.salla1 = false, this.model}) : super(key: key);
+  FotterWidget({Key? key, this.salla1 = false, required this.model})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,59 +38,64 @@ class FotterWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
+                  GestureDetector(
                     onTap: () async {
-                      // var url = model!.facebook!;
-                      // if (await canLaunch(url)) {
-                      //   await launch(url);
-                      // } else {
-                      //   throw 'Could not launch $url';
-                      // }
+                      var url = model!.facebook!;
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
                     },
                     child: const Icon(
                       FontAwesomeIcons.facebook,
                       color: Colors.white,
-                      size: 15,
+                      size: 20,
                     ),
                   ),
                   const SizedBox(
-                    width: 4,
+                    width: 6,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () async {
-                      //  var url = model!.instagram!;
-                      // if (await canLaunch(url)) {
-                      //   await launch(url);
-                      // } else {
-                      //   throw 'Could not launch $url';
-                      // }
+                      var url = model!.instagram!;
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
                     },
                     child: const Icon(
                       FontAwesomeIcons.instagram,
                       color: Colors.white,
-                      size: 15,
+                      size: 20,
                     ),
                   ),
                   const SizedBox(
-                    width: 4,
+                    width: 6,
                   ),
-                  InkWell(
-                    onTap: () {
-                      print('object');
+                  GestureDetector(
+                    onTap: () async {
+                      var url = model!.mobileNumber!;
+                      // if (await canLaunch(url)) {
+                      await launch("tel:$url");
+                      // } else {
+                      // throw 'Could not launch $url';
+                      // }
                     },
                     child: const Icon(
                       FontAwesomeIcons.phone,
                       color: Colors.white,
-                      size: 15,
+                      size: 20,
                     ),
                   ),
                   const SizedBox(
                     width: 3,
                   ),
-                  Text(model?.mobileNumber ?? '',
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ))
+                  // Text(model?.mobileNumber ?? '',
+                  //     style: const TextStyle(
+                  //       color: Colors.white,
+                  //     ))
                 ],
               ),
               salla1! ? const salla() : const Text(''),

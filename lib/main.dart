@@ -1,7 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:clinic/constants.dart';
 import 'package:clinic/logic/auth/cubit/auth_cubit.dart';
-
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/logic/localization/cubit/localization_cubit.dart';
 import 'package:clinic/services/cach_helper.dart';
@@ -11,12 +10,11 @@ import 'package:clinic/view/screens/auth/login_screen.dart';
 import 'package:clinic/view/screens/category_child/categoy_items/item_category.dart';
 import 'package:clinic/view/screens/home_screen.dart';
 import 'package:clinic/view/screens/home_screen_2.dart';
+import 'package:clinic/view/screens/update_info_screen/update_info.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'view/screens/auth/signup_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

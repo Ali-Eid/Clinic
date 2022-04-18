@@ -69,6 +69,7 @@ class LastOrderScreen extends StatelessWidget {
                   ),
                 ),
                 FotterWidget(
+                  model: HomeCubit.get(context).contactInfoModel?.data,
                   salla1: true,
                 )
               ],
@@ -102,10 +103,11 @@ class item_last_order extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.center,
-              width: 70,
+              // width: 70,
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
-                    300,
+                    30,
                   ),
                   color: Colors.grey.shade300),
               child: TextUtils(

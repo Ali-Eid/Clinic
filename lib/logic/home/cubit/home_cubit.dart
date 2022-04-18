@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:clinic/constants.dart';
 import 'package:clinic/end_points.dart';
+import 'package:clinic/model/about_us_model.dart';
 import 'package:clinic/model/auth_model.dart';
 import 'package:clinic/model/cart/add_to_cart_model.dart';
 import 'package:clinic/model/cart/show_cart.dart';
@@ -19,12 +21,14 @@ import 'package:clinic/model/product_model.dart';
 import 'package:clinic/model/search/search_model.dart';
 import 'package:clinic/model/service_list_model.dart';
 import 'package:clinic/model/service_model.dart';
+import 'package:clinic/model/specialist_model.dart';
 import 'package:clinic/model/sub_category_model.dart';
 import 'package:clinic/model/user_model.dart';
 import 'package:clinic/services/cach_helper.dart';
 import 'package:clinic/services/network/dio_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 part 'home_state.dart';
@@ -180,6 +184,81 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  File? profileImage;
+  var picker = ImagePicker();
+
+  Future changeProfileImage() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      print(pickedFile.path);
+      emit(SuccessChangeProfileImageState());
+    } else {
+      emit(ErrorChangeProfileImageState());
+    }
+  }
+
+  void updateinfo({
+    // String? imgurl,
+    required String firstname,
+    required String lastname,
+    required String email,
+    required String mobilenum,
+    // required int cityid,
+    // required int districtid,
+    required String specialistid,
+  }) async {
+    try {
+      // List<int> imageBytes = profileImage!.readAsBytesSync();
+      // String baseimage = base64Encode(imageBytes);
+      http.Response response = await http.post(
+        Uri.parse('${url}users/me?_method=PUT'),
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+          'Accept': 'application/json',
+          'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+        },
+        body: {
+          // 'photo': profileImage,
+          'first_name': firstname,
+          'last_name': lastname,
+          'email': email,
+          'mobile_number': mobilenum,
+          'specialty_id': specialistid,
+          // 'address': {
+          //   'district_id': districtid,
+          //   'city_id': cityid,
+          // }
+        },
+      );
+      print(response.body);
+      var model = jsonDecode(response.body) as Map<String, dynamic>;
+      if (response.statusCode == 200) {
+        emit(SuccessUpdateUserInfoState());
+      } else {
+        emit(ErrorUserInfoState(error: model['message']));
+      }
+      //   var request = http.MultipartRequest(
+      //       "POST", Uri.parse("${url}users/me?_method=PUT"));
+      //   request.fields["first_name"] = firstname;
+      //   request.fields["last_name"] = lastname;
+      //   request.fields["email"] = email;
+      //   request.fields["mobile_number"] = mobilenum;
+      //   request.files.add(http.MultipartFile.fromBytes(
+      //       '$profileImage', File(profileImage!.path).readAsBytesSync(),
+      //       filename: profileImage!.path));
+      //   var res = await request.send();
+
+      //   emit(SuccessUpdateUserInfoState());
+    } catch (e) {
+      print('error user info ${e.toString()}');
+      emit(ErrorUserInfoState(error: e.toString()));
+    }
+  }
+
   void getContactinfo() async {
     http.Response response =
         await http.get(Uri.parse('${url}contact-infos'), headers: {
@@ -265,6 +344,23 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       emit(ErrorLoadCities());
     }
+  }
+
+  SpecialistModel? specialistModel;
+  // List<dynamic> specialist = [];
+  void getSpecialist() async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('${url}specialties'), headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer ${token}',
+        'Accept': 'application/json',
+        'Accept-Language': 'en'
+      });
+      specialistModel = SpecialistModel.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+      emit(SuccessLoadSpecialist());
+    } catch (e) {}
   }
 
   String? valueDropDowncity;
@@ -480,34 +576,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  // void getcart2() async {
-  //   // emit(LoadingShowCartState());
-
-  //   try {
-  //     http.Response response =
-  //         await http.get(Uri.parse('${url}cart'), headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
-  //       'Accept': 'application/json',
-  //       'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
-  //     });
-  //     print('response get cart ${response.body}');
-  //     showCartModel = ShowCartModel.fromJson(
-  //         jsonDecode(response.body) as Map<String, dynamic>);
-  //     // showCartModel!.data!.cart!.forEach((element) {
-  //     //   cart_item.add(element);
-  //     // });
-  //     // print('cart List cart ${cart_item}');
-  //     cart = [];
-  //     listcartbuild();
-  //     emit(SuccessShowCartState());
-  //     // yield showCartModel!;
-  //   } catch (e) {
-  //     print(e.toString());
-  //     emit(ErrorShowCartState());
-  //   }
-  // }
-
   List<int> cart = [];
   void listcartbuild() {
     cart = [];
@@ -662,6 +730,27 @@ class HomeCubit extends Cubit<HomeState> {
       await CacheHelper.removeData(key: 'token');
     } catch (e) {
       emit(ErrorLogOutState(error: e.toString()));
+    }
+  }
+
+  AboutUsModel? aboutUsModel;
+  void getaboutus() async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('${url}about-us'), headers: {
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+      });
+      print(response.body);
+      // if (response.statusCode == 200) {
+      aboutUsModel = AboutUsModel.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+      emit(SuccessAboutUsState());
+      // }
+    } catch (e) {
+      print(e.toString());
+      emit(ErrorAboutUsState());
     }
   }
 }
