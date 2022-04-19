@@ -18,7 +18,7 @@
     "serial_num":"Serial Number",
     "description":"description",
     "phone_number":"phone number",
-    "confirm":"confirm",
+    "confirm":"Next",
     "city":"City",
     "district":"District",
     "details_address":"Details address",

@@ -23,7 +23,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'medical_supplies/category_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -31,13 +30,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var home = getLang(context, 'home');
-    // var other = getLang(context, 'otherservice');
     return Builder(builder: (context) {
       HomeCubit.get(context).meInfo();
-      // HomeCubit.get(context).getCategories();
       HomeCubit.get(context).getcart();
-      // HomeCubit.get(context).getContactinfo();
 
       return BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {

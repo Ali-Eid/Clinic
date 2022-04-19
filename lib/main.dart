@@ -12,16 +12,43 @@ import 'package:clinic/view/screens/home_screen.dart';
 import 'package:clinic/view/screens/home_screen_2.dart';
 import 'package:clinic/view/screens/update_info_screen/update_info.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'view/screens/auth/signup_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'high_importance_channel', // id
+//     'High Importance Notifications', // title
+//     description:
+//         'This channel is used for important notifications', // description
+//     importance: Importance.max,
+//     playSound: true);
+
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+//   print('a bg message just showed up : ${message.messageId}');
+// }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DioHelper.init();
+  await Firebase.initializeApp();
+  await DioHelper.init();
   await CacheHelper.init();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  messageToken = await messaging.getToken();
+
+  await CacheHelper.saveData(key: 'token_msg', value: messageToken);
+
+  print('Token_Msg : ${CacheHelper.getData(key: 'token_msg')}');
+
   Widget widget;
   token = CacheHelper.getData(key: 'token');
   print('token :  $token');

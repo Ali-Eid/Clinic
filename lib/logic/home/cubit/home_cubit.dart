@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:clinic/constants.dart';
 import 'package:clinic/end_points.dart';
+import 'package:clinic/main.dart';
 import 'package:clinic/model/about_us_model.dart';
 import 'package:clinic/model/auth_model.dart';
 import 'package:clinic/model/cart/add_to_cart_model.dart';
@@ -19,13 +20,12 @@ import 'package:clinic/model/order_model.dart';
 import 'package:clinic/model/product_datails_model.dart';
 import 'package:clinic/model/product_model.dart';
 import 'package:clinic/model/search/search_model.dart';
-import 'package:clinic/model/service_list_model.dart';
 import 'package:clinic/model/service_model.dart';
 import 'package:clinic/model/specialist_model.dart';
 import 'package:clinic/model/sub_category_model.dart';
 import 'package:clinic/model/user_model.dart';
 import 'package:clinic/services/cach_helper.dart';
-import 'package:clinic/services/network/dio_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -168,6 +168,7 @@ class HomeCubit extends Cubit<HomeState> {
         'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
       });
       print(response.body);
+
       // if (response.statusCode == 200) {
       model =
           UserModel.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -175,6 +176,7 @@ class HomeCubit extends Cubit<HomeState> {
       print('district_id : ${model!.data!.address!.districtId}');
       print('details : ${model!.data!.address!.id}');
       //contact_method
+      sendtokenfcm();
       getContactinfo();
       // }
       //  emit(SuccessUserInfoState());
@@ -551,10 +553,43 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  // void addtocart2({Cart? item}) async {
+  //   cart2.add(item!);
+  //   if (!cart.contains(item)) {
+  //     emit(SuccessAddToCartState());
+  //   }
+  //   try {
+  //     http.Response response =
+  //         await http.post(Uri.parse('${url}cart'), headers: {
+  //       // 'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+  //       'Accept': 'application/json',
+  //       'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+  //     }, body: {
+  //       'product_ids[0]': item.cartProduct!.id.toString()
+  //     });
+  //     print(response.body);
+  //     if (response.statusCode == 200) {
+  //       // print(response.body);
+  //       cartAddModel = CartAddModel.fromJson(
+  //           jsonDecode(response.body) as Map<String, dynamic>);
+  //       if (cartAddModel!.data!.attached!.isEmpty) {
+  //         cart2.remove(item);
+  //         getcart();
+  //       }
+  //       // getcart();
+  //       emit(SuccessAddToCartState());
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //     emit(ErrorAddToCartState(error: e.toString()));
+  //   }
+  // }
+
   ShowCartModel? showCartModel;
 
   void getcart() async {
-    emit(LoadingShowCartState());
+    // emit(LoadingShowCartState());
 
     try {
       http.Response response =
@@ -577,15 +612,18 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   List<int> cart = [];
+  List<Cart> cart2 = [];
   void listcartbuild() {
     cart = [];
+    cart2 = [];
     for (var element in showCartModel!.data!.cart!) {
       cart.add(element.cartProduct!.id!);
+      cart2.add(element);
     }
   }
 
   ShowCartModel? cartquantity;
-  void updatequantity({int? id, dynamic? quantity}) async {
+  void updatequantity({int? id, dynamic quantity}) async {
     emit(LoadingAddquantitytState());
     try {
       http.Response response =
@@ -615,6 +653,29 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       http.Response response =
           await http.delete(Uri.parse('${url}cart/$id'), headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+      });
+      print('delete item : ${response.body}');
+      getcart();
+      // showCartModel = null;
+    } catch (e) {
+      print(e.toString());
+      emit(ErrorShowCartState());
+    }
+  }
+
+  void deleteItem2({Cart? item}) async {
+    cart2.remove(item!);
+    // if (!cart.contains(item)) {
+    emit(SuccessAddToCartState());
+    // }
+
+    try {
+      http.Response response = await http
+          .delete(Uri.parse('${url}cart/${item.cartProduct!.id}'), headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
         'Accept': 'application/json',
@@ -751,6 +812,51 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       print(e.toString());
       emit(ErrorAboutUsState());
+    }
+  }
+
+  //Notifications
+
+  void sendtokenfcm() async {
+    try {
+      http.Response response =
+          await http.post(Uri.parse('${url}users/fcm-token'), body: {
+        'token': '${CacheHelper.getData(key: 'token_msg')}'
+      }, headers: {
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+      });
+      print('fcm send token to API : ${response.body}');
+      // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      //   RemoteNotification? notification = message.notification;
+      //   AndroidNotification? android = message.notification?.android;
+      //   if (notification != null && android != null) {
+      //     flutterLocalNotificationsPlugin.show(
+      //       notification.hashCode,
+      //       notification.title,
+      //       notification.body,
+      //       NotificationDetails(
+      //         android: AndroidNotificationDetails(
+      //           channel.id,
+      //           channel.name,
+      //           channelDescription: channel.description,
+      //           playSound: true,
+      //         ),
+      //       ),
+      //     );
+      //   }
+      // });
+      // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      //   RemoteNotification? notification = message.notification;
+      //   AndroidNotification? android = message.notification?.android;
+      //   if (notification != null && android != null) {
+      //     showDialog(context: context, builder: builder)
+      //   }
+      // });
+    } catch (e) {
+      print('error send token : ${e.toString()}');
+      emit(ErrorUserInfoState(error: e.toString()));
     }
   }
 }

@@ -190,8 +190,8 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                       ),
                       InkWell(
                         onTap: () {
-                          HomeCubit.get(context).deleteItem(
-                              id: widget.modelCart!.cartProduct!.id);
+                          HomeCubit.get(context)
+                              .deleteItem2(item: widget.modelCart!);
                         },
                         child: TextUtils(
                             text: AppLocalizations.of(context)!.delete,

@@ -47,6 +47,7 @@ android {
         applicationId "com.example.clinic"
         // minSdkVersion flutter.minSdkVersion
         minSdkVersion 21
+        multiDexEnabled true
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -68,5 +69,5 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
-    implementation 'com.google.firebase:firebase-analytics'
+    // implementation 'com.google.firebase:firebase-analytics'
 }

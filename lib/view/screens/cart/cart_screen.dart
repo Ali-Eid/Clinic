@@ -110,11 +110,7 @@ class CartScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      condition: HomeCubit.get(context)
-                          .showCartModel!
-                          .data!
-                          .cart!
-                          .isNotEmpty,
+                      condition: HomeCubit.get(context).cart2.isNotEmpty,
                       builder: (context) => Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -126,20 +122,18 @@ class CartScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: GridView.builder(
-                                itemCount: HomeCubit.get(context)
-                                    .showCartModel!
-                                    .data!
-                                    .cart!
-                                    .length,
+                                itemCount: HomeCubit.get(context).cart2.length,
                                 // HomeCubit.get(context).subModel!.data!.length,
                                 physics: const BouncingScrollPhysics(),
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
-                                        itemCount: HomeCubit.get(context)
-                                            .showCartModel!
-                                            .data!
-                                            .cart!
-                                            .length,
+                                        itemCount:
+                                            HomeCubit.get(context).cart2.length,
+                                        //  HomeCubit.get(context)
+                                        //     .showCartModel!
+                                        //     .data!
+                                        //     .cart!
+                                        //     .length,
                                         // HomeCubit.get(context).subModel!.data!.length,
                                         crossAxisCount: 2,
                                         mainAxisSpacing: 10,
@@ -149,11 +143,13 @@ class CartScreen extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemBuilder: (ctxt, index) =>
                                     CartCategoryItemWidget(
-                                      modelCart: HomeCubit.get(context)
-                                          .showCartModel!
-                                          .data!
-                                          .cart![index],
-                                    )),
+                                        modelCart:
+                                            HomeCubit.get(context).cart2[index]
+                                        //  HomeCubit.get(context)
+                                        //     .showCartModel!
+                                        //     .data!
+                                        //     .cart![index],
+                                        )),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
