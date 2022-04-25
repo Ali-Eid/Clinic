@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
 import 'package:clinic/constants.dart';
 import 'package:clinic/end_points.dart';
@@ -11,11 +12,13 @@ import 'package:clinic/model/cart/add_to_cart_model.dart';
 import 'package:clinic/model/cart/show_cart.dart';
 import 'package:clinic/model/cities_model.dart';
 import 'package:clinic/model/contact_info.dart';
+import 'package:clinic/model/data_notifications_model.dart';
 import 'package:clinic/model/district_model.dart';
 import 'package:clinic/model/last_order_model.dart';
 import 'package:clinic/model/latest_news_model.dart';
 import 'package:clinic/model/login_model.dart';
 import 'package:clinic/model/medical_supplies.dart';
+import 'package:clinic/model/notifications/notifications_model.dart';
 import 'package:clinic/model/order_model.dart';
 import 'package:clinic/model/product_datails_model.dart';
 import 'package:clinic/model/product_model.dart';
@@ -25,8 +28,12 @@ import 'package:clinic/model/specialist_model.dart';
 import 'package:clinic/model/sub_category_model.dart';
 import 'package:clinic/model/user_model.dart';
 import 'package:clinic/services/cach_helper.dart';
+import 'package:clinic/view/screens/home_screen.dart';
+import 'package:clinic/view/screens/notifications/notifications_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
@@ -213,7 +220,8 @@ class HomeCubit extends Cubit<HomeState> {
     required String specialistid,
   }) async {
     try {
-      // List<int> imageBytes = profileImage!.readAsBytesSync();
+      emit(
+          Loadingupdateinfo()); // List<int> imageBytes = profileImage!.readAsBytesSync();
       // String baseimage = base64Encode(imageBytes);
       http.Response response = await http.post(
         Uri.parse('${url}users/me?_method=PUT'),
@@ -669,6 +677,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void deleteItem2({Cart? item}) async {
     cart2.remove(item!);
+    cart.remove(item.cartProduct!.id);
     // if (!cart.contains(item)) {
     emit(SuccessAddToCartState());
     // }
@@ -828,35 +837,159 @@ class HomeCubit extends Cubit<HomeState> {
         'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
       });
       print('fcm send token to API : ${response.body}');
-      // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      //   RemoteNotification? notification = message.notification;
-      //   AndroidNotification? android = message.notification?.android;
-      //   if (notification != null && android != null) {
-      //     flutterLocalNotificationsPlugin.show(
-      //       notification.hashCode,
-      //       notification.title,
-      //       notification.body,
-      //       NotificationDetails(
-      //         android: AndroidNotificationDetails(
-      //           channel.id,
-      //           channel.name,
-      //           channelDescription: channel.description,
-      //           playSound: true,
-      //         ),
-      //       ),
-      //     );
-      //   }
-      // });
-      // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      //   RemoteNotification? notification = message.notification;
-      //   AndroidNotification? android = message.notification?.android;
-      //   if (notification != null && android != null) {
-      //     showDialog(context: context, builder: builder)
-      //   }
-      // });
     } catch (e) {
       print('error send token : ${e.toString()}');
       emit(ErrorUserInfoState(error: e.toString()));
+    }
+  }
+
+  List<DataNotificationsmodel?> datanotifications = [];
+  void reciveNotification() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification!;
+      AndroidNotification? android = message.notification?.android;
+      print('ttttttttttttttttttttttt');
+      print(notification);
+      print(android);
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+
+      DataNotificationsmodel d = DataNotificationsmodel(
+          name: notification.title, body: notification.body);
+      datanotifications.add(d);
+      emit(NotificationsState());
+      flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id, channel.name,
+              channelDescription: channel.description,
+              icon: '@mipmap/ic_launcher',
+              color: Colors.blue,
+              playSound: true,
+              importance: Importance.max,
+
+              // enableLights: true,
+              // largeIcon:
+              //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+              enableVibration: true,
+              priority: Priority.high,
+              fullScreenIntent: true,
+              // ongoing: true,
+              indeterminate: true,
+              setAsGroupSummary: true,
+              visibility: NotificationVisibility.public,
+              // timeoutAfter: 2,
+              // styleInformation: const MediaStyleInformation(
+              //     htmlFormatContent: true, htmlFormatTitle: true),
+            ),
+          ),
+          payload: message.data['screen']);
+      // AwesomeNotifications().createNotification(
+      //     content: NotificationContent(
+      //   id: notification.hashCode,
+      //   channelKey: 'basic_channel',
+      //   title: notification.title,
+      //   body: notification.body,
+      //   fullScreenIntent: true,
+      //   // largeIcon: 'assets/images/logo.png',
+      //   // bigPicture: 'asset://assets/images/logo.png',
+      //   // notificationLayout: NotificationLayout.BigPicture
+      //   //  locked: true,
+      //   // roundedBigPicture: true,
+      //   // displayOnForeground: true,
+      //   // wakeUpScreen: true,
+      //   // criticalAlert: true,
+      //   // displayOnBackground: true,
+
+      //   // autoDismissible: true,
+      // ));
+    });
+    // .onData((data) {
+    //   DataNotifications d = DataNotifications(
+    //       name: data.notification!.title, body: data.notification!.body);
+    //   datanotifications.add(d);
+    //   emit(NotificationsState());
+    //   print('rrrrrrrrrrrrrrrrrrrrr${data.data['ss']}');
+    //   flutterLocalNotificationsPlugin.show(
+    //     data.notification.hashCode,
+    //     data.notification!.title,
+    //     data.notification!.body,
+    //     NotificationDetails(
+    //       android: AndroidNotificationDetails(
+    //         channel.id, channel.name,
+    //         channelDescription: channel.description,
+    //         icon: '@mipmap/ic_launcher',
+    //         color: Colors.blue,
+    //         playSound: true,
+    //         importance: Importance.max,
+    //         // enableLights: true,
+    //         // largeIcon:
+    //         //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+    //         enableVibration: true,
+    //         priority: Priority.high,
+    //         fullScreenIntent: true,
+    //         //
+    //         // ongoing: true,
+    //         indeterminate: true,
+    //         setAsGroupSummary: true,
+    //         visibility: NotificationVisibility.public,
+    //         // styleInformation: const BigTextStyleInformation('title')
+    //         // timeoutAfter: 2,
+    //         // styleInformation: const MediaStyleInformation(
+    //         //     htmlFormatContent: true, htmlFormatTitle: true),
+    //       ),
+    //     ),
+    //   );
+    //   // AwesomeNotifications().createNotification(
+    //   //     content: NotificationContent(
+    //   //   id: data.notification!.hashCode,
+    //   //   channelKey: 'basic_channel',
+    //   //   title: data.notification!.title,
+    //   //   body: data.notification!.body,
+    //   //   fullScreenIntent: true,
+    //   //   displayOnForeground: true,
+    //   //   wakeUpScreen: true,
+    //   //   displayOnBackground: true,
+    //   //   autoDismissible: true,
+    //   // ));
+    // });
+    // emit(NotificationsState());
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification!;
+      AndroidNotification? android = message.notification?.android;
+
+      if (message.data['screen'] == 'NotificationScreen') {
+        Navigator.push(
+            navigatorKey.currentState!.context,
+            MaterialPageRoute(
+                builder: (context) => const NotificationScreen()));
+      } else {
+        Navigator.push(navigatorKey.currentState!.context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
+      }
+    });
+  }
+
+  NotificationsModel? notificationModel;
+  void getNotifications() async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('${url}users/notifications'), headers: {
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+      });
+      print('notifications response ${response.body}');
+      if (response.statusCode == 200) {
+        notificationModel = NotificationsModel.fromJson(
+            jsonDecode(response.body) as Map<String, dynamic>);
+        emit(NotificationsState());
+      }
+    } catch (e) {
+      print('error notification ${e.toString()}');
     }
   }
 }

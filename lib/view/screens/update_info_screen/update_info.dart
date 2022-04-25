@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/home_screen.dart';
@@ -104,404 +105,431 @@ class UpdateInfoScreen extends StatelessWidget {
           ),
           body: Form(
             key: formkey,
-            child: Column(
+            child: Stack(
               children: [
-                NotificationSearchTitle(
-                  text: 'your information',
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Stack(
-                  alignment: AlignmentDirectional.topEnd,
+                Column(
                   children: [
-                    CircleAvatar(
-                      radius: 75,
-                      backgroundImage:
-                          HomeCubit.get(context).profileImage != null
+                    NotificationSearchTitle(
+                      text: AppLocalizations.of(context)!.your_information,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [
+                        CircleAvatar(
+                          radius: 75,
+                          backgroundImage: HomeCubit.get(context)
+                                      .profileImage !=
+                                  null
                               ? Image.file(HomeCubit.get(context).profileImage!)
                                   .image
                               : const CachedNetworkImageProvider(
                                   'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
                                 ),
 
-                      // backgroundColor: Colors.transparent,
-                      // child:
-                      //  HomeCubit.get(context).model?.data!.photo != null
-                      //     ? CachedNetworkImage(
-                      //         height: 75,
-                      //         // fit: BoxFit.cover,
-                      //         width: double.infinity,
-                      //         imageUrl: HomeCubit.get(context).model!.data!.photo!,
-                      //         placeholder: (context, url) => Center(
-                      //           child: CircularProgressIndicator(
-                      //               color: Colors.green.shade400),
-                      //         ),
+                          // backgroundColor: Colors.transparent,
+                          // child:
+                          //  HomeCubit.get(context).model?.data!.photo != null
+                          //     ? CachedNetworkImage(
+                          //         height: 75,
+                          //         // fit: BoxFit.cover,
+                          //         width: double.infinity,
+                          //         imageUrl: HomeCubit.get(context).model!.data!.photo!,
+                          //         placeholder: (context, url) => Center(
+                          //           child: CircularProgressIndicator(
+                          //               color: Colors.green.shade400),
+                          //         ),
 
-                      //         errorWidget: (context, url, error) =>
-                      //             const Icon(Icons.error),
-                      //       )
-                      //     :
-                      // HomeCubit.get(context).profileImage != null
-                      //     ? Container(
-                      //         //elese show image here
-                      //         child: SizedBox(
-                      //             height: 150,
-                      //             child: Image.file(HomeCubit.get(context)
-                      //                 .profileImage!) //load image from file
-                      //             ))
-                      //     : CachedNetworkImage(
-                      //         height: 50,
-                      //         fit: BoxFit.cover,
-                      //         width: double.infinity,
-                      //         imageUrl:
-                      //             'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
-                      //         placeholder: (context, url) => Center(
-                      //           child: CircularProgressIndicator(
-                      //               color: Colors.green.shade400),
-                      //         ),
-                      //         errorWidget: (context, url, error) =>
-                      //             const Icon(Icons.error),
-                      //       ),
+                          //         errorWidget: (context, url, error) =>
+                          //             const Icon(Icons.error),
+                          //       )
+                          //     :
+                          // HomeCubit.get(context).profileImage != null
+                          //     ? Container(
+                          //         //elese show image here
+                          //         child: SizedBox(
+                          //             height: 150,
+                          //             child: Image.file(HomeCubit.get(context)
+                          //                 .profileImage!) //load image from file
+                          //             ))
+                          //     : CachedNetworkImage(
+                          //         height: 50,
+                          //         fit: BoxFit.cover,
+                          //         width: double.infinity,
+                          //         imageUrl:
+                          //             'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
+                          //         placeholder: (context, url) => Center(
+                          //           child: CircularProgressIndicator(
+                          //               color: Colors.green.shade400),
+                          //         ),
+                          //         errorWidget: (context, url, error) =>
+                          //             const Icon(Icons.error),
+                          //       ),
+                        ),
+                        CircleAvatar(
+                          child: IconButton(
+                              onPressed: () {
+                                HomeCubit.get(context).changeProfileImage();
+                                print(
+                                    '${HomeCubit.get(context).profileImage?.path}');
+                              },
+                              icon: const Icon(
+                                Icons.photo,
+                                color: Colors.white,
+                              )),
+                          radius: 20,
+                          backgroundColor: const Color(0Xff61C089),
+                        )
+                      ],
                     ),
-                    CircleAvatar(
-                      child: IconButton(
-                          onPressed: () {
-                            HomeCubit.get(context).changeProfileImage();
-                            print(
-                                '${HomeCubit.get(context).profileImage?.path}');
-                          },
-                          icon: const Icon(
-                            Icons.photo,
-                            color: Colors.white,
-                          )),
-                      radius: 20,
-                      backgroundColor: const Color(0Xff61C089),
-                    )
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   height: MediaQuery.of(context).size.height * 0.18,
+                    //   decoration: const BoxDecoration(
+                    //     color: Colors.red,
+                    //     // borderRadius: BorderRadius.all(Radius.circular(30)),
+                    //     shape: BoxShape.circle,
+                    //   ),
+                    //   child:
+                    // HomeCubit.get(context).model?.data!.photo != null
+                    //     ? CachedNetworkImage(
+                    //         height: 75,
+                    //         // fit: BoxFit.cover,
+                    //         width: double.infinity,
+                    //         imageUrl: HomeCubit.get(context).model!.data!.photo!,
+                    //         placeholder: (context, url) => Center(
+                    //           child: CircularProgressIndicator(
+                    //               color: Colors.green.shade400),
+                    //         ),
+
+                    //         errorWidget: (context, url, error) =>
+                    //             const Icon(Icons.error),
+                    //       )
+                    //     :
+
+                    // ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          TextFieldWidget(
+                            suffixIcon:
+                                Icon(Icons.star, color: Colors.grey.shade400),
+                            controller: firstnamecontroller,
+                            text: AppLocalizations.of(context)!.first_name,
+                            fieldemptymsg: AppLocalizations.of(context)!
+                                .please_enter_valid_first_name,
+                            // onsaved: (value) {
+                            //   maintenancereq!.device = value;
+                            // },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFieldWidget(
+                            suffixIcon:
+                                Icon(Icons.star, color: Colors.grey.shade400),
+                            controller: lastnamecontroller,
+                            text: AppLocalizations.of(context)!.last_name,
+                            fieldemptymsg: AppLocalizations.of(context)!
+                                .please_enter_valid_first_name,
+                            // onsaved: (value) {
+                            //   maintenancereq!.device = value;
+                            // },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFieldWidget(
+                            textinputType: TextInputType.number,
+                            suffixIcon:
+                                Icon(Icons.star, color: Colors.grey.shade400),
+                            controller: phoneController,
+                            text: AppLocalizations.of(context)!.phone_number,
+                            fieldemptymsg: AppLocalizations.of(context)!
+                                .phone_number_validate,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          // Card(
+                          //   shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   elevation: 5,
+                          //   child: Row(
+                          //     children: [
+                          //       Container(
+                          //         alignment: Alignment.center,
+                          //         width: 100,
+                          //         height: 50,
+                          //         decoration: const BoxDecoration(
+                          //             gradient: LinearGradient(
+                          //               colors: [
+                          //                 Color(0Xff054F86),
+                          //                 Color(0Xff61C089),
+                          //               ],
+                          //             ),
+                          //             borderRadius: BorderRadius.all(
+                          //                 Radius.circular(30))),
+                          //         child: TextUtils(
+                          //             text: AppLocalizations.of(context)!
+                          //                 .your_specialist,
+                          //             color: Colors.white,
+                          //             fontSize: 14,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //       Expanded(
+                          //         child: Container(
+                          //           // height: 35,
+                          //           // width: double.infinity,
+                          //           child: DropdownButtonHideUnderline(
+                          //             child: Container(
+                          //               padding: const EdgeInsets.fromLTRB(
+                          //                   20, 0, 20, 0),
+                          //               child: DropdownButton<dynamic>(
+                          //                 elevation: 1,
+
+                          //                 icon:
+                          //                     const Icon(Icons.arrow_drop_down),
+                          //                 // alignment: Alignment.center,
+                          //                 hint: TextUtils(
+                          //                     text:
+                          //                         '${HomeCubit.get(context).model!.data!.specialty}',
+                          //                     color: Colors.black,
+                          //                     fontSize: 18,
+                          //                     fontWeight: FontWeight.bold),
+                          //                 value: HomeCubit.get(context)
+                          //                     .valueDropDowncity,
+                          //                 items: HomeCubit.get(context)
+                          //                             .citiesModel ==
+                          //                         null
+                          //                     ? []
+                          //                     : HomeCubit.get(context)
+                          //                         .citiesModel!
+                          //                         .data!
+                          //                         .map((value) {
+                          //                         return DropdownMenuItem<
+                          //                                 String>(
+                          //                             onTap: () {
+                          //                               cityID = value.id;
+                          //                               HomeCubit.get(context)
+                          //                                   .getDistrict(
+                          //                                       id: value.id);
+                          //                             },
+                          //                             child: Text(value.name!),
+                          //                             value: value.name);
+                          //                       }).toList(),
+                          //                 onChanged: (val) {
+                          //                   HomeCubit.get(context)
+                          //                       .changevalueDropdown(val);
+                          //                 },
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // Card(
+                          //   shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   elevation: 5,
+                          //   child: Row(
+                          //     children: [
+                          //       Container(
+                          //         alignment: Alignment.center,
+                          //         width: 100,
+                          //         height: 50,
+                          //         decoration: const BoxDecoration(
+                          //             gradient: LinearGradient(
+                          //               colors: [
+                          //                 Color(0Xff054F86),
+                          //                 Color(0Xff61C089),
+                          //               ],
+                          //             ),
+                          //             borderRadius:
+                          //                 BorderRadius.all(Radius.circular(30))),
+                          //         child: TextUtils(
+                          //             text: AppLocalizations.of(context)!.district,
+                          //             color: Colors.white,
+                          //             fontSize: 14,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //       Expanded(
+                          //         child: SizedBox(
+                          //           // height: 35,
+                          //           width: double.infinity,
+                          //           child: DropdownButtonHideUnderline(
+                          //             child: Container(
+                          //               padding:
+                          //                   const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          //               child: DropdownButton<dynamic>(
+                          //                 hint: TextUtils(
+                          //                     text: HomeCubit.get(context)
+                          //                         .model!
+                          //                         .data!
+                          //                         .address!
+                          //                         .district!
+                          //                         .name!,
+                          //                     color: Colors.black,
+                          //                     fontSize: 18,
+                          //                     fontWeight: FontWeight.bold),
+                          //                 value: HomeCubit.get(context)
+                          //                     .valueDropDowndistrict,
+                          //                 items:
+                          //                     HomeCubit.get(context).disrictModel ==
+                          //                             null
+                          //                         ? []
+                          //                         : HomeCubit.get(context)
+                          //                             .disrictModel!
+                          //                             .data!
+                          //                             .map((value) {
+                          //                             return DropdownMenuItem<String>(
+                          //                               child: Text(value.name!),
+                          //                               value: value.name,
+                          //                               onTap: () {
+                          //                                 destrictID = value.id;
+                          //                               },
+                          //                             );
+                          //                           }).toList(),
+                          //                 onChanged: (val) {
+                          //                   HomeCubit.get(context)
+                          //                       .changevalueDropdownDistrict(val);
+                          //                 },
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // Card(
+                          //   shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   elevation: 5,
+                          //   child: Row(
+                          //     children: [
+                          //       Container(
+                          //         alignment: Alignment.center,
+                          //         width: 100,
+                          //         height: 50,
+                          //         decoration: const BoxDecoration(
+                          //             gradient: LinearGradient(
+                          //               colors: [
+                          //                 Color(0Xff054F86),
+                          //                 Color(0Xff61C089),
+                          //               ],
+                          //             ),
+                          //             borderRadius:
+                          //                 BorderRadius.all(Radius.circular(30))),
+                          //         child: TextUtils(
+                          //             text: 'specialist',
+                          //             color: Colors.white,
+                          //             fontSize: 14,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //       Expanded(
+                          //         child: SizedBox(
+                          //           // height: 35,
+                          //           width: double.infinity,
+                          //           child: DropdownButtonHideUnderline(
+                          //             child: Container(
+                          //               padding:
+                          //                   const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          //               child: DropdownButton<dynamic>(
+                          //                 hint: TextUtils(
+                          //                     text: HomeCubit.get(context)
+                          //                             .model!
+                          //                             .data!
+                          //                             .specialty
+                          //                             ?.name ??
+                          //                         '',
+                          //                     color: Colors.black,
+                          //                     fontSize: 18,
+                          //                     fontWeight: FontWeight.bold),
+                          //                 value: HomeCubit.get(context)
+                          //                     .valueDropDowndistrict,
+                          //                 items:
+                          //                     HomeCubit.get(context).disrictModel ==
+                          //                             null
+                          //                         ? []
+                          //                         : HomeCubit.get(context)
+                          //                             .disrictModel!
+                          //                             .data!
+                          //                             .map((value) {
+                          //                             return DropdownMenuItem<String>(
+                          //                               child: Text(value.name!),
+                          //                               value: value.name,
+                          //                               onTap: () {
+                          //                                 destrictID = value.id;
+                          //                               },
+                          //                             );
+                          //                           }).toList(),
+                          //                 onChanged: (val) {
+                          //                   HomeCubit.get(context)
+                          //                       .changevalueDropdownDistrict(val);
+                          //                 },
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: ButtonGradientWidget(
+                        color: Colors.transparent,
+                        text: AppLocalizations.of(context)!.update,
+                        onPressed: () {
+                          if (formkey.currentState!.validate()) {
+                            HomeCubit.get(context).updateinfo(
+                                firstname: firstnamecontroller.text,
+                                lastname: lastnamecontroller.text,
+                                email: emailcontroller.text,
+                                mobilenum: phoneController.text,
+                                specialistid:
+                                    '${HomeCubit.get(context).model!.data!.specialtyId}');
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: MediaQuery.of(context).size.height * 0.18,
-                //   decoration: const BoxDecoration(
-                //     color: Colors.red,
-                //     // borderRadius: BorderRadius.all(Radius.circular(30)),
-                //     shape: BoxShape.circle,
-                //   ),
-                //   child:
-                // HomeCubit.get(context).model?.data!.photo != null
-                //     ? CachedNetworkImage(
-                //         height: 75,
-                //         // fit: BoxFit.cover,
-                //         width: double.infinity,
-                //         imageUrl: HomeCubit.get(context).model!.data!.photo!,
-                //         placeholder: (context, url) => Center(
-                //           child: CircularProgressIndicator(
-                //               color: Colors.green.shade400),
-                //         ),
-
-                //         errorWidget: (context, url, error) =>
-                //             const Icon(Icons.error),
-                //       )
-                //     :
-
-                // ),
-
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      TextFieldWidget(
-                        suffixIcon:
-                            Icon(Icons.star, color: Colors.grey.shade400),
-                        controller: firstnamecontroller,
-                        text: AppLocalizations.of(context)!.first_name,
-                        fieldemptymsg: AppLocalizations.of(context)!
-                            .please_enter_valid_first_name,
-                        // onsaved: (value) {
-                        //   maintenancereq!.device = value;
-                        // },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFieldWidget(
-                        suffixIcon:
-                            Icon(Icons.star, color: Colors.grey.shade400),
-                        controller: lastnamecontroller,
-                        text: AppLocalizations.of(context)!.last_name,
-                        fieldemptymsg: AppLocalizations.of(context)!
-                            .please_enter_valid_first_name,
-                        // onsaved: (value) {
-                        //   maintenancereq!.device = value;
-                        // },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFieldWidget(
-                        textinputType: TextInputType.number,
-                        suffixIcon:
-                            Icon(Icons.star, color: Colors.grey.shade400),
-                        controller: phoneController,
-                        text: AppLocalizations.of(context)!.phone_number,
-                        fieldemptymsg:
-                            AppLocalizations.of(context)!.phone_number_validate,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      // Card(
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(30),
-                      //   ),
-                      //   elevation: 5,
-                      //   child: Row(
-                      //     children: [
-                      //       Container(
-                      //         alignment: Alignment.center,
-                      //         width: 100,
-                      //         height: 50,
-                      //         decoration: const BoxDecoration(
-                      //             gradient: LinearGradient(
-                      //               colors: [
-                      //                 Color(0Xff054F86),
-                      //                 Color(0Xff61C089),
-                      //               ],
-                      //             ),
-                      //             borderRadius:
-                      //                 BorderRadius.all(Radius.circular(30))),
-                      //         child: TextUtils(
-                      //             text: AppLocalizations.of(context)!.city,
-                      //             color: Colors.white,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      //       Expanded(
-                      //         child: Container(
-                      //           // height: 35,
-                      //           // width: double.infinity,
-                      //           child: DropdownButtonHideUnderline(
-                      //             child: Container(
-                      //               padding:
-                      //                   const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      //               child: DropdownButton<dynamic>(
-                      //                 elevation: 1,
-
-                      //                 icon: const Icon(Icons.arrow_drop_down),
-                      //                 // alignment: Alignment.center,
-                      //                 hint: TextUtils(
-                      //                     text: HomeCubit.get(context)
-                      //                         .model!
-                      //                         .data!
-                      //                         .address!
-                      //                         .city!
-                      //                         .name!,
-                      //                     color: Colors.black,
-                      //                     fontSize: 18,
-                      //                     fontWeight: FontWeight.bold),
-                      //                 value: HomeCubit.get(context)
-                      //                     .valueDropDowncity,
-                      //                 items: HomeCubit.get(context).citiesModel ==
-                      //                         null
-                      //                     ? []
-                      //                     : HomeCubit.get(context)
-                      //                         .citiesModel!
-                      //                         .data!
-                      //                         .map((value) {
-                      //                         return DropdownMenuItem<String>(
-                      //                             onTap: () {
-                      //                               cityID = value.id;
-                      //                               HomeCubit.get(context)
-                      //                                   .getDistrict(
-                      //                                       id: value.id);
-                      //                             },
-                      //                             child: Text(value.name!),
-                      //                             value: value.name);
-                      //                       }).toList(),
-                      //                 onChanged: (val) {
-                      //                   HomeCubit.get(context)
-                      //                       .changevalueDropdown(val);
-                      //                 },
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // Card(
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(30),
-                      //   ),
-                      //   elevation: 5,
-                      //   child: Row(
-                      //     children: [
-                      //       Container(
-                      //         alignment: Alignment.center,
-                      //         width: 100,
-                      //         height: 50,
-                      //         decoration: const BoxDecoration(
-                      //             gradient: LinearGradient(
-                      //               colors: [
-                      //                 Color(0Xff054F86),
-                      //                 Color(0Xff61C089),
-                      //               ],
-                      //             ),
-                      //             borderRadius:
-                      //                 BorderRadius.all(Radius.circular(30))),
-                      //         child: TextUtils(
-                      //             text: AppLocalizations.of(context)!.district,
-                      //             color: Colors.white,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      //       Expanded(
-                      //         child: SizedBox(
-                      //           // height: 35,
-                      //           width: double.infinity,
-                      //           child: DropdownButtonHideUnderline(
-                      //             child: Container(
-                      //               padding:
-                      //                   const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      //               child: DropdownButton<dynamic>(
-                      //                 hint: TextUtils(
-                      //                     text: HomeCubit.get(context)
-                      //                         .model!
-                      //                         .data!
-                      //                         .address!
-                      //                         .district!
-                      //                         .name!,
-                      //                     color: Colors.black,
-                      //                     fontSize: 18,
-                      //                     fontWeight: FontWeight.bold),
-                      //                 value: HomeCubit.get(context)
-                      //                     .valueDropDowndistrict,
-                      //                 items:
-                      //                     HomeCubit.get(context).disrictModel ==
-                      //                             null
-                      //                         ? []
-                      //                         : HomeCubit.get(context)
-                      //                             .disrictModel!
-                      //                             .data!
-                      //                             .map((value) {
-                      //                             return DropdownMenuItem<String>(
-                      //                               child: Text(value.name!),
-                      //                               value: value.name,
-                      //                               onTap: () {
-                      //                                 destrictID = value.id;
-                      //                               },
-                      //                             );
-                      //                           }).toList(),
-                      //                 onChanged: (val) {
-                      //                   HomeCubit.get(context)
-                      //                       .changevalueDropdownDistrict(val);
-                      //                 },
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // Card(
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(30),
-                      //   ),
-                      //   elevation: 5,
-                      //   child: Row(
-                      //     children: [
-                      //       Container(
-                      //         alignment: Alignment.center,
-                      //         width: 100,
-                      //         height: 50,
-                      //         decoration: const BoxDecoration(
-                      //             gradient: LinearGradient(
-                      //               colors: [
-                      //                 Color(0Xff054F86),
-                      //                 Color(0Xff61C089),
-                      //               ],
-                      //             ),
-                      //             borderRadius:
-                      //                 BorderRadius.all(Radius.circular(30))),
-                      //         child: TextUtils(
-                      //             text: 'specialist',
-                      //             color: Colors.white,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      //       Expanded(
-                      //         child: SizedBox(
-                      //           // height: 35,
-                      //           width: double.infinity,
-                      //           child: DropdownButtonHideUnderline(
-                      //             child: Container(
-                      //               padding:
-                      //                   const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      //               child: DropdownButton<dynamic>(
-                      //                 hint: TextUtils(
-                      //                     text: HomeCubit.get(context)
-                      //                             .model!
-                      //                             .data!
-                      //                             .specialty
-                      //                             ?.name ??
-                      //                         '',
-                      //                     color: Colors.black,
-                      //                     fontSize: 18,
-                      //                     fontWeight: FontWeight.bold),
-                      //                 value: HomeCubit.get(context)
-                      //                     .valueDropDowndistrict,
-                      //                 items:
-                      //                     HomeCubit.get(context).disrictModel ==
-                      //                             null
-                      //                         ? []
-                      //                         : HomeCubit.get(context)
-                      //                             .disrictModel!
-                      //                             .data!
-                      //                             .map((value) {
-                      //                             return DropdownMenuItem<String>(
-                      //                               child: Text(value.name!),
-                      //                               value: value.name,
-                      //                               onTap: () {
-                      //                                 destrictID = value.id;
-                      //                               },
-                      //                             );
-                      //                           }).toList(),
-                      //                 onChanged: (val) {
-                      //                   HomeCubit.get(context)
-                      //                       .changevalueDropdownDistrict(val);
-                      //                 },
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ],
+                BuildCondition(
+                  fallback: (context) => const Text(''),
+                  condition: state is Loadingupdateinfo,
+                  builder: (context) => Center(
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.70,
+                            height: MediaQuery.of(context).size.height * 0.40,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white.withOpacity(0.7)),
+                          ),
+                        ),
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: ButtonGradientWidget(
-                    color: Colors.transparent,
-                    text: AppLocalizations.of(context)!.update,
-                    onPressed: () {
-                      if (formkey.currentState!.validate()) {
-                        HomeCubit.get(context).updateinfo(
-                            firstname: firstnamecontroller.text,
-                            lastname: lastnamecontroller.text,
-                            email: emailcontroller.text,
-                            mobilenum: phoneController.text,
-                            specialistid:
-                                '${HomeCubit.get(context).model!.data!.specialtyId}');
-                      }
-                    },
-                  ),
-                ),
+                )
               ],
             ),
           ),

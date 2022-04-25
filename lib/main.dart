@@ -1,53 +1,221 @@
+// import 'dart:convert';
+// import 'dart:js';
+
+import 'dart:convert';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:clinic/constants.dart';
-import 'package:clinic/logic/auth/cubit/auth_cubit.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/logic/localization/cubit/localization_cubit.dart';
 import 'package:clinic/services/cach_helper.dart';
 import 'package:clinic/services/network/dio_helper.dart';
+import 'package:clinic/services/notifications/notifications_service.dart';
 import 'package:clinic/shared/bloc_observe.dart';
 import 'package:clinic/view/screens/auth/login_screen.dart';
-import 'package:clinic/view/screens/category_child/categoy_items/item_category.dart';
 import 'package:clinic/view/screens/home_screen.dart';
-import 'package:clinic/view/screens/home_screen_2.dart';
-import 'package:clinic/view/screens/update_info_screen/update_info.dart';
+import 'package:clinic/view/screens/notifications/notifications_screen.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'view/screens/auth/signup_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// const AndroidNotificationChannel channel = AndroidNotificationChannel(
-//     'high_importance_channel', // id
-//     'High Importance Notifications', // title
-//     description:
-//         'This channel is used for important notifications', // description
-//     importance: Importance.max,
-//     playSound: true);
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.high,
+    playSound: true);
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
 
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-//   print('a bg message just showed up : ${message.messageId}');
-// }
+  if (message.notification != null) {
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+          id: message.hashCode,
+          channelKey: 'basic_channel_img',
+          title: message.notification!.title,
+          body: message.notification!.body,
+          // fullScreenIntent: true,
+          // largeIcon: 'assets/images/logo.png',
+          bigPicture: '${message.data['image']}',
+          notificationLayout: NotificationLayout.BigPicture,
+          roundedBigPicture: true,
+          wakeUpScreen: true,
+          payload: {'screen': '${message.data['screen']}'}
+          // payload: {message.data['screen']: 'NotificationScreen'}
+          //  locked: true,
+          // roundedBigPicture: true,
+          // displayOnForeground: true,
+          // wakeUpScreen: true,
+          // criticalAlert: true,
+          // displayOnBackground: true,
 
+          // autoDismissible: true,
+          ),
+    );
+  }
+
+  // flutterLocalNotificationsPlugin.show(
+  //   message.notification!.hashCode,
+  //   message.notification!.title,
+  //   message.notification!.body,
+  //   NotificationDetails(
+  //     android: AndroidNotificationDetails(
+  //       channel.id, channel.name,
+  //       channelDescription: channel.description,
+  //       icon: '@mipmap/ic_launcher',
+  //       color: Colors.blue,
+  //       playSound: true,
+  //       importance: Importance.max,
+  //       // enableLights: true,
+  //       // largeIcon:
+  //       //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+  //       enableVibration: true,
+  //       priority: Priority.high,
+  //       fullScreenIntent: true,
+  //       //
+  //       indeterminate: true,
+  //       setAsGroupSummary: true,
+  //       visibility: NotificationVisibility.public,
+  //       // timeoutAfter: 2,
+  //       styleInformation: BigPictureStyleInformation(FilePathAndroidBitmap('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg'))
+  //     ),
+  //   ),
+  // );
+//-----------------------------------------------------
+  // AwesomeNotifications().createNotification(
+  //     content: NotificationContent(
+  //         id: message.hashCode,
+  //         channelKey: 'basic_channel',
+  //         title: message.notification!.title,
+  //         body: message.notification!.body,
+  //         fullScreenIntent: true,
+  //         // largeIcon: 'assets/images/logo.png',
+  //         // bigPicture: '${message.data.image}',
+  //         notificationLayout: NotificationLayout.Default
+  //         //  locked: true,
+  //         // roundedBigPicture: true,
+  //         // displayOnForeground: true,
+  //         // wakeUpScreen: true,
+  //         // criticalAlert: true,
+  //         // displayOnBackground: true,
+
+  //         // autoDismissible: true,
+  //         ));
+  print('A bg Message just showed up : ${message.messageId}');
+}
+
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await DioHelper.init();
+  // await DioHelper.init();
   await CacheHelper.init();
+  await NotificationService().init();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   messageToken = await messaging.getToken();
-
   await CacheHelper.saveData(key: 'token_msg', value: messageToken);
-
   print('Token_Msg : ${CacheHelper.getData(key: 'token_msg')}');
+
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   RemoteNotification notification = message.notification!;
+  //   AndroidNotification? android = message.notification?.android;
+  //   print('ttttttttttttttttttttttt');
+  //   print(notification);
+  //   print(android);
+  //   // If `onMessage` is triggered with a notification, construct our own
+  //   // local notification to show to users using the created channel.
+  //   flutterLocalNotificationsPlugin.show(
+  //     notification.hashCode,
+  //     notification.title,
+  //     notification.body,
+  //     NotificationDetails(
+  //       android: AndroidNotificationDetails(
+  //         channel.id, channel.name,
+  //         channelDescription: channel.description,
+  //         icon: '@mipmap/ic_launcher',
+  //         color: Colors.blue,
+  //         playSound: true,
+  //         importance: Importance.max,
+  //         // enableLights: true,
+  //         // largeIcon:
+  //         //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+  //         enableVibration: true,
+  //         priority: Priority.high,
+  //         fullScreenIntent: true,
+  //         timeoutAfter: 2,
+  //         // styleInformation: const MediaStyleInformation(
+  //         //     htmlFormatContent: true, htmlFormatTitle: true),
+  //       ),
+  //     ),
+  //   );
+  // });
+  AwesomeNotifications().initialize(
+    // set the icon to null if you want to use the default app icon
+    null,
+    [
+      // NotificationChannel(
+      //   channelGroupKey: 'basic_channel_group',
+      //   channelKey: 'basic_channel',
+      //   channelName: 'Basic notifications',
+      //   channelDescription: 'Notification channel for basic tests',
+      //   defaultColor: const Color(0xFF9D50DD),
+      //   ledColor: Colors.white,
+      //   playSound: true,
+      //   importance: NotificationImportance.High,
+      // ),
+      NotificationChannel(
+        channelGroupKey: 'basic_channel_group',
+        channelKey: 'basic_channel_img',
+        channelName: 'Basic notifications img',
+        channelDescription: 'Notification channel for basic tests with img',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        playSound: true,
+        importance: NotificationImportance.High,
+      )
+    ],
+    // Channel groups are only visual and are not required
+    channelGroups: [
+      NotificationChannelGroup(
+          channelGroupkey: 'basic_channel_group',
+          channelGroupName: 'Basic group')
+    ],
+    debug: true,
+  );
+  AwesomeNotifications().actionStream.listen((event) {
+    var data = event.toMap();
+    print('test notifications${data['payload']}');
+    if (data['payload']['screen'] == 'NotificationScreen') {
+      Navigator.push(navigatorKey.currentState!.context,
+          MaterialPageRoute(builder: (context) => const NotificationScreen()));
+    } else {
+      Navigator.push(navigatorKey.currentState!.context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()));
+    }
+  });
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true, // Required to display a heads up notification
+    badge: true,
+    sound: true,
+  );
 
   Widget widget;
   token = CacheHelper.getData(key: 'token');
@@ -126,6 +294,7 @@ class MyApp extends StatelessWidget {
               ..getCategories()
               ..getcart()
               ..getContactinfo()
+              ..getNotifications()
             // ..getCities(),
             ),
         BlocProvider(
@@ -135,6 +304,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, state) {
           return MaterialApp(
+            navigatorKey: navigatorKey,
             title: 'Clinic Demo',
             theme: ThemeData(
               primarySwatch: Colors.blue,
@@ -151,9 +321,7 @@ class MyApp extends StatelessWidget {
               Locale("ar", ""),
             ],
             debugShowCheckedModeBanner: false,
-            home: SplashScreen(
-              startWidget: startwidget,
-            ),
+            home: SplashScreen(startWidget: startwidget),
           );
         },
       ),

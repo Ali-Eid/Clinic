@@ -27,12 +27,13 @@ import 'medical_supplies/category_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       HomeCubit.get(context).meInfo();
       HomeCubit.get(context).getcart();
+      HomeCubit.get(context).reciveNotification();
+      HomeCubit.get(context).getNotifications();
 
       return BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {

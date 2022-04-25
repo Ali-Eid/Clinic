@@ -61,6 +61,8 @@ class SuccessproductsSubCategory extends HomeState {}
 class ErrorproductsSubCategory extends HomeState {}
 
 //UserInfo
+class Loadingupdateinfo extends HomeState {}
+
 class SuccessUserInfoState extends HomeState {
   // OrderModel? ordermedical;
   SuccessUserInfoState();
@@ -196,3 +198,6 @@ class ErrorAboutUsState extends HomeState {
   String? error;
   ErrorAboutUsState({this.error});
 }
+
+//Notifications
+class NotificationsState extends HomeState {}
