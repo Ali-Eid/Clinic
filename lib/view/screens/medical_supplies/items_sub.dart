@@ -73,7 +73,6 @@ class ItemSubCateg extends StatelessWidget {
                 // ),
                 condition: HomeCubit.get(context).subModel != null,
                 builder: (context) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     NotificationSearchTitle(text: name),
                     const SizedBox(
@@ -86,28 +85,32 @@ class ItemSubCateg extends StatelessWidget {
                       condition:
                           HomeCubit.get(context).subModel!.data!.isNotEmpty,
                       builder: (context) => Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: GridView.builder(
+                        child: GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            itemCount: HomeCubit.get(context)
+                                .productModel!
+                                .data!
+                                .length,
+                            physics: const BouncingScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                               itemCount: HomeCubit.get(context)
-                                  .productModel
-                                  ?.data!
+                                  .productModel!
+                                  .data!
                                   .length,
-                              physics: const BouncingScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
-                                itemCount: HomeCubit.get(context)
-                                    .productModel!
-                                    .data!
-                                    .length,
-                                crossAxisCount: 2,
-                              ),
-                              itemBuilder: (ctxt, index) => item_categ(
+                              crossAxisCount: 2,
+                              // childAspectRatio: 3 / 2,
+                            ),
+                            shrinkWrap: true,
+                            itemBuilder: (ctxt, index) => Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: item_categ(
                                     model: HomeCubit.get(context)
                                         .productModel!
                                         .data![index],
-                                  )),
-                        ),
+                                  ),
+                                )),
                       ),
                     ),
                     FotterWidget(

@@ -200,4 +200,11 @@ class ErrorAboutUsState extends HomeState {
 }
 
 //Notifications
-class NotificationsState extends HomeState {}
+class LoadingNotificationsState extends HomeState {}
+
+class SuccessNotificationsState extends HomeState {}
+
+class ErrorNotificationsState extends HomeState {
+  String? error;
+  ErrorNotificationsState({this.error});
+}

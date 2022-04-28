@@ -31,7 +31,7 @@ class NotificationSearchTitleHome extends StatelessWidget {
               // print('${HomeCubit.get(context).datanotifications.length}');
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => const NotificationScreen()));
-              // HomeCubit.get(context).shownotifications();
+              HomeCubit.get(context).getNotifications();
             },
             child: IconItemWidget(iconData: Icons.notifications)),
         // HomeCubit.get(context)

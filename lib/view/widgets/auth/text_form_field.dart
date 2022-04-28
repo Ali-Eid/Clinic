@@ -36,7 +36,7 @@ class AuthTextFormField extends StatelessWidget {
       keyboardType: textInputType,
       validator: validator,
       onSaved: onsaved,
-      style: TextStyle(
+      style: const TextStyle(
         fontFamily: 'Mikhak',
         color: Colors.black,
         fontSize: 16,
@@ -45,7 +45,8 @@ class AuthTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         // isDense: true,
 
-        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         filled: true,
         fillColor: Colors.white,
         prefixIcon: prefixIcon,
@@ -61,25 +62,25 @@ class AuthTextFormField extends StatelessWidget {
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.white,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.white,
           ),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.white,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
           ),
         ),

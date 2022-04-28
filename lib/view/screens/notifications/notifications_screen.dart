@@ -2,11 +2,13 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/notifications/notifications_model.dart';
+import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class NotificationScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
+            drawer: const DrawerPage(),
             appBar: AppBar(
               flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,
@@ -52,24 +55,40 @@ class NotificationScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          return item_notification(
-                            notification: HomeCubit.get(context)
+                  BuildCondition(
+                    fallback: (context) => const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: LinearProgressIndicator(),
+                      ),
+                    ),
+                    condition: state is! LoadingNotificationsState,
+                    builder: (context) => Expanded(
+                      child: SmartRefresher(
+                        header: const WaterDropHeader(),
+                        controller: RefreshController(),
+                        onRefresh: () {
+                          HomeCubit.get(context).getNotifications();
+                        },
+                        child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              return item_notification(
+                                notification: HomeCubit.get(context)
+                                    .notificationModel!
+                                    .data!
+                                    .data![index],
+                              );
+                            },
+                            separatorBuilder: (context, index) => const Divider(
+                                  height: 1,
+                                ),
+                            itemCount: HomeCubit.get(context)
                                 .notificationModel!
                                 .data!
-                                .data![index],
-                          );
-                        },
-                        separatorBuilder: (context, index) => const Divider(
-                              height: 1,
-                            ),
-                        itemCount: HomeCubit.get(context)
-                            .notificationModel!
-                            .data!
-                            .data!
-                            .length),
+                                .data!
+                                .length),
+                      ),
+                    ),
                   )
                 ],
               ),

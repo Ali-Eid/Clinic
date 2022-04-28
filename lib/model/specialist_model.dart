@@ -10,19 +10,19 @@ class SpecialistModel {
     if (json['data'] != null) {
       data = <DataSpecialist>[];
       json['data'].forEach((v) {
-        data!.add(new DataSpecialist.fromJson(v));
+        data!.add(DataSpecialist.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -32,7 +32,7 @@ class DataSpecialist {
   String? nameAr;
   String? nameEn;
   bool? isActive;
-  Null? deletedAt;
+  var deletedAt;
   String? name;
 
   DataSpecialist(
@@ -53,13 +53,13 @@ class DataSpecialist {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name_ar'] = this.nameAr;
-    data['name_en'] = this.nameEn;
-    data['is_active'] = this.isActive;
-    data['deleted_at'] = this.deletedAt;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name_ar'] = nameAr;
+    data['name_en'] = nameEn;
+    data['is_active'] = isActive;
+    data['deleted_at'] = deletedAt;
+    data['name'] = name;
     return data;
   }
 }

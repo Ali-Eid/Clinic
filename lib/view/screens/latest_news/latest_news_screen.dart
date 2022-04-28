@@ -12,6 +12,7 @@ import 'package:easy_loader/easy_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LatestNewsScreen extends StatelessWidget {
@@ -118,15 +119,17 @@ class item_latest_news extends StatelessWidget {
               child: CarouselSlider(
                 items: model!.images!.map((e) {
                   return CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      imageUrl: 'https://my-clinic22.herokuapp.com/${e.path}',
-                      placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(
-                                color: Colors.green.shade400),
-                          ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error));
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    imageUrl: 'https://my-clinic22.herokuapp.com/${e.path}',
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(
+                          color: Colors.green.shade400),
+                    ),
+                    errorWidget: (context, url, error) => Lottie.asset(
+                      'assets/images/not_found.json',
+                    ),
+                  );
                 }).toList(),
                 // carouselController: carouselController,
                 options: CarouselOptions(

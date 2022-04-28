@@ -97,6 +97,7 @@ class SubCategoryScreen extends StatelessWidget {
                               itemCount:
                                   HomeCubit.get(context).subModel!.data!.length,
                               crossAxisCount: 2,
+                              // childAspectRatio: 3 / 2
                             ),
                             itemBuilder: (ctxt, index) => CategoryItemWidget(
                                 model: HomeCubit.get(context)

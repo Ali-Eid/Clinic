@@ -2,6 +2,7 @@ import 'package:clinic/l10n/l10n.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/logic/localization/cubit/localization_cubit.dart';
 import 'package:clinic/view/screens/home_screen.dart';
+import 'package:clinic/view/screens/notifications/notifications_screen.dart';
 import 'package:clinic/view/screens/search/search_screen.dart';
 import 'package:clinic/view/widgets/icon_item_search_or_noti.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
@@ -24,7 +25,9 @@ class NotificationSearchTitle extends StatelessWidget {
         ),
         InkWell(
             onTap: () {
-              print('notifications');
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const NotificationScreen()));
+              HomeCubit.get(context).getNotifications();
             },
             child: IconItemWidget(iconData: Icons.notifications)),
         const SizedBox(

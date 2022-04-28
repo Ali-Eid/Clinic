@@ -160,112 +160,109 @@ class HomeScreen extends StatelessWidget {
                               const SizedBox(
                                 height: 20,
                               ),
-                              SizedBox(
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.40,
-                                child: GridView.count(
-                                  crossAxisSpacing: 1,
-                                  mainAxisSpacing: 2,
-                                  crossAxisCount: 3,
-                                  children: <Widget>[
-                                    CategoryandTitle(
-                                      text: AppLocalizations.of(context)!
-                                          .clinic_decoration,
-                                      imgurl: 'assets/images/Asset 20.png',
-                                      ontap: () {
-                                        HomeCubit.get(context).servicedetails(
-                                            slug: 'clinic-decoration');
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (_) => ClearScreen(
-                                                      type: 'ad',
-                                                    )));
-                                      },
-                                    ),
-                                    // SizedBox(
-                                    //   width: 30,
-                                    // ),
-                                    CategoryandTitle(
-                                      text: 'عيادات للبيع والايجار',
-                                      imgurl: 'assets/images/Asset 19.png',
-                                      ontap: () {
-                                        // HomeCubit.get(context)
-                                        //     .servicedetails(id: 9);
-                                        // Navigator.of(context)
-                                        //     .push(MaterialPageRoute(
-                                        //         builder: (_) => ClearScreen(
-                                        //               type: 'buy_clinic',
-                                        //             )));
-                                      },
-                                    ),
-                                    // SizedBox(
-                                    //   width: 30,
-                                    // ),
-                                    CategoryandTitle(
-                                      text: AppLocalizations.of(context)!
-                                          .publish_your_clinic,
-                                      imgurl: 'assets/images/Asset 17.png',
-                                      ontap: () {
-                                        HomeCubit.get(context).servicedetails(
-                                            slug: 'publish-your-clinic');
+                              GridView.count(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                // crossAxisSpacing: 6,
+                                // mainAxisSpacing: 6,
+                                crossAxisCount: 3,
+                                // childAspectRatio: 0.7,
+                                children: <Widget>[
+                                  CategoryandTitle(
+                                    text: AppLocalizations.of(context)!
+                                        .clinic_decoration,
+                                    imgurl: 'assets/images/Asset 20.png',
+                                    ontap: () {
+                                      HomeCubit.get(context).servicedetails(
+                                          slug: 'clinic-decoration');
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => ClearScreen(
+                                                    type: 'ad',
+                                                  )));
+                                    },
+                                  ),
+                                  // SizedBox(
+                                  //   width: 30,
+                                  // ),
+                                  CategoryandTitle(
+                                    text: 'عيادات للبيع والايجار',
+                                    imgurl: 'assets/images/Asset 19.png',
+                                    ontap: () {
+                                      // HomeCubit.get(context)
+                                      //     .servicedetails(id: 9);
+                                      // Navigator.of(context)
+                                      //     .push(MaterialPageRoute(
+                                      //         builder: (_) => ClearScreen(
+                                      //               type: 'buy_clinic',
+                                      //             )));
+                                    },
+                                  ),
+                                  // SizedBox(
+                                  //   width: 30,
+                                  // ),
+                                  CategoryandTitle(
+                                    text: AppLocalizations.of(context)!
+                                        .publish_your_clinic,
+                                    imgurl: 'assets/images/Asset 17.png',
+                                    ontap: () {
+                                      HomeCubit.get(context).servicedetails(
+                                          slug: 'publish-your-clinic');
 
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (_) => ClearScreen(
-                                                      type: 'cladding',
-                                                    )));
-                                      },
-                                    ),
-                                    CategoryandTitle(
-                                      text: AppLocalizations.of(context)!
-                                          .latest_news,
-                                      imgurl: 'assets/images/Asset 16.png',
-                                      ontap: () {
-                                        HomeCubit.get(context).getlatestnews();
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    LatestNewsScreen()));
-                                      },
-                                    ),
-                                    // SizedBox(
-                                    //   width: 30,
-                                    // ),
-                                    CategoryandTitle(
-                                      text: AppLocalizations.of(context)!
-                                          .work_opportunities,
-                                      imgurl: 'assets/images/Asset 15.png',
-                                      ontap: () {
-                                        HomeCubit.get(context).servicedetails(
-                                            slug: 'work-opportunities');
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (_) => ClearScreen(
-                                                      type:
-                                                          'work_opportunities',
-                                                    )));
-                                      },
-                                    ),
-                                    // SizedBox(
-                                    //   width: 30,
-                                    // ),
-                                    CategoryandTitle(
-                                      text: AppLocalizations.of(context)!
-                                          .clinic_electricity,
-                                      imgurl: 'assets/images/Asset 14.png',
-                                      ontap: () {
-                                        HomeCubit.get(context).servicedetails(
-                                            slug: 'clinic-electricity');
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (_) => ClearScreen(
-                                                      type: 'conditioning',
-                                                    )));
-                                      },
-                                    )
-                                  ],
-                                ),
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => ClearScreen(
+                                                    type: 'cladding',
+                                                  )));
+                                    },
+                                  ),
+                                  CategoryandTitle(
+                                    text: AppLocalizations.of(context)!
+                                        .latest_news,
+                                    imgurl: 'assets/images/Asset 16.png',
+                                    ontap: () {
+                                      HomeCubit.get(context).getlatestnews();
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  LatestNewsScreen()));
+                                    },
+                                  ),
+                                  // SizedBox(
+                                  //   width: 30,
+                                  // ),
+                                  CategoryandTitle(
+                                    text: AppLocalizations.of(context)!
+                                        .work_opportunities,
+                                    imgurl: 'assets/images/Asset 15.png',
+                                    ontap: () {
+                                      HomeCubit.get(context).servicedetails(
+                                          slug: 'work-opportunities');
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => ClearScreen(
+                                                    type: 'work_opportunities',
+                                                  )));
+                                    },
+                                  ),
+                                  // SizedBox(
+                                  //   width: 30,
+                                  // ),
+                                  CategoryandTitle(
+                                    text: AppLocalizations.of(context)!
+                                        .clinic_electricity,
+                                    imgurl: 'assets/images/Asset 14.png',
+                                    ontap: () {
+                                      HomeCubit.get(context).servicedetails(
+                                          slug: 'clinic-electricity');
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => ClearScreen(
+                                                    type: 'conditioning',
+                                                  )));
+                                    },
+                                  )
+                                ],
                               ),
                               // SizedBox(
                               //   height: 20,

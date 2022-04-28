@@ -529,11 +529,11 @@ class HomeCubit extends Cubit<HomeState> {
   CartAddModel? cartAddModel;
   // List<DataProduct> cart_item = [];
   void addtocart({int? id}) async {
-    cart.add(id!);
-    if (!cart.contains(id)) {
-      emit(SuccessAddToCartState());
-    }
     try {
+      cart.add(id!);
+      if (!cart.contains(id)) {
+        emit(SuccessAddToCartState());
+      }
       http.Response response =
           await http.post(Uri.parse('${url}cart'), headers: {
         // 'Content-Type': 'application/json',
@@ -550,9 +550,9 @@ class HomeCubit extends Cubit<HomeState> {
             jsonDecode(response.body) as Map<String, dynamic>);
         if (cartAddModel!.data!.attached!.isEmpty) {
           cart.remove(id);
-          getcart();
+          // getcart();
         }
-        // getcart();
+        getcart();
         emit(SuccessAddToCartState());
       }
     } catch (e) {
@@ -848,16 +848,16 @@ class HomeCubit extends Cubit<HomeState> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification!;
       AndroidNotification? android = message.notification?.android;
-      print('ttttttttttttttttttttttt');
-      print(notification);
-      print(android);
+      // print('ttttttttttttttttttttttt');
+      // print(notification);
+      // print(android);
       // If `onMessage` is triggered with a notification, construct our own
       // local notification to show to users using the created channel.
 
-      DataNotificationsmodel d = DataNotificationsmodel(
-          name: notification.title, body: notification.body);
-      datanotifications.add(d);
-      emit(NotificationsState());
+      // DataNotificationsmodel d = DataNotificationsmodel(
+      //     name: notification.title, body: notification.body);
+      // datanotifications.add(d);
+      // emit(NotificationsState());
       flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           notification.title,
@@ -871,6 +871,8 @@ class HomeCubit extends Cubit<HomeState> {
               playSound: true,
               importance: Importance.max,
 
+              // sound: const RawResourceAndroidNotificationSound(
+              //     'android/app/src/main/res/raw/arrive.mp3'),
               // enableLights: true,
               // largeIcon:
               //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
@@ -887,6 +889,21 @@ class HomeCubit extends Cubit<HomeState> {
             ),
           ),
           payload: message.data['screen']);
+      // AwesomeNotifications().createNotification(
+      //   content: NotificationContent(
+      //     id: message.hashCode,
+      //     channelKey: 'basic_channel_img',
+      //     title: notification.title,
+      //     body: notification.body,
+      //     fullScreenIntent: true,
+      //     // customSound: 'resource://raw/arrive',
+      //     // largeIcon: 'assets/images/logo.png',
+      //     // bigPicture: '${message.data['image']}',
+      //     notificationLayout: NotificationLayout.Default,
+      //     wakeUpScreen: true,
+      //     // payload: {'screen': '${message.data['screen']}'}
+      //   ),
+      // );
       // AwesomeNotifications().createNotification(
       //     content: NotificationContent(
       //   id: notification.hashCode,
@@ -975,6 +992,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   NotificationsModel? notificationModel;
   void getNotifications() async {
+    emit(LoadingNotificationsState());
     try {
       http.Response response =
           await http.get(Uri.parse('${url}users/notifications'), headers: {
@@ -986,10 +1004,11 @@ class HomeCubit extends Cubit<HomeState> {
       if (response.statusCode == 200) {
         notificationModel = NotificationsModel.fromJson(
             jsonDecode(response.body) as Map<String, dynamic>);
-        emit(NotificationsState());
+        emit(SuccessNotificationsState());
       }
     } catch (e) {
       print('error notification ${e.toString()}');
+      emit(ErrorNotificationsState(error: e.toString()));
     }
   }
 }

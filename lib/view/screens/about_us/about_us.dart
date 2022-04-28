@@ -1,6 +1,7 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
+import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
@@ -22,6 +23,7 @@ class AboutScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
+            drawer: const DrawerPage(),
             appBar: AppBar(
               flexibleSpace: const HeaderWidget(),
               backgroundColor: Colors.transparent,

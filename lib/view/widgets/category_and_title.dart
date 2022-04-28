@@ -38,15 +38,18 @@ class CategoryandTitle extends StatelessWidget {
             ),
           ),
         ),
-        TextButton(
-            style: TextButton.styleFrom(padding: EdgeInsets.zero),
-            onPressed: ontap,
-            child: TextUtils(
-              text: text,
-              color: Colors.blue.shade900,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ))
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: ontap,
+              child: TextUtils(
+                text: text,
+                color: Colors.blue.shade900,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              )),
+        )
       ],
     );
   }

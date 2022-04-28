@@ -19,17 +19,25 @@ class FotterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.passthrough,
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        SizedBox(
+        const Image(
+          matchTextDirection: true,
+          image: AssetImage('assets/images/88.png'),
+          fit: BoxFit.fill,
           height: 60,
-          width: MediaQuery.of(context).size.width,
-          child: const Image(
-            matchTextDirection: true,
-            image: AssetImage('assets/images/88.png'),
-            fit: BoxFit.fill,
-          ),
+          width: double.infinity,
         ),
+        // const SizedBox(
+        //   height: 60,
+        //   // width: MediaQuery.of(context).size.width,
+        //   child: Image(
+        //     matchTextDirection: true,
+        //     image: AssetImage('assets/images/88.png'),
+        //     fit: BoxFit.fill,
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Stack(

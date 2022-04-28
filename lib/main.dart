@@ -38,32 +38,21 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
-  if (message.notification != null) {
-    AwesomeNotifications().createNotification(
-      content: NotificationContent(
-          id: message.hashCode,
-          channelKey: 'basic_channel_img',
-          title: message.notification!.title,
-          body: message.notification!.body,
-          // fullScreenIntent: true,
-          // largeIcon: 'assets/images/logo.png',
-          bigPicture: '${message.data['image']}',
-          notificationLayout: NotificationLayout.BigPicture,
-          roundedBigPicture: true,
-          wakeUpScreen: true,
-          payload: {'screen': '${message.data['screen']}'}
-          // payload: {message.data['screen']: 'NotificationScreen'}
-          //  locked: true,
-          // roundedBigPicture: true,
-          // displayOnForeground: true,
-          // wakeUpScreen: true,
-          // criticalAlert: true,
-          // displayOnBackground: true,
-
-          // autoDismissible: true,
-          ),
-    );
-  }
+  // if (message.notification != null) {
+  AwesomeNotifications().createNotification(
+    content: NotificationContent(
+        id: message.hashCode,
+        channelKey: 'basic_channel_img',
+        title: message.data['title'],
+        body: message.data['body'],
+        // fullScreenIntent: true,
+        // largeIcon: 'assets/images/logo.png',
+        bigPicture: '${message.data['image']}',
+        notificationLayout: NotificationLayout.BigPicture,
+        wakeUpScreen: true,
+        payload: {'screen': '${message.data['screen']}'}),
+  );
+  // }
 
   // flutterLocalNotificationsPlugin.show(
   //   message.notification!.hashCode,
@@ -127,39 +116,6 @@ void main() async {
   await CacheHelper.saveData(key: 'token_msg', value: messageToken);
   print('Token_Msg : ${CacheHelper.getData(key: 'token_msg')}');
 
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   RemoteNotification notification = message.notification!;
-  //   AndroidNotification? android = message.notification?.android;
-  //   print('ttttttttttttttttttttttt');
-  //   print(notification);
-  //   print(android);
-  //   // If `onMessage` is triggered with a notification, construct our own
-  //   // local notification to show to users using the created channel.
-  //   flutterLocalNotificationsPlugin.show(
-  //     notification.hashCode,
-  //     notification.title,
-  //     notification.body,
-  //     NotificationDetails(
-  //       android: AndroidNotificationDetails(
-  //         channel.id, channel.name,
-  //         channelDescription: channel.description,
-  //         icon: '@mipmap/ic_launcher',
-  //         color: Colors.blue,
-  //         playSound: true,
-  //         importance: Importance.max,
-  //         // enableLights: true,
-  //         // largeIcon:
-  //         //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
-  //         enableVibration: true,
-  //         priority: Priority.high,
-  //         fullScreenIntent: true,
-  //         timeoutAfter: 2,
-  //         // styleInformation: const MediaStyleInformation(
-  //         //     htmlFormatContent: true, htmlFormatTitle: true),
-  //       ),
-  //     ),
-  //   );
-  // });
   AwesomeNotifications().initialize(
     // set the icon to null if you want to use the default app icon
     null,
@@ -181,6 +137,7 @@ void main() async {
         channelDescription: 'Notification channel for basic tests with img',
         defaultColor: const Color(0xFF9D50DD),
         ledColor: Colors.white,
+        // soundSource: 'resource://raw/arrive',
         playSound: true,
         importance: NotificationImportance.High,
       )

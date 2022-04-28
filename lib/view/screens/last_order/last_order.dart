@@ -4,6 +4,7 @@ import 'package:clinic/model/last_order_model.dart';
 import 'package:clinic/view/screens/cart/cart_screen.dart';
 import 'package:clinic/view/screens/last_order/last_product_order.dart';
 import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
+import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/fotter.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/notification_search_title.dart';
@@ -24,6 +25,7 @@ class LastOrderScreen extends StatelessWidget {
     }, builder: (context, state) {
       return SafeArea(
         child: Scaffold(
+          drawer: const DrawerPage(),
           appBar: AppBar(
             flexibleSpace: const HeaderWidget(),
             backgroundColor: Colors.transparent,
