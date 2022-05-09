@@ -31,6 +31,7 @@ class AuthTextFormField extends StatelessWidget {
       controller: controller,
       obscureText: obsecure,
       cursorColor: Colors.black,
+
       // minLines: minLines,
       maxLines: maxLines,
       keyboardType: textInputType,

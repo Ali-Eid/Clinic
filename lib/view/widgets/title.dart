@@ -22,7 +22,7 @@ class TitleWidget extends StatelessWidget {
         child: TextUtils(
             text: text,
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: FontWeight.bold),
       ),
     );

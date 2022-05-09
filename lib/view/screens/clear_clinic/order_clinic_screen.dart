@@ -12,11 +12,19 @@ import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class OrderClinic extends StatelessWidget {
+class OrderClinic extends StatefulWidget {
   String? type;
   OrderClinic({Key? key, this.type}) : super(key: key);
+
+  @override
+  State<OrderClinic> createState() => _OrderClinicState();
+}
+
+class _OrderClinicState extends State<OrderClinic> {
   TextEditingController DescController = TextEditingController();
+
   var formkey = GlobalKey<FormState>();
+
   MaintenanceReq? maintenancereq;
 
   @override
@@ -133,7 +141,7 @@ class OrderClinic extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => ConfirmOrderClean(
-                                    type: type,
+                                    type: widget.type,
                                     description: DescController.text,
                                   ),
                                 ),

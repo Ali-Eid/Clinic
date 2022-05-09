@@ -1,8 +1,6 @@
 // import 'dart:convert';
 // import 'dart:js';
-
 import 'dart:convert';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -24,6 +22,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'view/screens/splash/splash_screen.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -39,19 +40,34 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
   // if (message.notification != null) {
-  AwesomeNotifications().createNotification(
-    content: NotificationContent(
-        id: message.hashCode,
-        channelKey: 'basic_channel_img',
-        title: message.data['title'],
-        body: message.data['body'],
-        // fullScreenIntent: true,
-        // largeIcon: 'assets/images/logo.png',
-        bigPicture: '${message.data['image']}',
-        notificationLayout: NotificationLayout.BigPicture,
-        wakeUpScreen: true,
-        payload: {'screen': '${message.data['screen']}'}),
-  );
+  CacheHelper.getData(key: 'lang') == 'en'
+      ? AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              id: message.hashCode,
+              channelKey: 'basic_channel_img',
+              title: message.data['title_en'],
+              body: message.data['body_en'],
+              // fullScreenIntent: true,
+              // largeIcon: 'assets/images/logo.png',
+              bigPicture: '$urlimg${message.data['image']}',
+              notificationLayout: NotificationLayout.BigPicture,
+              wakeUpScreen: true,
+              payload: {'screen': '${message.data['screen']}'}),
+        )
+      : AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              id: message.hashCode,
+              channelKey: 'basic_channel_img',
+              title: message.data['title_ar'],
+              body: message.data['body_ar'],
+
+              // fullScreenIntent: true,
+              // largeIcon: 'assets/images/logo.png',
+              bigPicture: '$urlimg${message.data['image']}',
+              notificationLayout: NotificationLayout.BigPicture,
+              wakeUpScreen: true,
+              payload: {'screen': '${message.data['screen']}'}),
+        );
   // }
 
   // flutterLocalNotificationsPlugin.show(
@@ -196,46 +212,6 @@ void main() async {
   );
 }
 
-class SplashScreen extends StatelessWidget {
-  Widget? startWidget;
-
-  SplashScreen({this.startWidget});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      splash: Column(
-        children: [
-          Container(
-            width: 200,
-            height: 200,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/logo.png'))),
-          ),
-          TextUtils(
-              text: AppLocalizations.of(context)!.logo,
-              color: const Color(0Xff054F86),
-              fontSize: 23,
-              fontWeight: FontWeight.bold)
-        ],
-      ),
-
-      nextScreen: startWidget!,
-      splashTransition: SplashTransition.fadeTransition,
-      // splashTransition: SplashTransition.rotationTransition,
-      // pageTransitionType: PageTransitionType.leftToRightWithFade,
-      splashIconSize: 250,
-      disableNavigation: false,
-      duration: 3000,
-      animationDuration: const Duration(seconds: 3),
-      centered: true,
-
-      // backgroundColor: Colors.red,
-    );
-  }
-}
-
 class MyApp extends StatelessWidget {
   Widget? startwidget;
   String? locale;
@@ -260,25 +236,29 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, state) {
-          return MaterialApp(
-            navigatorKey: navigatorKey,
-            title: 'Clinic Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
+          return ScreenUtilInit(
+            designSize: const Size(360, 690),
+            builder: (context) => MaterialApp(
+              navigatorKey: navigatorKey,
+              useInheritedMediaQuery: true,
+              title: 'Clinic Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              locale: LocalizationCubit.get(context).locale,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate
+              ],
+              supportedLocales: const [
+                Locale("en", ""),
+                Locale("ar", ""),
+              ],
+              debugShowCheckedModeBanner: false,
+              home: SplashScreen(startWidget: startwidget),
             ),
-            locale: LocalizationCubit.get(context).locale,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
-            ],
-            supportedLocales: const [
-              Locale("en", ""),
-              Locale("ar", ""),
-            ],
-            debugShowCheckedModeBanner: false,
-            home: SplashScreen(startWidget: startwidget),
           );
         },
       ),

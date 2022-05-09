@@ -45,15 +45,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   static HomeCubit get(context) => BlocProvider.of(context);
 
+  // List<String> img = [
+  //   'assets/images/Asset 24.png',
+  //   'assets/images/Asset 25.png',
+  //   'assets/images/Asset 24.png',
+  //   'assets/images/Asset 524.png',
+  //   'assets/images/Asset 88.png',
+  // ];
   MedicalSupplies? medicalModel;
-  List<String> img = [
-    'assets/images/Asset 24.png',
-    'assets/images/Asset 25.png',
-    'assets/images/Asset 24.png',
-    'assets/images/Asset 524.png',
-    'assets/images/Asset 88.png',
-  ];
-
   void getCategories() async {
     emit(LoadingCategoriesState());
     try {
@@ -96,11 +95,32 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  // void getsubCategory2(int id) async {
+  //   SubCategoryModel? subModel2;
+  //   emit(LoadingCategoriesState());
+  //   try {
+  //     http.Response response = await http.get(
+  //         Uri.parse('${url}medical-supplies/categories/$id/subcategories'),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+  //           'Accept': 'application/json',
+  //           'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+  //         });
+  //     print(response.body);
+  //     subModel2 = SubCategoryModel.fromJson(
+  //         jsonDecode(response.body) as Map<String, dynamic>);
+  //     emit(SuccessSubCategoriesState(submodel: subModel2));
+  //   } catch (e) {
+  //     emit(ErrorSubCategoriesState());
+  //   }
+  // }
+
   ProductModel? productModel;
 
   void getproductDetails({int? id}) async {
-    emit(LoadingCategoriesState());
     try {
+      emit(LoadingCategoriesState());
       http.Response response = await http.get(
           Uri.parse('${url}medical-supplies/categories/$id/products'),
           headers: {
@@ -114,7 +134,7 @@ class HomeCubit extends Cubit<HomeState> {
           jsonDecode(response.body) as Map<String, dynamic>);
       emit(SuccessProductDetailsState());
     } catch (e) {
-      print(e.toString());
+      print('get product details ${e.toString()}');
       emit(ErrorProductDetailsState());
     }
   }
@@ -846,8 +866,8 @@ class HomeCubit extends Cubit<HomeState> {
   List<DataNotificationsmodel?> datanotifications = [];
   void reciveNotification() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification!;
-      AndroidNotification? android = message.notification?.android;
+      // RemoteNotification notification = message.notification!;
+      // AndroidNotification? android = message.notification?.android;
       // print('ttttttttttttttttttttttt');
       // print(notification);
       // print(android);
@@ -858,37 +878,71 @@ class HomeCubit extends Cubit<HomeState> {
       //     name: notification.title, body: notification.body);
       // datanotifications.add(d);
       // emit(NotificationsState());
-      flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id, channel.name,
-              channelDescription: channel.description,
-              icon: '@mipmap/ic_launcher',
-              color: Colors.blue,
-              playSound: true,
-              importance: Importance.max,
+      CacheHelper.getData(key: 'lang') == 'en'
+          ? flutterLocalNotificationsPlugin.show(
+              message.hashCode,
+              message.data['title_en'],
+              message.data['body_en'],
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id, channel.name,
+                  channelDescription: channel.description,
+                  icon: '@mipmap/ic_launcher',
+                  color: Colors.blue,
+                  playSound: true,
+                  importance: Importance.max,
 
-              // sound: const RawResourceAndroidNotificationSound(
-              //     'android/app/src/main/res/raw/arrive.mp3'),
-              // enableLights: true,
-              // largeIcon:
-              //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
-              enableVibration: true,
-              priority: Priority.high,
-              fullScreenIntent: true,
-              // ongoing: true,
-              indeterminate: true,
-              setAsGroupSummary: true,
-              visibility: NotificationVisibility.public,
-              // timeoutAfter: 2,
-              // styleInformation: const MediaStyleInformation(
-              //     htmlFormatContent: true, htmlFormatTitle: true),
-            ),
-          ),
-          payload: message.data['screen']);
+                  // sound: const RawResourceAndroidNotificationSound(
+                  //     'android/app/src/main/res/raw/arrive.mp3'),
+                  // enableLights: true,
+                  // largeIcon:
+                  //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+                  enableVibration: true,
+                  priority: Priority.high,
+                  fullScreenIntent: true,
+                  // ongoing: true,
+                  indeterminate: true,
+                  setAsGroupSummary: true,
+                  visibility: NotificationVisibility.public,
+                  // timeoutAfter: 2,
+                  // styleInformation: const MediaStyleInformation(
+                  //     htmlFormatContent: true, htmlFormatTitle: true),
+                ),
+              ),
+              payload: message.data['screen'])
+          : flutterLocalNotificationsPlugin.show(
+              message.hashCode,
+              message.data['title_ar'],
+              message.data['body_ar'],
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id, channel.name,
+                  channelDescription: channel.description,
+                  icon: '@mipmap/ic_launcher',
+                  color: Colors.blue,
+                  playSound: true,
+                  importance: Importance.max,
+
+                  // sound: const RawResourceAndroidNotificationSound(
+                  //     'android/app/src/main/res/raw/arrive.mp3'),
+                  // enableLights: true,
+                  // largeIcon:
+                  //     const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+                  enableVibration: true,
+                  priority: Priority.high,
+                  fullScreenIntent: true,
+                  // ongoing: true,
+                  indeterminate: true,
+                  setAsGroupSummary: true,
+                  visibility: NotificationVisibility.public,
+                  // timeoutAfter: 2,
+                  // styleInformation: const MediaStyleInformation(
+                  //     htmlFormatContent: true, htmlFormatTitle: true),
+                ),
+              ),
+              payload: message.data['screen']);
+
+      print('botification data ${message.data}');
       // AwesomeNotifications().createNotification(
       //   content: NotificationContent(
       //     id: message.hashCode,

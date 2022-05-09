@@ -10,19 +10,19 @@ class ProductsCategory {
     if (json['data'] != null) {
       data = <DataProductCateg>[];
       json['data'].forEach((v) {
-        data!.add(new DataProductCateg.fromJson(v));
+        data!.add(DataProductCateg.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -33,7 +33,7 @@ class DataProductCateg {
   int? price;
   String? name;
   String? details;
-  List<Null>? images;
+  List<dynamic>? images;
   Category? category;
 
   DataProductCateg(
@@ -57,23 +57,22 @@ class DataProductCateg {
     //     images!.add(new Null.fromJson(v));
     //   });
     // }
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['price'] = this.price;
-    data['name'] = this.name;
-    data['details'] = this.details;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['price'] = price;
+    data['name'] = name;
+    data['details'] = details;
     // if (this.images != null) {
     //   data['images'] = this.images!.map((v) => v.toJson()).toList();
     // }
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }
@@ -81,12 +80,12 @@ class DataProductCateg {
 
 class Category {
   int? id;
-  Null? categoryId;
+  var categoryId;
   String? icon;
   bool? isActive;
   String? name;
   bool? hasChildren;
-  Null? parent;
+  var parent;
 
   Category(
       {this.id,
@@ -108,14 +107,14 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['icon'] = this.icon;
-    data['is_active'] = this.isActive;
-    data['name'] = this.name;
-    data['has_children'] = this.hasChildren;
-    data['parent'] = this.parent;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['icon'] = icon;
+    data['is_active'] = isActive;
+    data['name'] = name;
+    data['has_children'] = hasChildren;
+    data['parent'] = parent;
     return data;
   }
 }

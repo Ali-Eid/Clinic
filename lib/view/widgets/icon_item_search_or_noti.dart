@@ -7,9 +7,11 @@ class IconItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
-      width: 45,
-      height: 20,
+      width: width * 0.1,
+      height: height * 0.035,
       decoration: BoxDecoration(
           borderRadius: AppLocalizations.of(context)!.language == "Arabic"
               ? const BorderRadius.only(

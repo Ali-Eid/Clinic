@@ -38,8 +38,7 @@ class CategoryandTitle extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+        Center(
           child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: ontap,

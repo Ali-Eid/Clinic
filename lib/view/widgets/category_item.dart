@@ -12,14 +12,18 @@ class CategoryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    print('sub width  $width');
+    print('sub height  $height');
     return InkWell(
       onTap: ontap,
       child: Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [
           Container(
-            width: 165,
-            height: 165,
+            width: width / 2.3,
+            height: height / 4.9,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
               // border: Border.all(width: 1),
@@ -29,8 +33,8 @@ class CategoryItemWidget extends StatelessWidget {
               ], begin: Alignment.topLeft, end: Alignment.topRight),
             ),
             child: Container(
-              width: 160,
-              height: 160,
+              width: width / 2.4,
+              height: height / 5.1,
               color: Colors.white,
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
@@ -49,7 +53,7 @@ class CategoryItemWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             // alignment: Alignment.center,
-            width: 125,
+            width: width / 3,
             // height: 25,
             decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [

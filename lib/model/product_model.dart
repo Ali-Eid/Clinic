@@ -10,19 +10,19 @@ class ProductModel {
     if (json['data'] != null) {
       data = <DataProduct>[];
       json['data'].forEach((v) {
-        data!.add(new DataProduct.fromJson(v));
+        data!.add(DataProduct.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -52,20 +52,20 @@ class DataProduct {
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['price'] = this.price;
-    data['name'] = this.name;
-    data['details'] = this.details;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['price'] = price;
+    data['name'] = name;
+    data['details'] = details;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -85,10 +85,10 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['product_id'] = this.productId;
-    data['path'] = this.path;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['path'] = path;
     return data;
   }
 }

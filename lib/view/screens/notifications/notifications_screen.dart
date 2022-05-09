@@ -1,7 +1,9 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/notifications/notifications_model.dart';
+import 'package:clinic/services/cach_helper.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
 import 'package:clinic/view/widgets/header_widget.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -106,35 +109,49 @@ class item_notification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const CircleAvatar(
-        radius: 30,
-        backgroundImage: CachedNetworkImageProvider(
-            // '${notification.data!.image}',
-            'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg'),
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextUtils(
-            text: '${notification.data!.title}',
-            color: Colors.black,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-          ),
-          TextUtils(
-            text: notification.createdAt!.substring(0, 10),
-            color: Colors.grey,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ],
-      ),
-      subtitle: TextUtils(
-        text: '${notification.data!.body}',
-        color: Colors.grey,
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
+    return InkWell(
+      onTap: () async {
+        var url = notification.data!.redirectUrl;
+        if (await canLaunch(url!)) {
+          await launch(url);
+        } else {
+          return;
+        }
+      },
+      child: ListTile(
+        leading: const CircleAvatar(
+          radius: 30,
+          backgroundImage: CachedNetworkImageProvider(
+              // '${notification.data!.image}',
+              'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg'),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextUtils(
+              text: CacheHelper.getData(key: 'lang') == 'en'
+                  ? '${notification.data!.titleEn}'
+                  : '${notification.data!.titleAr}',
+              color: Colors.black,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
+            TextUtils(
+              text: notification.createdAt!.substring(0, 10),
+              color: Colors.grey,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ],
+        ),
+        subtitle: TextUtils(
+          text: CacheHelper.getData(key: 'lang') == 'en'
+              ? '${notification.data!.bodyEn}'
+              : '${notification.data!.bodyAr}',
+          color: Colors.grey,
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

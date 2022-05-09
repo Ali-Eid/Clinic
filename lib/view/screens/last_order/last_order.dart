@@ -83,85 +83,211 @@ class LastOrderScreen extends StatelessWidget {
   }
 }
 
-class item_last_order extends StatelessWidget {
+class item_last_order extends StatefulWidget {
   DataLastOrder? model;
+  bool isExpanded = true;
   item_last_order({Key? key, this.model}) : super(key: key);
 
+  @override
+  State<item_last_order> createState() => _item_last_orderState();
+}
+
+class _item_last_orderState extends State<item_last_order> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      child: Container(
-        height: 40,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              300,
-            ),
-            border: Border.all(width: 0.3, color: Colors.grey)
-            // color: Colors.red,
-            ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              // width: 70,
-              padding: const EdgeInsets.all(8),
+      child: InkWell(
+          radius: 30,
+          onTap: () {
+            setState(() {
+              widget.isExpanded = !widget.isExpanded;
+            });
+          },
+          child: AnimatedCrossFade(
+            firstChild: Container(
+              height: 40,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                     30,
                   ),
-                  color: Colors.grey.shade300),
-              child: TextUtils(
-                  text: '${model!.translatedStatus}',
-                  color: Colors.grey,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold),
-            ),
-            TextUtils(
-                text: model!.createdAt!.substring(0, 10),
-                color: Colors.grey,
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
-            Container(
-              padding: const EdgeInsets.all(5),
-              alignment: Alignment.center,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  300,
-                ),
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0Xff054F86),
-                    Color(0Xff61C089),
-                  ],
-                ),
-              ),
-              child: model!.type == 'buy_products'
-                  ? InkWell(
-                      onTap: () {
-                        print(model!.details!.products!.length);
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => LastProductOrder(
-                                  title: model!.createdAt!.substring(0, 10),
-                                  products: model!.details!.products!,
-                                )));
-                      },
-                      child: const Icon(
-                        Icons.shopping_cart_sharp,
-                        color: Colors.white,
-                      ),
-                    )
-                  : TextUtils(
-                      text: '${model!.type}',
-                      color: Colors.white,
-                      fontSize: 10,
+                  border: Border.all(width: 0.3, color: Colors.grey)
+                  // color: Colors.red,
+                  ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    // width: 70,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          30,
+                        ),
+                        color: Colors.grey.shade300),
+                    child: TextUtils(
+                        text: '${widget.model!.translatedStatus}',
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  TextUtils(
+                      text: widget.model!.createdAt!.substring(0, 10),
+                      color: Colors.grey,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    alignment: Alignment.center,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        300,
+                      ),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0Xff054F86),
+                          Color(0Xff61C089),
+                        ],
+                      ),
+                    ),
+                    child: widget.model!.type == 'buy_products'
+                        ? InkWell(
+                            onTap: () {
+                              print(widget.model!.details!.products!.length);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => LastProductOrder(
+                                        title: widget.model!.createdAt!
+                                            .substring(0, 10),
+                                        products:
+                                            widget.model!.details!.products!,
+                                      )));
+                            },
+                            child: const Icon(
+                              Icons.shopping_cart_sharp,
+                              color: Colors.white,
+                            ),
+                          )
+                        : TextUtils(
+                            text: '${widget.model!.translatedtype}',
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
+            secondChild: Container(
+              // height: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    30,
+                  ),
+                  border: Border.all(width: 0.3, color: Colors.grey)
+                  // color: Colors.red,
+                  ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    // width: 70,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        30,
+                      ),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0Xff054F86),
+                          Color(0Xff61C089),
+                        ],
+                      ),
+                    ),
+                    child: TextUtils(
+                        text: AppLocalizations.of(context)!.description,
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      // height: 100,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Text(
+                          widget.model!.details?.description ??
+                              'No Description',
+                          style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontFamily: 'Mikhak',
+                              fontWeight: FontWeight.bold),
+                          // overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(5),
+                  //   alignment: Alignment.center,
+                  //   width: 80,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(
+                  //       300,
+                  //     ),
+                  //     gradient: const LinearGradient(
+                  //       colors: [
+                  //         Color(0Xff054F86),
+                  //         Color(0Xff61C089),
+                  //       ],
+                  //     ),
+                  //   ),
+                  //   child: widget.model!.type == 'buy_products'
+                  //       ? InkWell(
+                  //           onTap: () {
+                  //             print(widget.model!.details!.products!.length);
+                  //             Navigator.of(context).push(MaterialPageRoute(
+                  //                 builder: (_) => LastProductOrder(
+                  //                       title: widget.model!.createdAt!
+                  //                           .substring(0, 10),
+                  //                       products:
+                  //                           widget.model!.details!.products!,
+                  //                     )));
+                  //           },
+                  //           child: const Icon(
+                  //             Icons.shopping_cart_sharp,
+                  //             color: Colors.white,
+                  //           ),
+                  //         )
+                  //       : TextUtils(
+                  //           text: '${widget.model!.type}',
+                  //           color: Colors.white,
+                  //           fontSize: 10,
+                  //           fontWeight: FontWeight.bold),
+                  // ),
+                ],
+              ),
+            ),
+            crossFadeState: widget.isExpanded
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            duration: const Duration(milliseconds: 1200),
+          )),
     );
   }
 }
+// AnimatedCrossFade(
+//                   firstChild: const Text(''),
+//                   secondChild: TextUtils(
+//                       text: widget.model!.details!.description!,
+//                       color: Colors.grey,
+//                       fontSize: 20,
+//                       fontWeight: FontWeight.bold),
+//                   crossFadeState: widget.isExpanded
+//                       ? CrossFadeState.showFirst
+//                       : CrossFadeState.showSecond,
+//                   duration: const Duration(milliseconds: 1200),),
+        

@@ -82,8 +82,8 @@ class ItemSubCateg extends StatelessWidget {
                       fallback: (context) => Expanded(
                           child: Lottie.asset('assets/images/no-data.json',
                               width: 200, height: 100)),
-                      condition:
-                          HomeCubit.get(context).subModel!.data!.isNotEmpty,
+                      condition: true,
+                      // HomeCubit.get(context).subModel!.data!.isNotEmpty,
                       builder: (context) => Expanded(
                         child: GridView.builder(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -102,9 +102,7 @@ class ItemSubCateg extends StatelessWidget {
                               // childAspectRatio: 3 / 2,
                             ),
                             shrinkWrap: true,
-                            itemBuilder: (ctxt, index) => Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
+                            itemBuilder: (ctxt, index) => Center(
                                   child: item_categ(
                                     model: HomeCubit.get(context)
                                         .productModel!
@@ -135,6 +133,10 @@ class item_categ extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    print('sub item width  $width');
+    print('sub item height  $height');
     return InkWell(
       onTap: () {
         HomeCubit.get(context).getproductdetails(id: model!.id);
@@ -145,8 +147,8 @@ class item_categ extends StatelessWidget {
         alignment: AlignmentDirectional.bottomStart,
         children: [
           Container(
-            width: 165,
-            height: 165,
+            width: width / 2.3,
+            height: height / 4.9,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
               // border: Border.all(width: 1),
@@ -156,8 +158,8 @@ class item_categ extends StatelessWidget {
               ], begin: Alignment.topLeft, end: Alignment.topRight),
             ),
             child: Container(
-              width: 160,
-              height: 160,
+              width: width / 2.4,
+              height: height / 5.1,
               color: Colors.white,
               child: CachedNetworkImage(
                 fit: BoxFit.cover,

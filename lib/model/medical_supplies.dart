@@ -10,31 +10,31 @@ class MedicalSupplies {
     if (json['data'] != null) {
       data = <MedicalSuppliesData>[];
       json['data'].forEach((v) {
-        data!.add(new MedicalSuppliesData.fromJson(v));
+        data!.add(MedicalSuppliesData.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
 
 class MedicalSuppliesData {
   int? id;
-  Null? categoryId;
+  var categoryId;
   String? nameAr;
   String? nameEn;
   String? icon;
   bool? isActive;
-  Null? deletedAt;
+  var deletedAt;
   String? name;
   bool? hasChildren;
 
@@ -62,16 +62,16 @@ class MedicalSuppliesData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['name_ar'] = this.nameAr;
-    data['name_en'] = this.nameEn;
-    data['icon'] = this.icon;
-    data['is_active'] = this.isActive;
-    data['deleted_at'] = this.deletedAt;
-    data['name'] = this.name;
-    data['has_children'] = this.hasChildren;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['name_ar'] = nameAr;
+    data['name_en'] = nameEn;
+    data['icon'] = icon;
+    data['is_active'] = isActive;
+    data['deleted_at'] = deletedAt;
+    data['name'] = name;
+    data['has_children'] = hasChildren;
     return data;
   }
 }

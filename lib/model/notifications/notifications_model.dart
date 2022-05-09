@@ -10,16 +10,6 @@ class NotificationsModel {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
   }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['status'] = status;
-  //   if (this.data != null) {
-  //     data['data'] = this.data!.toJson();
-  //   }
-  //   data['message'] = message;
-  //   return data;
-  // }
 }
 
 class Data {
@@ -77,28 +67,6 @@ class Data {
     to = json['to'];
     total = json['total'];
   }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['current_page'] = currentPage;
-  //   if (this.data != null) {
-  //     data['data'] = this.data!.map((v) => v.toJson()).toList();
-  //   }
-  //   data['first_page_url'] = firstPageUrl;
-  //   data['from'] = from;
-  //   data['last_page'] = lastPage;
-  //   data['last_page_url'] = lastPageUrl;
-  //   if (links != null) {
-  //     data['links'] = links!.map((v) => v.toJson()).toList();
-  //   }
-  //   data['next_page_url'] = nextPageUrl;
-  //   data['path'] = path;
-  //   data['per_page'] = perPage;
-  //   data['prev_page_url'] = prevPageUrl;
-  //   data['to'] = to;
-  //   data['total'] = total;
-  //   return data;
-  // }
 }
 
 class DNotification {
@@ -132,27 +100,54 @@ class DNotification {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['notifiable_type'] = notifiableType;
+    data['notifiable_id'] = notifiableId;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    data['read_at'] = readAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
 }
 
 class DataNotifications {
-  String? title;
-  String? body;
+  String? titleAr;
+  String? titleEn;
+  String? bodyAr;
+  String? bodyEn;
   String? redirectUrl;
   String? image;
 
-  DataNotifications({this.title, this.body, this.redirectUrl, this.image});
+  DataNotifications(
+      {this.titleAr,
+      this.titleEn,
+      this.bodyAr,
+      this.bodyEn,
+      this.redirectUrl,
+      this.image});
 
   DataNotifications.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    body = json['body'];
+    titleAr = json['title_ar'];
+    titleEn = json['title_en'];
+    bodyAr = json['body_ar'];
+    bodyEn = json['body_en'];
     redirectUrl = json['redirect_url'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['title'] = title;
-    data['body'] = body;
+    data['title_ar'] = titleAr;
+    data['title_en'] = titleEn;
+    data['body_ar'] = bodyAr;
+    data['body_en'] = bodyEn;
     data['redirect_url'] = redirectUrl;
     data['image'] = image;
     return data;

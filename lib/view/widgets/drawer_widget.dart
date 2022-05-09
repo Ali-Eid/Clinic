@@ -10,6 +10,7 @@ import 'package:clinic/view/screens/clear_clinic/clear_clinic_screen.dart';
 import 'package:clinic/view/screens/last_order/last_order.dart';
 import 'package:clinic/view/screens/latest_news/latest_news_screen.dart';
 import 'package:clinic/view/screens/maintenance/maintenance.dart';
+import 'package:clinic/view/screens/medical-supplies/category-screen.dart';
 import 'package:clinic/view/screens/medical_supplies/category_screen.dart';
 import 'package:clinic/view/screens/update_info_screen/update_info.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
@@ -135,7 +136,7 @@ class DrawerHome extends StatelessWidget {
                         HomeCubit.get(context)
                             .servicedetails(slug: 'medical-supplies');
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => const CategoryScreen()));
+                            builder: (_) => const CategoryPage()));
                       },
                       child: TextUtils(
                         text: AppLocalizations.of(context)!.medical_Supplies,
@@ -519,7 +520,7 @@ class DrawerPage extends StatelessWidget {
                         HomeCubit.get(context)
                             .servicedetails(slug: 'medical-supplies');
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (_) => const CategoryScreen()));
+                            builder: (_) => const CategoryPage()));
                       },
                       child: TextUtils(
                         text: AppLocalizations.of(context)!.medical_Supplies,

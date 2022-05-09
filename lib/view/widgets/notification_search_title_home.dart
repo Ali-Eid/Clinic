@@ -18,6 +18,8 @@ class NotificationSearchTitleHome extends StatelessWidget {
   Locale? locale;
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -34,55 +36,6 @@ class NotificationSearchTitleHome extends StatelessWidget {
               HomeCubit.get(context).getNotifications();
             },
             child: IconItemWidget(iconData: Icons.notifications)),
-        // HomeCubit.get(context)
-        //         .notificationModel!
-        //         .data!
-        //         .data!
-        //         .isNotEmpty
-        //     ? Container(
-        //         width: 45,
-        //         height: 20,
-        //         decoration: BoxDecoration(
-        //             borderRadius:
-        //                 AppLocalizations.of(context)!.language == "Arabic"
-        //                     ? const BorderRadius.only(
-        //                         topRight: Radius.circular(10),
-        //                         bottomRight: Radius.circular(10))
-        //                     : const BorderRadius.only(
-        //                         topLeft: Radius.circular(10),
-        //                         bottomLeft: Radius.circular(10),
-        //                       ),
-        //             gradient: const LinearGradient(
-        //               colors: [
-        //                 Color(0Xff054F86),
-        //                 Color(0Xff61C089),
-        //                 // Colors.green.shade400,
-        //               ],
-        //               begin: Alignment.topCenter,
-        //             )),
-        //         child: Row(
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             const Icon(
-        //               Icons.notifications_active,
-        //               color: Colors.white,
-        //               size: 15,
-        //             ),
-        //             const SizedBox(
-        //               width: 2,
-        //             ),
-        //             CircleAvatar(
-        //               radius: 7,
-        //               backgroundColor: Colors.red,
-        //               child: Text(
-        //                 '${HomeCubit.get(context).notificationModel!.data!.data!.length}',
-        //                 style: const TextStyle(fontSize: 10),
-        //               ),
-        //             )
-        //           ],
-        //         ))
-        // :
-        // IconItemWidget(iconData: Icons.notifications)),
         const SizedBox(
           height: 10,
         ),
@@ -100,8 +53,8 @@ class NotificationSearchTitleHome extends StatelessWidget {
             DropdownButtonHideUnderline(
               child: DropdownButton(
                 icon: Container(
-                  width: 45,
-                  height: 20,
+                  width: width * 0.1,
+                  height: height * 0.035,
                   decoration: BoxDecoration(
                       borderRadius:
                           AppLocalizations.of(context)!.language == "Arabic"

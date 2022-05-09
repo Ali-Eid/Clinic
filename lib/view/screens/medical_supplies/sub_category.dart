@@ -3,6 +3,7 @@ import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/view/screens/category_child/categoy_items/item_category.dart';
 import 'package:clinic/view/screens/item/item.dart';
 import 'package:clinic/view/screens/medical_supplies/items_sub.dart';
+import 'package:clinic/view/screens/medical_supplies/sub_sub_category.dart';
 import 'package:clinic/view/screens/test_shimmer/shimmer_home.dart';
 import 'package:clinic/view/widgets/category_item.dart';
 import 'package:clinic/view/widgets/drawer_widget.dart';
@@ -86,35 +87,60 @@ class SubCategoryScreen extends StatelessWidget {
                       condition:
                           HomeCubit.get(context).subModel!.data!.isNotEmpty,
                       builder: (context) => Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: GridView.builder(
+                        child: GridView.builder(
+                          itemCount:
+                              HomeCubit.get(context).subModel!.data!.length,
+                          physics: const BouncingScrollPhysics(),
+                          // padding: const EdgeInsets.symmetric(horizontal: 5),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
                             itemCount:
                                 HomeCubit.get(context).subModel!.data!.length,
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCountAndCentralizedLastElement(
-                              itemCount:
-                                  HomeCubit.get(context).subModel!.data!.length,
-                              crossAxisCount: 2,
-                              // childAspectRatio: 3 / 2
-                            ),
-                            itemBuilder: (ctxt, index) => CategoryItemWidget(
+                            crossAxisCount: 2,
+                            // childAspectRatio: 1,
+                          ),
+                          itemBuilder: (ctxt, index) => Center(
+                            child: CategoryItemWidget(
                                 model: HomeCubit.get(context)
                                     .subModel!
                                     .data![index],
                                 ontap: () {
-                                  HomeCubit.get(context).getproductsSubCategory(
-                                      id: HomeCubit.get(context)
-                                          .subModel!
-                                          .data![index]
-                                          .id);
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => ItemSubCateg(
+                                  if (HomeCubit.get(context)
+                                      .subModel!
+                                      .data![index]
+                                      .hasChildren!) {
+                                    HomeCubit.get(context).getsubCategory(
+                                        HomeCubit.get(context)
+                                            .subModel!
+                                            .data![index]
+                                            .id!);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) => SubCategoryScreen(
+                                              name: HomeCubit.get(context)
+                                                  .subModel!
+                                                  .data![index]
+                                                  .name!)),
+                                    );
+                                  } else {
+                                    HomeCubit.get(context)
+                                        .getproductsSubCategory(
+                                            id: HomeCubit.get(context)
+                                                .subModel!
+                                                .data![index]
+                                                .id!);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => ItemSubCateg(
                                           name: HomeCubit.get(context)
                                               .subModel!
                                               .data![index]
-                                              .name!)));
+                                              .name!,
+                                        ),
+                                      ),
+                                    );
+                                  }
+
                                   // Navigator.push(
                                   //     context,
                                   //     PageRouteBuilder(

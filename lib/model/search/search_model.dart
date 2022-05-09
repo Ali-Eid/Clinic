@@ -7,17 +7,17 @@ class SearchModel {
 
   SearchModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -30,10 +30,10 @@ class Data {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  Null? nextPageUrl;
+  var nextPageUrl;
   String? path;
   int? perPage;
-  Null? prevPageUrl;
+  var prevPageUrl;
   int? to;
   int? total;
 
@@ -57,7 +57,7 @@ class Data {
     if (json['data'] != null) {
       data = <DataProd>[];
       json['data'].forEach((v) {
-        data!.add(new DataProd.fromJson(v));
+        data!.add(DataProd.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -67,7 +67,7 @@ class Data {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -79,24 +79,24 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -128,26 +128,25 @@ class DataProd {
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['price'] = this.price;
-    data['name'] = this.name;
-    data['details'] = this.details;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['price'] = price;
+    data['name'] = name;
+    data['details'] = details;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }
@@ -167,10 +166,10 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['product_id'] = this.productId;
-    data['path'] = this.path;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['path'] = path;
     return data;
   }
 }
@@ -200,30 +199,29 @@ class Category {
     isActive = json['is_active'];
     name = json['name'];
     hasChildren = json['has_children'];
-    parent =
-        json['parent'] != null ? new Parent.fromJson(json['parent']) : null;
+    parent = json['parent'] != null ? Parent.fromJson(json['parent']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['icon'] = this.icon;
-    data['is_active'] = this.isActive;
-    data['name'] = this.name;
-    data['has_children'] = this.hasChildren;
-    if (this.parent != null) {
-      data['parent'] = this.parent!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['icon'] = icon;
+    data['is_active'] = isActive;
+    data['name'] = name;
+    data['has_children'] = hasChildren;
+    if (parent != null) {
+      data['parent'] = parent!.toJson();
     }
     return data;
   }
 }
 
 class Parent {
-  Null? categoryId;
+  var categoryId;
   String? name;
   bool? hasChildren;
-  Null? parent;
+  var parent;
 
   Parent({this.categoryId, this.name, this.hasChildren, this.parent});
 
@@ -235,11 +233,11 @@ class Parent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category_id'] = this.categoryId;
-    data['name'] = this.name;
-    data['has_children'] = this.hasChildren;
-    data['parent'] = this.parent;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['category_id'] = categoryId;
+    data['name'] = name;
+    data['has_children'] = hasChildren;
+    data['parent'] = parent;
     return data;
   }
 }
@@ -258,10 +256,10 @@ class Links {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['label'] = label;
+    data['active'] = active;
     return data;
   }
 }

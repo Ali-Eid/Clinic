@@ -39,6 +39,7 @@ class DataLastOrder {
   String? updatedAt;
   var deletedAt;
   String? translatedStatus;
+  String? translatedtype;
   Details? details;
   Address? address;
 
@@ -54,6 +55,7 @@ class DataLastOrder {
       this.updatedAt,
       this.deletedAt,
       this.translatedStatus,
+      this.translatedtype,
       this.details,
       this.address});
 
@@ -69,6 +71,7 @@ class DataLastOrder {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     translatedStatus = json['translated_status'];
+    translatedtype = json['translated_type'];
     details =
         json['details'] != null ? Details.fromJson(json['details']) : null;
     address =

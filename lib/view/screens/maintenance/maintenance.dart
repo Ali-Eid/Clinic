@@ -16,15 +16,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Maintenance extends StatelessWidget {
-  Maintenance({Key? key}) : super(key: key);
+class Maintenance extends StatefulWidget {
+  const Maintenance({Key? key}) : super(key: key);
+
+  @override
+  State<Maintenance> createState() => _MaintenanceState();
+}
+
+class _MaintenanceState extends State<Maintenance> {
   TextEditingController DeviceController = TextEditingController();
+
   TextEditingController typeController = TextEditingController();
+
   TextEditingController serialController = TextEditingController();
+
   TextEditingController DescController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
+
   var formkey = GlobalKey<FormState>();
+
   MaintenanceReq? maintenancereq;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
@@ -213,8 +226,10 @@ class Maintenance extends StatelessWidget {
                                             onPressed: () {
                                               if (formkey.currentState!
                                                   .validate()) {
-                                               HomeCubit.get(context).valueDropDowncity = null;
-                            HomeCubit.get(context).getCities();
+                                                HomeCubit.get(context)
+                                                    .valueDropDowncity = null;
+                                                HomeCubit.get(context)
+                                                    .getCities();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

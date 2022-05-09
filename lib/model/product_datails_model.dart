@@ -7,17 +7,17 @@ class ProductDetailsModel {
 
   ProductDetailsModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new ProductData.fromJson(json['data']) : null;
+    data = json['data'] != null ? ProductData.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -49,26 +49,25 @@ class ProductData {
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['price'] = this.price;
-    data['name'] = this.name;
-    data['details'] = this.details;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['price'] = price;
+    data['name'] = name;
+    data['details'] = details;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }
@@ -88,10 +87,10 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['product_id'] = this.productId;
-    data['path'] = this.path;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['path'] = path;
     return data;
   }
 }
@@ -121,30 +120,29 @@ class Category {
     isActive = json['is_active'];
     name = json['name'];
     hasChildren = json['has_children'];
-    parent =
-        json['parent'] != null ? new Parent.fromJson(json['parent']) : null;
+    parent = json['parent'] != null ? Parent.fromJson(json['parent']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['icon'] = this.icon;
-    data['is_active'] = this.isActive;
-    data['name'] = this.name;
-    data['has_children'] = this.hasChildren;
-    if (this.parent != null) {
-      data['parent'] = this.parent!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['icon'] = icon;
+    data['is_active'] = isActive;
+    data['name'] = name;
+    data['has_children'] = hasChildren;
+    if (parent != null) {
+      data['parent'] = parent!.toJson();
     }
     return data;
   }
 }
 
 class Parent {
-  Null? categoryId;
+  var categoryId;
   String? name;
   bool? hasChildren;
-  Null? parent;
+  var parent;
 
   Parent({this.categoryId, this.name, this.hasChildren, this.parent});
 
@@ -156,11 +154,11 @@ class Parent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category_id'] = this.categoryId;
-    data['name'] = this.name;
-    data['has_children'] = this.hasChildren;
-    data['parent'] = this.parent;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['category_id'] = categoryId;
+    data['name'] = name;
+    data['has_children'] = hasChildren;
+    data['parent'] = parent;
     return data;
   }
 }

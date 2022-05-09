@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ConfirmScreen extends StatelessWidget {
+class ConfirmScreen extends StatefulWidget {
   ConfirmScreen(
       {Key? key, this.device, this.description, this.type, this.serialnum})
       : super(key: key);
@@ -25,13 +25,24 @@ class ConfirmScreen extends StatelessWidget {
   String? type;
   String? serialnum;
   String? description;
+
+  @override
+  State<ConfirmScreen> createState() => _ConfirmScreenState();
+}
+
+class _ConfirmScreenState extends State<ConfirmScreen> {
   TextEditingController detailsController = TextEditingController();
+
   TextEditingController cityController = TextEditingController();
+
   TextEditingController destrictController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
+
   var formkey = GlobalKey<FormState>();
 
   int? cityID = 0;
+
   int? destrictID = 0;
 
   @override
@@ -423,10 +434,12 @@ class ConfirmScreen extends StatelessWidget {
                                                           phoneController.text,
                                                       city: cityID!,
                                                       destrict: destrictID!,
-                                                      serialnum: serialnum!,
-                                                      device: device!,
-                                                      type: type!,
-                                                      description: description!,
+                                                      serialnum:
+                                                          widget.serialnum!,
+                                                      device: widget.device!,
+                                                      type: widget.type!,
+                                                      description:
+                                                          widget.description!,
                                                       details: detailsController
                                                           .text);
                                             }
