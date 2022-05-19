@@ -119,31 +119,84 @@ class item_notification extends StatelessWidget {
         }
       },
       child: ListTile(
-        leading: const CircleAvatar(
-          radius: 30,
-          backgroundImage: CachedNetworkImageProvider(
-              // '${notification.data!.image}',
-              'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg'),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextUtils(
-              text: CacheHelper.getData(key: 'lang') == 'en'
-                  ? '${notification.data!.titleEn}'
-                  : '${notification.data!.titleAr}',
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-            TextUtils(
-              text: notification.createdAt!.substring(0, 10),
-              color: Colors.grey,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ],
-        ),
+        leading: notification.data!.image != null
+            ? CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.transparent,
+                // backgroundColor: Colors.transparent,
+                // child: CachedNetworkImage(
+                //   fit: BoxFit.fill,
+                //   width: double.infinity,
+                //   imageUrl: '$urlimg${notification.data!.image}',
+                //   placeholder: (context, url) => Center(
+                //     child:
+                //         CircularProgressIndicator(color: Colors.green.shade400),
+                //   ),
+                //   errorWidget: (context, url, error) => const Icon(Icons.error),
+                // ),
+                backgroundImage:
+                    // ?
+                    CachedNetworkImageProvider(
+                  '$urlimg${notification.data!.image}',
+                  // 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg'),
+                ),
+              )
+            : CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.transparent,
+                backgroundImage:
+                    // ?
+                    //     CachedNetworkImageProvider(
+                    //   '$urlimg${notification.data!.image}',
+                    //   // 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg'),
+                    // )
+                    // :
+                    notification.data!.titleEn ==
+                            'your order status has been updated'
+                        ? const AssetImage(
+                                'assets/images/change status order.jpg')
+                            as ImageProvider
+                        : const AssetImage('assets/images/notification.jpg'),
+              ),
+        title: notification.data!.image == null
+            ? TextUtils(
+                text: CacheHelper.getData(key: 'lang') == 'en'
+                    ? '${notification.data!.titleEn}'
+                    : '${notification.data!.titleAr}',
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextUtils(
+                    text: CacheHelper.getData(key: 'lang') == 'en'
+                        ? '${notification.data!.titleEn}'
+                        : '${notification.data!.titleAr}',
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    imageUrl: '$urlimg${notification.data!.image}',
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(
+                          color: Colors.green.shade400),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
         subtitle: TextUtils(
           text: CacheHelper.getData(key: 'lang') == 'en'
               ? '${notification.data!.bodyEn}'
@@ -152,43 +205,16 @@ class item_notification extends StatelessWidget {
           fontSize: 13,
           fontWeight: FontWeight.w500,
         ),
+        trailing: TextUtils(
+          text: notification.createdAt!.substring(0, 10),
+          color: Colors.grey,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:clinic/logic/home/cubit/home_cubit.dart';
 // import 'package:clinic/view/widgets/text_utils.dart';
@@ -242,42 +268,6 @@ class item_notification extends StatelessWidget {
 //         );
 //   }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // import 'package:clinic/main.dart';
 // // import 'package:firebase_messaging/firebase_messaging.dart';

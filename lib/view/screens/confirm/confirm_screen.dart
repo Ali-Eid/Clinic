@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ConfirmScreen extends StatefulWidget {
+class ConfirmScreen extends StatelessWidget {
   ConfirmScreen(
       {Key? key, this.device, this.description, this.type, this.serialnum})
       : super(key: key);
@@ -25,12 +25,6 @@ class ConfirmScreen extends StatefulWidget {
   String? type;
   String? serialnum;
   String? description;
-
-  @override
-  State<ConfirmScreen> createState() => _ConfirmScreenState();
-}
-
-class _ConfirmScreenState extends State<ConfirmScreen> {
   TextEditingController detailsController = TextEditingController();
 
   TextEditingController cityController = TextEditingController();
@@ -434,12 +428,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                                           phoneController.text,
                                                       city: cityID!,
                                                       destrict: destrictID!,
-                                                      serialnum:
-                                                          widget.serialnum!,
-                                                      device: widget.device!,
-                                                      type: widget.type!,
-                                                      description:
-                                                          widget.description!,
+                                                      serialnum: serialnum!,
+                                                      device: device!,
+                                                      type: type!,
+                                                      description: description!,
                                                       details: detailsController
                                                           .text);
                                             }

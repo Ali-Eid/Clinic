@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clinic/constants.dart';
@@ -32,9 +34,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       HomeCubit.get(context).meInfo();
-      // HomeCubit.get(context).getcart();
+      HomeCubit.get(context).getcart();
       HomeCubit.get(context).reciveNotification();
-      // HomeCubit.get(context).getNotifications();
+      HomeCubit.get(context).getSpecialist();
+      HomeCubit.get(context).getNotifications();
+      HomeCubit.get(context).getmyprofileImage();
 
       return BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
@@ -203,16 +207,17 @@ class HomeScreen extends StatelessWidget {
                                     CategoryandTitle(
                                       width: width / 5,
                                       height: height / 10,
-                                      text: 'عيادات للبيع والايجار',
+                                      text: AppLocalizations.of(context)!
+                                          .clinic_for_sale,
                                       imgurl: 'assets/images/Asset 19.png',
                                       ontap: () {
-                                        // HomeCubit.get(context)
-                                        //     .servicedetails(id: 9);
-                                        // Navigator.of(context)
-                                        //     .push(MaterialPageRoute(
-                                        //         builder: (_) => ClearScreen(
-                                        //               type: 'buy_clinic',
-                                        //             )));
+                                        HomeCubit.get(context).servicedetails(
+                                            slug: 'clinic_sale');
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (_) => ClearScreen(
+                                                      type: 'buy_clinic',
+                                                    )));
                                       },
                                     ),
                                     // SizedBox(

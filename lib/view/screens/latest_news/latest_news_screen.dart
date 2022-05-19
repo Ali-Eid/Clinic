@@ -119,7 +119,7 @@ class item_latest_news extends StatelessWidget {
               child: CarouselSlider(
                 items: model!.images!.map((e) {
                   return CachedNetworkImage(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     width: double.infinity,
                     imageUrl: 'https://my-clinic22.herokuapp.com/${e.path}',
                     placeholder: (context, url) => Center(

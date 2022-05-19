@@ -16,14 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Maintenance extends StatefulWidget {
-  const Maintenance({Key? key}) : super(key: key);
-
-  @override
-  State<Maintenance> createState() => _MaintenanceState();
-}
-
-class _MaintenanceState extends State<Maintenance> {
+class Maintenance extends StatelessWidget {
+  Maintenance({Key? key}) : super(key: key);
   TextEditingController DeviceController = TextEditingController();
 
   TextEditingController typeController = TextEditingController();

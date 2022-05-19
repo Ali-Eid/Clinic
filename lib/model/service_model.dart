@@ -1,71 +1,107 @@
 class ServiceModel {
   bool? status;
-  DataService? data;
+  Data? data;
   String? message;
 
   ServiceModel({this.status, this.data, this.message});
 
   ServiceModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new DataService.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
 
-class DataService {
+class Data {
   int? id;
+  String? slug;
   bool? isMain;
   String? icon;
   String? type;
+  String? orderType;
   String? name;
-  String? description;
-  List<dynamic>? images;
+  var description;
+  List<Images>? images;
 
-  DataService(
+  Data(
       {this.id,
+      this.slug,
       this.isMain,
       this.icon,
       this.type,
+      this.orderType,
       this.name,
       this.description,
       this.images});
 
-  DataService.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    slug = json['slug'];
     isMain = json['is_main'];
     icon = json['icon'];
     type = json['type'];
+    orderType = json['order_type'];
     name = json['name'];
     description = json['description'];
-    // if (json['images'] != null) {
-    //   images = <dynamic>[];
-    //   json['images'].forEach((v) {
-    //     images!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['images'] != null) {
+      images = <Images>[];
+      json['images'].forEach((v) {
+        images!.add(Images.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['is_main'] = this.isMain;
-    data['icon'] = this.icon;
-    data['type'] = this.type;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['slug'] = slug;
+    data['is_main'] = isMain;
+    data['icon'] = icon;
+    data['type'] = type;
+    data['order_type'] = orderType;
+    data['name'] = name;
+    data['description'] = description;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Images {
+  int? id;
+  int? serviceId;
+  String? path;
+  String? createdAt;
+  String? updatedAt;
+
+  Images({this.id, this.serviceId, this.path, this.createdAt, this.updatedAt});
+
+  Images.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    serviceId = json['service_id'];
+    path = json['path'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['service_id'] = serviceId;
+    data['path'] = path;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

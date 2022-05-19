@@ -2,6 +2,7 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/product_datails_model.dart';
 import 'package:clinic/model/product_model.dart';
@@ -163,15 +164,16 @@ class FrameWithPriceAndName extends StatelessWidget {
                   height: 235,
                   color: Colors.white,
                   child: CarouselSlider(
-                    items: [
-                      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                    ]
+                    items: model!.data!.images!
+                        //  [
+                        //   'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                        //   'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                        // ]
                         .map(
                           (e) => CachedNetworkImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                             width: double.infinity,
-                            imageUrl: e,
+                            imageUrl: '$urlimg${e.path}',
                             placeholder: (context, url) => Center(
                               child: CircularProgressIndicator(
                                   color: Colors.green.shade400),

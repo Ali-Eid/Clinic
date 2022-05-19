@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
@@ -20,6 +21,7 @@ import 'package:clinic/model/login_model.dart';
 import 'package:clinic/model/medical_supplies.dart';
 import 'package:clinic/model/notifications/notifications_model.dart';
 import 'package:clinic/model/order_model.dart';
+import 'package:clinic/model/photo/photo_model.dart';
 import 'package:clinic/model/product_datails_model.dart';
 import 'package:clinic/model/product_model.dart';
 import 'package:clinic/model/search/search_model.dart';
@@ -205,6 +207,7 @@ class HomeCubit extends Cubit<HomeState> {
       //contact_method
       sendtokenfcm();
       getContactinfo();
+      // profileImage = null;
       // }
       //  emit(SuccessUserInfoState());
     } catch (e) {
@@ -220,6 +223,7 @@ class HomeCubit extends Cubit<HomeState> {
     final pickedFile = await picker.getImage(
       source: ImageSource.gallery,
     );
+
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
       print(pickedFile.path);
@@ -230,7 +234,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void updateinfo({
-    // String? imgurl,
+    String? imgurl,
     required String firstname,
     required String lastname,
     required String email,
@@ -240,52 +244,88 @@ class HomeCubit extends Cubit<HomeState> {
     required String specialistid,
   }) async {
     try {
-      emit(
-          Loadingupdateinfo()); // List<int> imageBytes = profileImage!.readAsBytesSync();
-      // String baseimage = base64Encode(imageBytes);
-      http.Response response = await http.post(
-        Uri.parse('${url}users/me?_method=PUT'),
-        headers: {
-          // 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+      emit(Loadingupdateinfo());
+      if (profileImage == null) {
+        http.Response response = await http.post(
+          Uri.parse('${url}users/me?_method=PUT'),
+          headers: {
+            // 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+            'Accept': 'application/json',
+            'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+          },
+          body: {
+            'first_name': firstname,
+            'last_name': lastname,
+            'email': email,
+            'mobile_number': mobilenum,
+            'specialty_id': specialistid,
+            // 'address': {
+            //   'district_id': districtid,
+            //   'city_id': cityid,
+            // }
+          },
+        );
+        print(response.body);
+        var model = jsonDecode(response.body) as Map<String, dynamic>;
+        if (response.statusCode == 200) {
+          emit(SuccessUpdateUserInfoState());
+        } else {
+          emit(ErrorUserInfoState(error: model['message']));
+        }
+      } else {
+        var headers = {
           'Accept': 'application/json',
-          'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
-        },
-        body: {
-          // 'photo': profileImage,
+          'Accept-Language': '${CacheHelper.getData(key: 'lang')}',
+          'Authorization': 'Bearer  ${CacheHelper.getData(key: 'token')}'
+        };
+        var request = http.MultipartRequest(
+            'POST', Uri.parse('${url}users/me?_method=PUT'));
+        request.fields.addAll({
           'first_name': firstname,
           'last_name': lastname,
           'email': email,
           'mobile_number': mobilenum,
-          'specialty_id': specialistid,
-          // 'address': {
-          //   'district_id': districtid,
-          //   'city_id': cityid,
-          // }
-        },
-      );
-      print(response.body);
-      var model = jsonDecode(response.body) as Map<String, dynamic>;
-      if (response.statusCode == 200) {
-        emit(SuccessUpdateUserInfoState());
-      } else {
-        emit(ErrorUserInfoState(error: model['message']));
-      }
-      //   var request = http.MultipartRequest(
-      //       "POST", Uri.parse("${url}users/me?_method=PUT"));
-      //   request.fields["first_name"] = firstname;
-      //   request.fields["last_name"] = lastname;
-      //   request.fields["email"] = email;
-      //   request.fields["mobile_number"] = mobilenum;
-      //   request.files.add(http.MultipartFile.fromBytes(
-      //       '$profileImage', File(profileImage!.path).readAsBytesSync(),
-      //       filename: profileImage!.path));
-      //   var res = await request.send();
+          'specialty_id': specialistid
+        });
 
-      //   emit(SuccessUpdateUserInfoState());
+        request.files.add(
+            await http.MultipartFile.fromPath('photo', profileImage!.path));
+        request.headers.addAll(headers);
+
+        http.StreamedResponse response = await request.send();
+
+        emit(SuccessUpdateUserInfoState());
+      }
     } catch (e) {
       print('error user info ${e.toString()}');
       emit(ErrorUserInfoState(error: e.toString()));
+    }
+  }
+
+  PhotoModel? myphoto;
+  var sss;
+  UriData? photoEncode;
+  Uint8List? myImage;
+  void getmyprofileImage() async {
+    try {
+      emit(LoadingProfileImageState());
+      http.Response response =
+          await http.get(Uri.parse('${url}users/me/photo'), headers: {
+        'Authorization': 'Bearer ${CacheHelper.getData(key: 'token')}',
+        'Accept': 'application/json',
+        'Accept-Language': '${CacheHelper.getData(key: 'lang')}'
+      });
+      print('Imaggggggggggggggggge is ${response.body}');
+      myphoto = PhotoModel.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+      sss = myphoto!.data;
+      photoEncode = Uri.parse(sss).data;
+      myImage = photoEncode!.contentAsBytes();
+      emit(SuccessProfileImageState());
+    } catch (e) {
+      print('Imaggee Error : ${e.toString()}');
+      emit(ErrorProfileImageState(error: e.toString()));
     }
   }
 
@@ -396,6 +436,12 @@ class HomeCubit extends Cubit<HomeState> {
   String? valueDropDowncity;
   void changevalueDropdown(String val) {
     valueDropDowncity = val;
+    emit(SuccessChangevalueState());
+  }
+
+  String? valueDropDowncityspecilalist;
+  void changevalueDropdownspecilalist(String val) {
+    valueDropDowncityspecilalist = val;
     emit(SuccessChangevalueState());
   }
 
@@ -818,6 +864,7 @@ class HomeCubit extends Cubit<HomeState> {
       cartAddModel = null;
       contactInfoModel = null;
       await CacheHelper.removeData(key: 'token');
+      myImage = null;
     } catch (e) {
       emit(ErrorLogOutState(error: e.toString()));
     }

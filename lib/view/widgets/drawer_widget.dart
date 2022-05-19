@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/logic/auth/cubit/auth_cubit.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/services/cach_helper.dart';
@@ -24,6 +29,8 @@ class DrawerHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final UriData? data = Uri.parse(HomeCubit.get(context).sss).data;
+    // Uint8List myImage = data!.contentAsBytes();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 30),
       child: SizedBox(
@@ -93,20 +100,57 @@ class DrawerHome extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const CircleAvatar(
-                            radius: 50,
-                            backgroundImage: CachedNetworkImageProvider(
-                              'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                          BuildCondition(
+                            fallback: (context) => const CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 40,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                            condition: HomeCubit.get(context).myphoto != null,
+                            builder: (context) => CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 40,
+                              backgroundImage:
+                                  HomeCubit.get(context).myImage != null
+                                      ? Image.memory(
+                                          HomeCubit.get(context).myImage!,
+                                        ).image
+                                      : const CachedNetworkImageProvider(
+                                          'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
+                                        ),
+                              //        Image.memory(
+                              //   HomeCubit.get(context).myImage!,
+                              // ).image,
+
+                              //     CachedNetworkImageProvider(
+                              //   //   // '$urlimg${HomeCubit.get(context).model!.data!.photo!}'
+                              //   //   // 'https://my-clinic22.herokuapp.com/${HomeCubit.get(context).model?.data?.photo}'
+                              //   'https://cdn-icons-png.flaticon.com/512/21/21104.png',
+                              // ),
                             ),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          TextUtils(
-                              text: text!,
+                          Text(
+                            text!,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              fontFamily: 'Mikhak',
+                              // decoration: decoration,
                               color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold)
+                              // fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          // TextUtils(
+                          //     text: text!,
+                          //     color: Colors.white,
+                          //     fontSize: 25,
+                          //     fontWeight: FontWeight.bold)
                         ],
                       ),
                     ),
@@ -214,6 +258,12 @@ class DrawerHome extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
+                        HomeCubit.get(context)
+                            .servicedetails(slug: 'clinic_sale');
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => ClearScreen(
+                                  type: 'buy_clinic',
+                                )));
                         // HomeCubit.get(context).servicedetails(id: 9);
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (_) => ClearScreen(
@@ -221,7 +271,7 @@ class DrawerHome extends StatelessWidget {
                         //         )));
                       },
                       child: TextUtils(
-                        text: 'عيادات للبيع والايجار',
+                        text: AppLocalizations.of(context)!.clinic_for_sale,
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -477,21 +527,39 @@ class DrawerPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const CircleAvatar(
-                            radius: 50,
-                            backgroundImage: CachedNetworkImageProvider(
-                              'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                            ),
+                          CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 40,
+                            backgroundImage: Image.memory(
+                              HomeCubit.get(context).myImage!,
+                            ).image,
+
+                            // backgroundImage: CachedNetworkImageProvider(
+                            //   'https://cdn-icons-png.flaticon.com/512/21/21104.png',
+                            // ),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          TextUtils(
-                              text:
-                                  '${HomeCubit.get(context).model?.data!.firstName} ${HomeCubit.get(context).model?.data!.lastName} ',
+                          Text(
+                            '${HomeCubit.get(context).model?.data!.firstName} ${HomeCubit.get(context).model?.data!.lastName}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              fontFamily: 'Mikhak',
+                              // decoration: decoration,
                               color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold)
+                              // fontSize: fontSize,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          // TextUtils(
+                          //     text:
+                          //         '${HomeCubit.get(context).model?.data!.firstName} ${HomeCubit.get(context).model?.data!.lastName} ',
+                          //     color: Colors.white,
+                          //     fontSize: 10,
+                          //     fontWeight: FontWeight.bold)
                         ],
                       ),
                     ),
@@ -598,6 +666,12 @@ class DrawerPage extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
+                        HomeCubit.get(context)
+                            .servicedetails(slug: 'clinic_sale');
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (_) => ClearScreen(
+                                  type: 'buy_clinic',
+                                )));
                         // HomeCubit.get(context).servicedetails(id: 9);
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //     builder: (_) => ClearScreen(
@@ -605,7 +679,7 @@ class DrawerPage extends StatelessWidget {
                         //         )));
                       },
                       child: TextUtils(
-                        text: 'عيادات للبيع والايجار',
+                        text: AppLocalizations.of(context)!.clinic_for_sale,
                         color: Colors.blue.shade900,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

@@ -187,87 +187,519 @@ class _item_last_orderState extends State<item_last_order> {
                   border: Border.all(width: 0.3, color: Colors.grey)
                   // color: Colors.red,
                   ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    // width: 70,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        30,
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Container(
+                  //       alignment: Alignment.center,
+                  //       // width: 70,
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(
+                  //           30,
+                  //         ),
+                  //         gradient: const LinearGradient(
+                  //           colors: [
+                  //             Color(0Xff054F86),
+                  //             Color(0Xff61C089),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       child: TextUtils(
+                  //           text: AppLocalizations.of(context)!.type,
+                  //           color: Colors.white,
+                  //           fontSize: 15,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //     Expanded(
+                  //       child: SizedBox(
+                  //         // height: 100,
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(
+                  //               horizontal: 10, vertical: 5),
+                  //           child: Text(
+                  //             widget.model!.type ?? '-----',
+                  //             style: const TextStyle(
+                  //                 color: Colors.grey,
+                  //                 fontSize: 15,
+                  //                 fontFamily: 'Mikhak',
+                  //                 fontWeight: FontWeight.bold),
+                  //             // overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const Divider(),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Container(
+                  //       alignment: Alignment.center,
+                  //       // width: 70,
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(
+                  //           30,
+                  //         ),
+                  //         gradient: const LinearGradient(
+                  //           colors: [
+                  //             Color(0Xff054F86),
+                  //             Color(0Xff61C089),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       child: TextUtils(
+                  //           text: 'status',
+                  //           // text: AppLocalizations.of(context)!.status,
+                  //           color: Colors.white,
+                  //           fontSize: 15,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //     Expanded(
+                  //       child: SizedBox(
+                  //         // height: 100,
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(
+                  //               horizontal: 10, vertical: 5),
+                  //           child: Text(
+                  //             widget.model!.status ?? '-----',
+                  //             style: const TextStyle(
+                  //                 color: Colors.grey,
+                  //                 fontSize: 15,
+                  //                 fontFamily: 'Mikhak',
+                  //                 fontWeight: FontWeight.bold),
+                  //             // overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const Divider(),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Container(
+                  //       alignment: Alignment.center,
+                  //       // width: 70,
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(
+                  //           30,
+                  //         ),
+                  //         gradient: const LinearGradient(
+                  //           colors: [
+                  //             Color(0Xff054F86),
+                  //             Color(0Xff61C089),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       child: TextUtils(
+                  //           text: 'Created At',
+                  //           // text: AppLocalizations.of(context)!.phone_number,
+                  //           color: Colors.white,
+                  //           fontSize: 15,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //     Expanded(
+                  //       child: SizedBox(
+                  //         // height: 100,
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(
+                  //               horizontal: 10, vertical: 5),
+                  //           child: Text(
+                  //             widget.model!.createdAt?.substring(0, 10) ??
+                  //                 '-----',
+                  //             style: const TextStyle(
+                  //                 color: Colors.grey,
+                  //                 fontSize: 15,
+                  //                 fontFamily: 'Mikhak',
+                  //                 fontWeight: FontWeight.bold),
+                  //             // overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        // width: 70,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0Xff054F86),
+                              Color(0Xff61C089),
+                            ],
+                          ),
+                        ),
+                        child: TextUtils(
+                            text: AppLocalizations.of(context)!.details_address,
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                       ),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0Xff054F86),
-                          Color(0Xff61C089),
-                        ],
-                      ),
-                    ),
-                    child: TextUtils(
-                        text: AppLocalizations.of(context)!.description,
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      // height: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        child: Text(
-                          widget.model!.details?.description ??
-                              'No Description',
-                          style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15,
-                              fontFamily: 'Mikhak',
-                              fontWeight: FontWeight.bold),
-                          // overflow: TextOverflow.ellipsis,
+                      Expanded(
+                        child: SizedBox(
+                          // height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Text(
+                              '${widget.model!.address?.city?.name} ــ ${widget.model!.address?.district?.name} ــ ${widget.model!.address?.details}',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                  fontFamily: 'Mikhak',
+                                  fontWeight: FontWeight.bold),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  // Container(
-                  //   padding: const EdgeInsets.all(5),
-                  //   alignment: Alignment.center,
-                  //   width: 80,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(
-                  //       300,
-                  //     ),
-                  //     gradient: const LinearGradient(
-                  //       colors: [
-                  //         Color(0Xff054F86),
-                  //         Color(0Xff61C089),
-                  //       ],
-                  //     ),
-                  //   ),
-                  //   child: widget.model!.type == 'buy_products'
-                  //       ? InkWell(
-                  //           onTap: () {
-                  //             print(widget.model!.details!.products!.length);
-                  //             Navigator.of(context).push(MaterialPageRoute(
-                  //                 builder: (_) => LastProductOrder(
-                  //                       title: widget.model!.createdAt!
-                  //                           .substring(0, 10),
-                  //                       products:
-                  //                           widget.model!.details!.products!,
-                  //                     )));
-                  //           },
-                  //           child: const Icon(
-                  //             Icons.shopping_cart_sharp,
-                  //             color: Colors.white,
-                  //           ),
-                  //         )
-                  //       : TextUtils(
-                  //           text: '${widget.model!.type}',
-                  //           color: Colors.white,
-                  //           fontSize: 10,
-                  //           fontWeight: FontWeight.bold),
-                  // ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        // width: 70,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0Xff054F86),
+                              Color(0Xff61C089),
+                            ],
+                          ),
+                        ),
+                        child: TextUtils(
+                            text: AppLocalizations.of(context)!.phone_number,
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          // height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Text(
+                              widget.model!.mobileNumber ?? 'No Description',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                  fontFamily: 'Mikhak',
+                                  fontWeight: FontWeight.bold),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.all(5),
+                      //   alignment: Alignment.center,
+                      //   width: 80,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(
+                      //       300,
+                      //     ),
+                      //     gradient: const LinearGradient(
+                      //       colors: [
+                      //         Color(0Xff054F86),
+                      //         Color(0Xff61C089),
+                      //       ],
+                      //     ),
+                      //   ),
+                      //   child: widget.model!.type == 'buy_products'
+                      //       ? InkWell(
+                      //           onTap: () {
+                      //             print(widget.model!.details!.products!.length);
+                      //             Navigator.of(context).push(MaterialPageRoute(
+                      //                 builder: (_) => LastProductOrder(
+                      //                       title: widget.model!.createdAt!
+                      //                           .substring(0, 10),
+                      //                       products:
+                      //                           widget.model!.details!.products!,
+                      //                     )));
+                      //           },
+                      //           child: const Icon(
+                      //             Icons.shopping_cart_sharp,
+                      //             color: Colors.white,
+                      //           ),
+                      //         )
+                      //       : TextUtils(
+                      //           text: '${widget.model!.type}',
+                      //           color: Colors.white,
+                      //           fontSize: 10,
+                      //           fontWeight: FontWeight.bold),
+                      // ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        // width: 70,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0Xff054F86),
+                              Color(0Xff61C089),
+                            ],
+                          ),
+                        ),
+                        child: TextUtils(
+                            text: 'Updated At',
+                            // text: AppLocalizations.of(context)!.serial_num,
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          // height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Text(
+                              widget.model!.updatedAt != widget.model!.createdAt
+                                  ? widget.model!.updatedAt?.substring(0, 10) ??
+                                      '---'
+                                  : 'No Update ',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                  fontFamily: 'Mikhak',
+                                  fontWeight: FontWeight.bold),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    endIndent: 5,
+                    indent: 5,
+                    // color: Colors.black,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        // width: 70,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0Xff054F86),
+                              Color(0Xff61C089),
+                            ],
+                          ),
+                        ),
+                        child: TextUtils(
+                            text: AppLocalizations.of(context)!.description,
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          // height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Text(
+                              widget.model!.details?.description ?? '---',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                  fontFamily: 'Mikhak',
+                                  fontWeight: FontWeight.bold),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  widget.model!.type == 'maintenance'
+                      ? Column(
+                          children: [
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  // width: 70,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      30,
+                                    ),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0Xff054F86),
+                                        Color(0Xff61C089),
+                                      ],
+                                    ),
+                                  ),
+                                  child: TextUtils(
+                                      text: AppLocalizations.of(context)!
+                                          .serial_num,
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    // height: 100,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        widget.model!.details?.serialNumber ??
+                                            '---',
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontFamily: 'Mikhak',
+                                            fontWeight: FontWeight.bold),
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  // width: 70,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      30,
+                                    ),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0Xff054F86),
+                                        Color(0Xff61C089),
+                                      ],
+                                    ),
+                                  ),
+                                  child: TextUtils(
+                                      text: AppLocalizations.of(context)!.type,
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    // height: 100,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        widget.model!.details?.type ?? '---',
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontFamily: 'Mikhak',
+                                            fontWeight: FontWeight.bold),
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  // width: 70,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      30,
+                                    ),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0Xff054F86),
+                                        Color(0Xff61C089),
+                                      ],
+                                    ),
+                                  ),
+                                  child: TextUtils(
+                                      text:
+                                          AppLocalizations.of(context)!.device,
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    // height: 100,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        widget.model!.details?.style ?? '---',
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontFamily: 'Mikhak',
+                                            fontWeight: FontWeight.bold),
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        )
+                      : const Text(''),
                 ],
               ),
             ),

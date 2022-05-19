@@ -18,16 +18,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ConfirmOrderClean extends StatefulWidget {
+class ConfirmOrderClean extends StatelessWidget {
   ConfirmOrderClean({Key? key, this.description, this.type}) : super(key: key);
   String? description;
   String? type;
-
-  @override
-  State<ConfirmOrderClean> createState() => _ConfirmOrderCleanState();
-}
-
-class _ConfirmOrderCleanState extends State<ConfirmOrderClean> {
   TextEditingController detailsController = TextEditingController();
 
   TextEditingController cityController = TextEditingController();
@@ -432,12 +426,11 @@ class _ConfirmOrderCleanState extends State<ConfirmOrderClean> {
                                                   .requestcleanclinic(
                                                       city: cityID!,
                                                       district: destrictID!,
-                                                      type: widget.type!,
+                                                      type: type!,
                                                       moblilenum:
                                                           phoneController.text,
                                                       description:
-                                                          widget.description ??
-                                                              '',
+                                                          description ?? '',
                                                       details: detailsController
                                                           .text);
                                             }

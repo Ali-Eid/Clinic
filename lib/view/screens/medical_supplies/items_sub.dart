@@ -1,5 +1,6 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/product_model.dart';
 import 'package:clinic/view/screens/medical_supplies/item_details.dart';
@@ -162,11 +163,11 @@ class item_categ extends StatelessWidget {
               height: height / 5.1,
               color: Colors.white,
               child: CachedNetworkImage(
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 width: double.infinity,
-                // imageUrl: "${model.icon}",
-                imageUrl:
-                    'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                imageUrl: "$urlimg${model!.images![0].path}",
+                // imageUrl:
+                //     'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
                 placeholder: (context, url) => Center(
                   child:
                       CircularProgressIndicator(color: Colors.green.shade400),

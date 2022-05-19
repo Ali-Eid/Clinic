@@ -1,5 +1,6 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/logic/home/cubit/home_cubit.dart';
 import 'package:clinic/model/cart/show_cart.dart';
 import 'package:clinic/model/sub_category_model.dart';
@@ -56,11 +57,11 @@ class _CartCategoryItemWidgetState extends State<CartCategoryItemWidget> {
                       height: 195,
                       color: Colors.white,
                       child: CachedNetworkImage(
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         width: double.infinity,
-                        // imageUrl: "${model.icon}",
-                        imageUrl:
-                            'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                        imageUrl: "$urlimg${widget.modelCart!.images![0].path}",
+                        // imageUrl:
+                        //     'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(
                               color: Colors.green.shade400),

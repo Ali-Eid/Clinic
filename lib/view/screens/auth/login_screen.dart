@@ -19,10 +19,14 @@ import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var formkey = GlobalKey<FormState>();
+
+  LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -262,31 +266,31 @@ class LoginScreen extends StatelessWidget {
                             const SizedBox(
                               height: 30,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Image(
-                                  image:
-                                      AssetImage('assets/images/facebook.png'),
-                                ),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    print(
-                                        '${AppLocalizations.supportedLocales}');
-                                  },
-                                  child: TextUtils(
-                                    text: AppLocalizations.of(context)!
-                                        .sign_in_with_facebook,
-                                    color: Colors.blue.shade900,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     const Image(
+                            //       image:
+                            //           AssetImage('assets/images/facebook.png'),
+                            //     ),
+                            //     const SizedBox(
+                            //       width: 3,
+                            //     ),
+                            //     TextButton(
+                            //       onPressed: () {
+                            //         print(
+                            //             '${AppLocalizations.supportedLocales}');
+                            //       },
+                            //       child: TextUtils(
+                            //         text: AppLocalizations.of(context)!
+                            //             .sign_in_with_facebook,
+                            //         color: Colors.blue.shade900,
+                            //         fontSize: 16,
+                            //         fontWeight: FontWeight.w500,
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
                             // SizedBox(
                             //   height: 40,
                             // ),

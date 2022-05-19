@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/model/service_model.dart';
 import 'package:clinic/view/widgets/elevated_button_gradient.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lottie/lottie.dart';
 
 class FrameDesc extends StatelessWidget {
   CarouselController carouselController = CarouselController();
@@ -64,21 +66,23 @@ class FrameDesc extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.345,
                 color: Colors.white,
                 child: CarouselSlider(
-                  items: [
-                    'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                    'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
-                  ]
+                  items: model!.data!.images!
+                      // [
+                      //   'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                      //   'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                      // ]
                       .map(
                         (e) => CachedNetworkImage(
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           width: double.infinity,
-                          imageUrl: e,
+                          imageUrl: '$urlimg${e.path!}',
                           placeholder: (context, url) => Center(
                             child: CircularProgressIndicator(
                                 color: Colors.green.shade400),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          errorWidget: (context, url, error) => Lottie.asset(
+                            'assets/images/not_found.json',
+                          ),
                         ),
                       )
                       .toList(),

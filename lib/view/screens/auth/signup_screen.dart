@@ -25,15 +25,22 @@ import 'package:shimmer/shimmer.dart';
 
 class SignUpScreen extends StatelessWidget {
   var firstnameController = TextEditingController();
+
   var lastnameController = TextEditingController();
+
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
 
   int? cityID;
+
   int? destrictID;
+
   int? specialistID;
 
   var formkey = GlobalKey<FormState>();
+
+  SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -492,28 +499,28 @@ class SignUpScreen extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Image(
-                                  image:
-                                      AssetImage('assets/images/facebook.png'),
-                                ),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: TextUtils(
-                                    text: AppLocalizations.of(context)!
-                                        .sign_up_with_facebook,
-                                    color: Colors.blue.shade900,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     const Image(
+                            //       image:
+                            //           AssetImage('assets/images/facebook.png'),
+                            //     ),
+                            //     const SizedBox(
+                            //       width: 3,
+                            //     ),
+                            //     TextButton(
+                            //       onPressed: () {},
+                            //       child: TextUtils(
+                            //         text: AppLocalizations.of(context)!
+                            //             .sign_up_with_facebook,
+                            //         color: Colors.blue.shade900,
+                            //         fontSize: 16,
+                            //         fontWeight: FontWeight.w500,
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
                             // SizedBox(
                             //   height: 10,
                             // ),

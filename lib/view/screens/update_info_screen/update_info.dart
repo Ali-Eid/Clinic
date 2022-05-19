@@ -23,6 +23,7 @@ class UpdateInfoScreen extends StatelessWidget {
   TextEditingController detailsController = TextEditingController();
   int? cityID = 0;
   int? destrictID = 0;
+  int? specialistID = 0;
   UpdateInfoScreen({Key? key}) : super(key: key);
   var formkey = GlobalKey<FormState>();
   @override
@@ -31,6 +32,9 @@ class UpdateInfoScreen extends StatelessWidget {
       child: BlocConsumer<HomeCubit, HomeState>(listener: (context, state) {
         if (state is SuccessUpdateUserInfoState) {
           AwesomeDialog(
+            onDissmissCallback: (type) {
+              HomeCubit.get(context).getmyprofileImage();
+            },
             context: context,
             dialogType: DialogType.SUCCES,
             animType: AnimType.BOTTOMSLIDE,
@@ -38,6 +42,7 @@ class UpdateInfoScreen extends StatelessWidget {
             desc: AppLocalizations.of(context)!.success_update_info,
             // btnCancelOnPress: () {},
             btnOkOnPress: () {
+              // HomeCubit.get(context).getmyprofileImage();
               Navigator.of(context).pushAndRemoveUntil(
                   PageRouteBuilder(
                     transitionDuration: const Duration(seconds: 1),
@@ -79,7 +84,7 @@ class UpdateInfoScreen extends StatelessWidget {
         lastnamecontroller.text = HomeCubit.get(context).model!.data!.lastName!;
         emailcontroller.text = HomeCubit.get(context).model!.data!.email!;
         phoneController.text =
-            HomeCubit.get(context).model!.data!.mobileNumber!;
+            HomeCubit.get(context).model?.data?.mobileNumber ?? '';
         return Scaffold(
           // drawer: DrawerPage(
           //   text:
@@ -125,9 +130,16 @@ class UpdateInfoScreen extends StatelessWidget {
                                   null
                               ? Image.file(HomeCubit.get(context).profileImage!)
                                   .image
-                              : const CachedNetworkImageProvider(
-                                  'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
-                                ),
+                              : HomeCubit.get(context).myImage != null
+                                  ? Image.memory(
+                                      HomeCubit.get(context).myImage!,
+                                    ).image
+                                  : const CachedNetworkImageProvider(
+                                      'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
+                                    ),
+                          // const CachedNetworkImageProvider(
+                          //     'https://img.freepik.com/free-vector/error-404-found-glitch-effect_8024-4.jpg',
+                          //   ),
 
                           // backgroundColor: Colors.transparent,
                           // child:
@@ -255,86 +267,87 @@ class UpdateInfoScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          // Card(
-                          //   shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(30),
-                          //   ),
-                          //   elevation: 5,
-                          //   child: Row(
-                          //     children: [
-                          //       Container(
-                          //         alignment: Alignment.center,
-                          //         width: 100,
-                          //         height: 50,
-                          //         decoration: const BoxDecoration(
-                          //             gradient: LinearGradient(
-                          //               colors: [
-                          //                 Color(0Xff054F86),
-                          //                 Color(0Xff61C089),
-                          //               ],
-                          //             ),
-                          //             borderRadius: BorderRadius.all(
-                          //                 Radius.circular(30))),
-                          //         child: TextUtils(
-                          //             text: AppLocalizations.of(context)!
-                          //                 .your_specialist,
-                          //             color: Colors.white,
-                          //             fontSize: 14,
-                          //             fontWeight: FontWeight.bold),
-                          //       ),
-                          //       Expanded(
-                          //         child: Container(
-                          //           // height: 35,
-                          //           // width: double.infinity,
-                          //           child: DropdownButtonHideUnderline(
-                          //             child: Container(
-                          //               padding: const EdgeInsets.fromLTRB(
-                          //                   20, 0, 20, 0),
-                          //               child: DropdownButton<dynamic>(
-                          //                 elevation: 1,
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  height: 50,
+                                  decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0Xff054F86),
+                                          Color(0Xff61C089),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: TextUtils(
+                                      text: AppLocalizations.of(context)!
+                                          .your_specialist,
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // height: 35,
+                                    // width: double.infinity,
+                                    child: DropdownButtonHideUnderline(
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: DropdownButton<dynamic>(
+                                          elevation: 1,
 
-                          //                 icon:
-                          //                     const Icon(Icons.arrow_drop_down),
-                          //                 // alignment: Alignment.center,
-                          //                 hint: TextUtils(
-                          //                     text:
-                          //                         '${HomeCubit.get(context).model!.data!.specialty}',
-                          //                     color: Colors.black,
-                          //                     fontSize: 18,
-                          //                     fontWeight: FontWeight.bold),
-                          //                 value: HomeCubit.get(context)
-                          //                     .valueDropDowncity,
-                          //                 items: HomeCubit.get(context)
-                          //                             .citiesModel ==
-                          //                         null
-                          //                     ? []
-                          //                     : HomeCubit.get(context)
-                          //                         .citiesModel!
-                          //                         .data!
-                          //                         .map((value) {
-                          //                         return DropdownMenuItem<
-                          //                                 String>(
-                          //                             onTap: () {
-                          //                               cityID = value.id;
-                          //                               HomeCubit.get(context)
-                          //                                   .getDistrict(
-                          //                                       id: value.id);
-                          //                             },
-                          //                             child: Text(value.name!),
-                          //                             value: value.name);
-                          //                       }).toList(),
-                          //                 onChanged: (val) {
-                          //                   HomeCubit.get(context)
-                          //                       .changevalueDropdown(val);
-                          //                 },
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
+                                          icon:
+                                              const Icon(Icons.arrow_drop_down),
+                                          // alignment: Alignment.center,
+                                          hint: TextUtils(
+                                              text: HomeCubit.get(context)
+                                                      .model
+                                                      ?.data
+                                                      ?.specialty
+                                                      ?.name ??
+                                                  '',
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal),
+                                          value: HomeCubit.get(context)
+                                              .valueDropDowncity,
+                                          items: HomeCubit.get(context)
+                                                      .specialistModel ==
+                                                  null
+                                              ? []
+                                              : HomeCubit.get(context)
+                                                  .specialistModel!
+                                                  .data!
+                                                  .map((value) {
+                                                  return DropdownMenuItem<
+                                                          String>(
+                                                      onTap: () {
+                                                        specialistID = value.id;
+                                                      },
+                                                      child: Text(value.name!),
+                                                      value: value.name);
+                                                }).toList(),
+                                          onChanged: (val) {
+                                            HomeCubit.get(context)
+                                                .changevalueDropdown(val);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           // Card(
                           //   shape: RoundedRectangleBorder(
                           //     borderRadius: BorderRadius.circular(30),
@@ -500,8 +513,13 @@ class UpdateInfoScreen extends StatelessWidget {
                                 lastname: lastnamecontroller.text,
                                 email: emailcontroller.text,
                                 mobilenum: phoneController.text,
-                                specialistid:
-                                    '${HomeCubit.get(context).model!.data!.specialtyId}');
+                                specialistid: specialistID != 0
+                                    ? specialistID.toString()
+                                    : HomeCubit.get(context)
+                                        .model!
+                                        .data!
+                                        .specialtyId!
+                                        .toString());
                           }
                         },
                       ),

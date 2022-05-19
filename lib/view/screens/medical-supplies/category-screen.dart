@@ -136,9 +136,9 @@ class CategoryChild2 extends StatelessWidget {
                 child: CachedNetworkImage(
                   matchTextDirection: true,
                   fit: BoxFit.fill,
-                  // imageUrl: '$urlimg${model!.icon}',
-                  imageUrl:
-                      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                  imageUrl: '$urlimg${model!.icon}',
+                  // imageUrl:
+                  //     'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),

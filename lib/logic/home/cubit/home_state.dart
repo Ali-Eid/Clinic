@@ -87,6 +87,17 @@ class ErrorChangeProfileImageState extends HomeState {
   ErrorChangeProfileImageState();
 }
 
+//get profile photo
+class LoadingProfileImageState extends HomeState {}
+
+class SuccessProfileImageState extends HomeState {}
+
+class ErrorProfileImageState extends HomeState {
+  String? error;
+  ErrorProfileImageState({this.error});
+}
+
+////////////////////
 class LoadingRequestMaintenanceState extends HomeState {}
 
 class SuccessRequestMaintenanceState extends HomeState {

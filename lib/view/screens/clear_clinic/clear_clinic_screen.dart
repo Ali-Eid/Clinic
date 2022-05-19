@@ -85,66 +85,74 @@ class ClearScreen extends StatelessWidget {
                       child: const ShimmerLoad(),
                       baseColor: const Color(0Xff054F86),
                       highlightColor: const Color(0Xff61C089))),
-              // Center(
-              //     child: EasyLoader(
-              //   image: const AssetImage(
-              //     'assets/images/logo.png',
-              //   ),
-              //   backgroundColor: Colors.grey.shade300,
-              //   // iconSize: 20,
-              //   iconColor: const Color(0Xff054F86),
-              // )),
-              condition: state is! LoadingGetServiceState,
-              builder: (context) => Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          NotificationSearchTitle(
-                            text:
-                                '${HomeCubit.get(context).servicemodel!.data!.name}',
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          FrameDesc(
-                              model: HomeCubit.get(context).servicemodel!,
-                              onpressed: () => Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      transitionDuration:
-                                          const Duration(seconds: 1),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        animation = CurvedAnimation(
-                                            parent: animation,
-                                            curve: Curves.linearToEaseOut);
-                                        return ScaleTransition(
-                                          scale: animation,
-                                          alignment: Alignment.center,
-                                          child: child,
-                                        );
-                                      },
-                                      pageBuilder: (context, animation,
-                                          secondaryAnimation) {
-                                        return OrderClinic(
-                                          type: type,
-                                        );
-                                      },
-                                    ),
-                                  )),
-                        ],
+              condition: HomeCubit.get(context).servicemodel != null,
+              builder: (context) => BuildCondition(
+                fallback: (context) => Center(
+                    child: Shimmer.fromColors(
+                        child: const ShimmerLoad(),
+                        baseColor: const Color(0Xff054F86),
+                        highlightColor: const Color(0Xff61C089))),
+                // Center(
+                //     child: EasyLoader(
+                //   image: const AssetImage(
+                //     'assets/images/logo.png',
+                //   ),
+                //   backgroundColor: Colors.grey.shade300,
+                //   // iconSize: 20,
+                //   iconColor: const Color(0Xff054F86),
+                // )),
+                condition: state is! LoadingGetServiceState,
+                builder: (context) => Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            NotificationSearchTitle(
+                              text:
+                                  '${HomeCubit.get(context).servicemodel!.data!.name}',
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            FrameDesc(
+                                model: HomeCubit.get(context).servicemodel!,
+                                onpressed: () => Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        transitionDuration:
+                                            const Duration(seconds: 1),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          animation = CurvedAnimation(
+                                              parent: animation,
+                                              curve: Curves.linearToEaseOut);
+                                          return ScaleTransition(
+                                            scale: animation,
+                                            alignment: Alignment.center,
+                                            child: child,
+                                          );
+                                        },
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return OrderClinic(
+                                            type: type,
+                                          );
+                                        },
+                                      ),
+                                    )),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  // SizedBox(
-                  //   height: 50,
-                  // ),
-                  FotterWidget(
-                    model: HomeCubit.get(context).contactInfoModel!.data,
-                  ),
-                ],
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    FotterWidget(
+                      model: HomeCubit.get(context).contactInfoModel!.data,
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clinic/constants.dart';
 import 'package:clinic/model/sub_category_model.dart';
 import 'package:clinic/view/widgets/text_utils.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +40,9 @@ class CategoryItemWidget extends StatelessWidget {
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 width: double.infinity,
-                // imageUrl: "${model.icon}",
-                imageUrl:
-                    'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
+                imageUrl: "$urlimg${model.icon}",
+                // imageUrl:
+                //     'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/4692e9108512257.5fbf40ee3888a.jpg',
                 placeholder: (context, url) => Center(
                   child:
                       CircularProgressIndicator(color: Colors.green.shade400),
